@@ -3,7 +3,9 @@ const roleUpgrader = require('./role.upgrader');
 const roleBuilder = require('./role.builder');
 
 module.exports.loop = function () {
-        for (let name in Memory.creeps) {
+    PathFinder.use(true);
+
+    for (let name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
@@ -39,13 +41,13 @@ module.exports.loop = function () {
         let newName = spawn.createCreep(roleBuilder.body(energy), undefined, {role: 'builder'});
         console.log('Spawning new builder: ' + newName);
     }
-    
-    if(Game.spawns['Spawn1'].spawning) { 
+
+    if(Game.spawns['Spawn1'].spawning) {
         const spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
         Game.spawns['Spawn1'].room.visual.text(
             '🛠️' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1, 
-            Game.spawns['Spawn1'].pos.y, 
+            Game.spawns['Spawn1'].pos.x + 1,
+            Game.spawns['Spawn1'].pos.y,
             {align: 'left', opacity: 0.8});
     }
 
