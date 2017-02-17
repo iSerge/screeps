@@ -57,7 +57,7 @@ module.exports.loop = function () {
     for(let name in towers){
         const tower = towers[name];
         const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {return structure.hits < structure.hitsMax - 200;}
+            filter: (structure) => {return structure.hits < structure.hitsMax / 2;}
         });
         if (closestDamagedStructure) {
             tower.repair(closestDamagedStructure);
