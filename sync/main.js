@@ -12,11 +12,12 @@ module.exports.loop = function () {
         }
     }
 
+    const spawn = Game.spawns['Spawn1'];
+
     let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
 
-    if(harvesters.length < 2) {
-        const spawn = Game.spawns['Spawn1'];
+    if(!spawn.spawning && harvesters.length < 2) {
         const energy = spawn.room.energyAvailable;
         let newName = spawn.createCreep(roleHarvester.body(energy), undefined, {role: 'harvester'});
         console.log('Spawning new harvester: ' + newName);
@@ -25,8 +26,7 @@ module.exports.loop = function () {
     let upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     console.log('Upgraders: ' + upgraders.length);
 
-    if(upgraders.length < 2) {
-        const spawn = Game.spawns['Spawn1'];
+    if(!spawn.spawning && upgraders.length < 2) {
         const energy = spawn.room.energyAvailable;
         let newName = spawn.createCreep(roleUpgrader.body(energy), undefined, {role: 'upgrader'});
         console.log('Spawning new upgrader: ' + newName);
@@ -35,8 +35,7 @@ module.exports.loop = function () {
     let builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     console.log('Builders: ' + builders.length);
 
-    if(builders.length < 3) {
-        const spawn = Game.spawns['Spawn1'];
+    if(!spawn.spawning && builders.length < 3) {
         const energy = spawn.room.energyAvailable;
         let newName = spawn.createCreep(roleBuilder.body(energy), undefined, {role: 'builder'});
         console.log('Spawning new builder: ' + newName);
@@ -52,18 +51,20 @@ module.exports.loop = function () {
     }
 
 
-    const tower = Game.getObjectById('TOWER_ID');
-    if(tower) {
-        const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < structure.hitsMax
-        });
-        if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
+    const towers = spawn.room.find(FIND_STRUCTURES, {filter: (struct) => {return STRUCTURE_TOWER === struct; }});
+    for(let tower in towers){
+        if(towers.hasOwnProperty(tower)) {
+            const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => structure.hits < structure.hitsMax
+            });
+            if (closestDamagedStructure) {
+                tower.repair(closestDamagedStructure);
+            }
 
-        const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if(closestHostile) {
-            tower.attack(closestHostile);
+            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            if (closestHostile) {
+                tower.attack(closestHostile);
+            }
         }
     }
 
