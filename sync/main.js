@@ -51,20 +51,21 @@ module.exports.loop = function () {
     }
 
 
-    const towers = spawn.room.find(FIND_STRUCTURES, {filter: (struct) => {return STRUCTURE_TOWER === struct; }});
-    for(let tower in towers){
-        if(towers.hasOwnProperty(tower)) {
-            const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => structure.hits < structure.hitsMax
-            });
-            if (closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
-            }
+    const towers = spawn.room.find(FIND_STRUCTURES, {filter: (struct) => {
+        return struct.structureType === STRUCTURE_TOWER;
+    }});
+    for(let name in towers){
+        const tower = towers[name];
+        const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {return structure.hits < structure.hitsMax - 200;}
+        });
+        if (closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
+        }
 
-            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-            if (closestHostile) {
-                tower.attack(closestHostile);
-            }
+        const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if (closestHostile) {
+            tower.attack(closestHostile);
         }
     }
 
