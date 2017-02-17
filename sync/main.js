@@ -41,12 +41,12 @@ module.exports.loop = function () {
         console.log('Spawning new builder: ' + newName);
     }
 
-    if(Game.spawns['Spawn1'].spawning) {
-        const spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-        Game.spawns['Spawn1'].room.visual.text(
+    if(spawn.spawning) {
+        const spawningCreep = Game.creeps[spawn.spawning.name];
+        spawn.room.visual.text(
             '🛠️' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1,
-            Game.spawns['Spawn1'].pos.y,
+            spawn.pos.x + 1,
+            spawn.pos.y,
             {align: 'left', opacity: 0.8});
     }
 
