@@ -19,10 +19,16 @@ const roleHarvester = {
                     filter: (structure) => {
                         return (structure.structureType === STRUCTURE_EXTENSION ||
                             structure.structureType === STRUCTURE_SPAWN ||
-                            structure.structureType === STRUCTURE_STORAGE ||
-                            structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                            structure.structureType === STRUCTURE_STORAGE) &&
+                            structure.energy < structure.energyCapacity;
                     }
                 });
+        const towers = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return structure.structureType === STRUCTURE_TOWER &&
+                    structure.energy < structure.energyCapacity;
+            }
+        });
         const sites = creep.room.find(FIND_CONSTRUCTION_SITES);
         const toRepair = creep.room.find(FIND_STRUCTURES, { filter: (object) => {
                             return object.structureType != STRUCTURE_WALL && object.hits < (object.hitsMax / 2);
@@ -35,7 +41,9 @@ const roleHarvester = {
             creep.say('🔄 harvest');
         }
 
-        if(!creep.memory.building && creep.carry.energy === creep.carryCapacity && !targets.length && (sites.length || toRepair.length)){
+        if(!creep.memory.building && creep.carry.energy === creep.carryCapacity &&
+            !targets.length && !towers.length && (sites.length || toRepair.length))
+        {
             creep.memory.building = true;
             creep.say('🚧 build');
         }
@@ -70,6 +78,10 @@ const roleHarvester = {
                 if(targets.length > 0) {
                     if(creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                    }
+                } else if(towers.length > 0) {
+                    if(creep.transfer(towers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(towers[0], {visualizePathStyle: {stroke: '#ffffff'}});
                     }
                 }
             }
