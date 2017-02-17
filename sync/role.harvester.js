@@ -17,10 +17,10 @@ const roleHarvester = {
     run: (creep) => {
         const targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return (structure.structureType === STRUCTURE_EXTENSION ||
-                            structure.structureType === STRUCTURE_SPAWN ||
-                            structure.structureType === STRUCTURE_STORAGE) &&
-                            structure.energy < structure.energyCapacity;
+                        return ((structure.structureType === STRUCTURE_EXTENSION ||
+                            structure.structureType === STRUCTURE_SPAWN) &&
+                            structure.energy < structure.energyCapacity) ||
+                            (structure.structureType === STRUCTURE_STORAGE && _.sum(structure.store) < structure.storeCapacity);
                     }
                 });
         const towers = creep.room.find(FIND_STRUCTURES, {
