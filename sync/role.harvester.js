@@ -12,8 +12,8 @@ const roleHarvester = {
             return [WORK,WORK,WORK, CARRY, MOVE, MOVE];
         }
     },
-    
-    /** @param {Creep} creep **/
+
+    /** @param creep Creep **/
     run: (creep) => {
         const targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {

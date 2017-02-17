@@ -12,8 +12,8 @@ const roleUpgrader = {
             return [WORK,WORK,WORK, CARRY, MOVE, MOVE];
         }
     },
-    
-    /** @param {Creep} creep **/
+
+    /** @param creep Creep **/
     run: function(creep) {
 
         if(creep.memory.upgrading && creep.carry.energy === 0) {
