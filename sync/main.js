@@ -5,7 +5,7 @@ const roleBuilder = require('./role.builder');
 module.exports.loop = function () {
     PathFinder.use(true);
 
-    for (let name in Memory.creeps) {
+    for (let name of Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
@@ -52,23 +52,21 @@ module.exports.loop = function () {
 
 
     const towers = spawn.room.find(FIND_STRUCTURES, {filter: (struct) => {return STRUCTURE_TOWER === struct; }});
-    for(let tower in towers){
-        if(towers.hasOwnProperty(tower)) {
-            const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => structure.hits < structure.hitsMax
-            });
-            if (closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
-            }
+    for(let tower of towers){
+        const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => structure.hits < structure.hitsMax
+        });
+        if (closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
+        }
 
-            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-            if (closestHostile) {
-                tower.attack(closestHostile);
-            }
+        const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if (closestHostile) {
+            tower.attack(closestHostile);
         }
     }
 
-    for(let name in Game.creeps) {
+    for(let name of Game.creeps) {
         const creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
