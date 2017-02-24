@@ -46,8 +46,21 @@ class Builder extends Role {
             let target = Game.getObjectById(creep.memory.buildTarget);
             if(!target){
                 target = util.shiftStructure(Memory.repairQueue);
-                if(target === undefined){
-                    target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+                if(!target){
+                    const extensions = creep.room.find(FIND_CONSTRUCTION_SITES, {
+                        filter: (ext) => {
+                            return ext.structureType === STRUCTURE_EXTENSION;
+                        }
+                    });
+
+                    if(extensions.length){
+                        console.log('Builder looking for extension construction');
+                        target = creep.pos.findClosestByPath(extensions);
+                    }
+
+                    if(!target) {
+                        target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+                    }
                 }
 
                 if(target){
@@ -58,7 +71,8 @@ class Builder extends Role {
                     creep.memory.energyTarget = '';
                     creep.memory.building = false;
                 }
-            } else if(target instanceof Structure) {
+            }
+            if(target instanceof Structure) {
                 if(target.hits < target.hitsMax){
                     if(creep.repair(target) === ERR_NOT_IN_RANGE){
                         util.moveTo(creep, target.pos);
