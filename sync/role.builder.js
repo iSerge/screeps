@@ -2,6 +2,28 @@ const util = require('./utils');
 
 const Role = require('./Role');
 
+/**
+ *
+ * @param {string} type
+ * @param {Creep} creep
+ * @returns {ConstructionSite}
+ */
+function findConstructionSite(type, creep){
+    let target = null;
+
+    const sites = creep.room.find(FIND_CONSTRUCTION_SITES, {
+        filter: (site) => {
+            return site.structureType === type;
+        }
+    });
+
+    if(sites.length){
+        target = creep.pos.findClosestByPath(sites);
+    }
+
+    return target;
+}
+
 class Builder extends Role {
     /**
      * @override
@@ -47,20 +69,27 @@ class Builder extends Role {
             if(!target){
                 target = util.shiftStructure(Memory.repairQueue);
                 if(!target){
-                    const extensions = creep.room.find(FIND_CONSTRUCTION_SITES, {
-                        filter: (ext) => {
-                            return ext.structureType === STRUCTURE_EXTENSION;
-                        }
-                    });
+                    target = findConstructionSite(STRUCTURE_EXTENSION, creep);
+                }
 
-                    if(extensions.length){
-                        console.log('Builder looking for extension construction');
-                        target = creep.pos.findClosestByPath(extensions);
-                    }
+                if(!target){
+                    target = findConstructionSite(STRUCTURE_CONTAINER, creep);
+                }
 
-                    if(!target) {
-                        target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
-                    }
+                if(!target){
+                    target = findConstructionSite(STRUCTURE_LINK, creep);
+                }
+
+                if(!target){
+                    target = findConstructionSite(STRUCTURE_TOWER, creep);
+                }
+
+                if(!target){
+                    target = findConstructionSite(STRUCTURE_STORAGE, creep);
+                }
+
+                if(!target) {
+                    target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
                 }
 
                 if(target){
