@@ -1,84 +1,95 @@
-const roleHarvester = require('./role.harvester');
-const roleUpgrader = require('./role.upgrader');
-const roleBuilder = require('./role.builder');
+const util = require('./utils');
+const roles = require('./roles');
 
 module.exports.loop = function () {
     PathFinder.use(true);
 
-    for (let name in Memory.creeps) {
-        if (!Game.creeps[name]) {
-            delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
+    if(_.isUndefined(Memory.repairQueue)){
+        Memory.repairQueue = [];
+    }
+    if(_.isUndefined(Memory.spawnQueue)){
+        Memory.spawnQueue = [];
+    }
+    if(_.isUndefined(Memory.harvestedSources)){
+        Memory.harvestedSources = {};
+    }
+
+    util.clearMemory();
+
+    util.updateInfrastructure();
+
+    _.forEach(Game.structures, (structure) => {
+        if(structure.structureType === STRUCTURE_CONTAINER && structure.hits < structure.hitsMax / 2) {
+            console.log('Broken container');
+            util.enqueueStructure(structure, Memory.repairQueue);
         }
-    }
+    });
 
-    const spawn = Game.spawns['Spawn1'];
+    const roads = _.map(Game.rooms, (room) => {
+        room.find(STRUCTURE_ROAD, {
+        filter: (road) =>{
+            console.log('Testing road: ' + JSON.stringify(road, null, 4));
+            return road.hits < road.hitsMax / 3;
+        }})});
+    console.log('Broken roads: ' + JSON.stringify(roads, null, 4));
 
-    let harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    console.log('Harvesters: ' + harvesters.length);
+    const brokenRoads = [].concat.apply([], roads);
 
-    if(!spawn.spawning && harvesters.length < 2) {
-        const energy = spawn.room.energyAvailable;
-        let newName = spawn.createCreep(roleHarvester.body(energy), undefined, {role: 'harvester'});
-        console.log('Spawning new harvester: ' + newName);
-    }
+    _.forEach(brokenRoads, (road) => {
+        console.log('Broken road');
+        util.enqueueStructure(road, Memory.repairQueue);
+    });
 
-    let upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    console.log('Upgraders: ' + upgraders.length);
-
-    if(!spawn.spawning && upgraders.length < 2) {
-        const energy = spawn.room.energyAvailable;
-        let newName = spawn.createCreep(roleUpgrader.body(energy), undefined, {role: 'upgrader'});
-        console.log('Spawning new upgrader: ' + newName);
-    }
-
-    let builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    console.log('Builders: ' + builders.length);
-
-    if(!spawn.spawning && builders.length < 3) {
-        const energy = spawn.room.energyAvailable;
-        let newName = spawn.createCreep(roleBuilder.body(energy), undefined, {role: 'builder'});
-        console.log('Spawning new builder: ' + newName);
-    }
-
-    if(spawn.spawning) {
-        const spawningCreep = Game.creeps[spawn.spawning.name];
-        spawn.room.visual.text(
-            '🛠️' + spawningCreep.memory.role,
-            spawn.pos.x + 1,
-            spawn.pos.y,
-            {align: 'left', opacity: 0.8});
-    }
-
-
-    const towers = spawn.room.find(FIND_STRUCTURES, {filter: (struct) => {
-        return struct.structureType === STRUCTURE_TOWER;
-    }});
-    for(let name in towers){
-        const tower = towers[name];
-        const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {return structure.hits < structure.hitsMax / 2;}
+    if(Object.getOwnPropertyNames(Game.creeps).length === 0)
+    {
+        console.log('Tick');
+        Memory.spawnQueue = [];
+        Memory.spawnQueue.unshift({
+            body: [CARRY, MOVE],
+            role: roles.CARRIER
         });
-        if (closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
-
-        const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if (closestHostile) {
-            tower.attack(closestHostile);
-        }
+        Memory.spawnQueue.unshift({
+            body: [CARRY, WORK, WORK, MOVE],
+            role: roles.HARVESTER
+        });
     }
+    
+    Memory.creepCount = roles.count();
 
-    for(let name in Game.creeps) {
-        const creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
+    _.forOwn(Game.spawns, (spawn) => {roles.processSpawnQueue(spawn);});
+
+    roles.spawn();
+
+    _.forOwn(Game.spawns, (spawn) => {
+        if(spawn.spawning) {
+            const spawningCreep = Game.creeps[spawn.spawning.name];
+            spawn.room.visual.text(
+                util.CONSTRUCT_SYM + '️' + spawningCreep.memory.role,
+                spawn.pos.x + 1,
+                spawn.pos.y,
+                {align: 'left', opacity: 0.8});
         }
-        if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
+    });
+
+    _.forOwn(Game.structures, (tower) => {
+        if(tower.structureType === STRUCTURE_TOWER) {
+            const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return structure.hits < structure.hitsMax / 3;
+                }
+            });
+            if (closestDamagedStructure) {
+                tower.repair(closestDamagedStructure);
+            }
+
+            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            if (closestHostile) {
+                tower.attack(closestHostile);
+            }
         }
-        if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
-        }
-    }
+    });
+
+    _.forOwn(Game.creeps, (creep) => {
+        roles.run(creep);
+    });
 };

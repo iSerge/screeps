@@ -8,6 +8,79 @@
  */
 
 module.exports = {
+    /**
+     * @const
+     * @type {string}
+     */
+    HARVEST: '\uD83D\uDD04 harvest',
+    /**
+     * @const
+     * @type {string}
+     */
+    BUILD: '\uD83D\uDEA7 build',
+    /**
+     * @const
+     * @type {string}
+     */
+    UPGRADE: '\u26A1 upgrade',
+    /**
+     * @const
+     * @type {string}
+     */
+    CONSTRUCT_SYM: '\uD83D\uDEE0',
+    /**
+     * @const
+     * @type {string}
+     */
+    DISTRIBUTE: '\u2194 distr',
+    /**
+     * @const
+     * @type {string}
+     */
+    PICKUP: '\u2B06 pickup',
+
+    /**
+     * @function
+     * @param {object} object
+     * @param {string} object.id
+     * @param {Array} queue
+     */
+    enqueueStructure: (object, queue) => {
+        if(_.isUndefined(object)){
+            return;
+        }
+
+        console.log('Broken object: ' + object.id);
+        if(!queue.hasOwnProperty(object.id)){
+            console.log('Object put to repair queue: ' + object.id);
+            queue[object.id] = queue.push(object.id);
+        }
+    },
+
+    /**
+     * @function
+     * @param {Array<string>} queue
+     * @return {undefined|RoomObject}
+     */
+    shiftStructure: (queue) => {
+        const id = queue.shift();
+
+        if(_.isUndefined(id)){
+            return undefined;
+        }
+
+        delete queue[id];
+
+        return Game.getObjectById(id);
+    },
+
+    /**
+     * @function
+     * @param {Creep} creep
+     * @param {number} target One of the FIND_* constants.
+     *
+     * @return {{path:Array<RoomPosition>,opts:number}} An object containing: path - An array of RoomPosition objects; ops - Total number of operations performed before this path was calculated.
+     */
     findPathTo: function(creep, target) {
         let goals = _.map(creep.room.find(target), function(source) {
             // We can't actually walk on sources-- set `range` to 1 so we path
@@ -51,5 +124,149 @@ module.exports = {
                 },
             }
         );
+    },
+
+    clearMemory: () => {
+        _.forOwn(Memory.creeps, (creep, name) => {
+           if(!Game.creeps.hasOwnProperty(name)){
+               if(creep.hasOwnProperty('target')) {
+                   delete Memory.harvestedSources[creep.target];
+               }
+
+               delete Memory.creeps[name];
+               console.log('Clearing non-existing creep memory:', name);
+           }
+        });
+    },
+
+    /**
+     * @function
+     * Checks if creep stans on road and if not initiates road building
+     *
+     * @param {Creep} creep
+     */
+    tryBuildRoad: (creep) => {
+        const road = _.filter(creep.room.lookAt(creep.pos), (obj) => {
+
+            return !_.isUndefined(obj) &&
+                ((obj.type === LOOK_STRUCTURES && obj.structure.structureType === STRUCTURE_ROAD) ||
+                obj.type === LOOK_CONSTRUCTION_SITES);
+        });
+
+        if(!road.length){
+            creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+        }
+    },
+
+    /**
+     *
+     * @param {Creep} creep
+     * @param {RoomPosition} target
+     */
+    moveTo: (creep, target) => {
+        if(ERR_NOT_FOUND === creep.moveTo(target, {
+            noPathFinding: true,
+            visualizePathStyle: {stroke: '#ffffff'}
+        })) {
+            creep.moveTo(target, {
+                reusePath: 20,
+                visualizePathStyle: {stroke: '#ffffff'}
+            })
+        }
+    },
+
+    /**
+     *
+     * @param {Creep} creep
+     * @return {RoomObject}
+     */
+    getEnergyStorageTarget: (creep) => {
+        let target = Game.getObjectById(creep.memory.energyTarget);
+
+        if(!target) {
+            let targets = creep.room.find(FIND_DROPPED_RESOURCES, {
+                filter: (res) => {
+                    return res.resourceType === RESOURCE_ENERGY;
+                }
+            });
+
+            targets = targets.concat(creep.room.find(FIND_STRUCTURES, {
+                filter: (struct) => {
+                    return ((struct.structureType === STRUCTURE_STORAGE ||
+                    struct.structureType === STRUCTURE_CONTAINER) &&
+                    0 < struct.store[RESOURCE_ENERGY]);
+                }}));
+
+            targets = targets.concat(creep.room.find(FIND_STRUCTURES, {
+                filter: (struct) => {
+                    return ((struct.structureType === STRUCTURE_STORAGE ||
+                    struct.structureType === STRUCTURE_CONTAINER) &&
+                    0 < struct.store[RESOURCE_ENERGY]) ||
+                        (struct.structureType == STRUCTURE_LINK && 0 < struct.energy);
+                }}));
+
+            target = creep.pos.findClosestByPath(targets, {
+                maxOps: 500
+            });
+
+            if (!target) {
+                const targets = creep.room.find(FIND_SOURCES);
+                target = targets[0];
+            }
+
+            creep.memory.energyTarget = target.id;
+        }
+
+        return target;
+    },
+
+    /**
+     *
+     * @param {Creep} creep
+     * @param {Resource|Source|Structure} target
+     */
+    getEnergy: (creep, target) => {
+        let result;
+        if(target instanceof Resource){
+            result = creep.pickup(target);
+            if(result === OK){
+                creep.memory.energyTarget = '';
+            }
+        } else if(target instanceof Source) {
+            result = creep.harvest(target);
+        } else {
+            result = creep.withdraw(target, RESOURCE_ENERGY);
+            if(result === OK){
+                creep.memory.energyTarget = '';
+            }
+        }
+        return result;
+    },
+
+    updateInfrastructure: () => {
+        //console.log('Infrastructure: update');
+
+        if(_.isUndefined(Memory.controllerCont)){
+            Memory.controllerCont = '';
+        }
+
+        const controllerCont = Game.getObjectById(Memory.controllerCont);
+        if(!controllerCont){
+            const controllers = _.map(Game.rooms, (room) => {
+                return room.controller;
+            });
+
+            let controllerConts = [].concat.apply([], _.map(controllers, (source) => {
+                return source.pos.findInRange(FIND_STRUCTURES, 3, {
+                    filter: (cont) => {
+                        return cont.structureType === STRUCTURE_CONTAINER;
+                    }
+                });
+            }));
+
+            if(controllerConts.length) {
+                Memory.controllerCont = controllerConts[0].id;
+            }
+        }
     }
 };

@@ -1,92 +1,75 @@
-const utils = require('./utils');
+const util = require('./utils');
 
-const roleHarvester = {
-    body: (availEnergy) => {
+const Role = require('./Role');
+
+class Harvester extends Role {
+    /**
+     * @override
+     */
+    body (availEnergy) {
         if(availEnergy < 250){
-            return [WORK, CARRY, MOVE];
+            return [WORK, CARRY, MOVE]; //200
         } else if(availEnergy < 350){
-            return [WORK, CARRY, MOVE, MOVE];
-        } else if(availEnergy < 450){
-            return [WORK,WORK, CARRY, MOVE, MOVE];
+            return [WORK, CARRY, MOVE,MOVE]; //250
+        } else if(availEnergy < 400){
+            return [WORK,WORK, CARRY, MOVE,MOVE]; //350
+        } else if(availEnergy < 500){
+            return [WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //400
+        } else if(availEnergy < 600){
+            return [WORK,WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //500
+        } else if(availEnergy < 700){
+            return [WORK,WORK,WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //600
         } else {
-            return [WORK,WORK,WORK, CARRY, MOVE, MOVE];
-        }
-    },
-
-    /** @param creep Creep **/
-    run: (creep) => {
-        const targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return ((structure.structureType === STRUCTURE_EXTENSION ||
-                            structure.structureType === STRUCTURE_SPAWN) &&
-                            structure.energy < structure.energyCapacity) ||
-                            (structure.structureType === STRUCTURE_STORAGE && _.sum(structure.store) < structure.storeCapacity);
-                    }
-                });
-        const towers = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return structure.structureType === STRUCTURE_TOWER &&
-                    structure.energy < structure.energyCapacity;
-            }
-        });
-        const sites = creep.room.find(FIND_CONSTRUCTION_SITES);
-        const toRepair = creep.room.find(FIND_STRUCTURES, { filter: (object) => {
-                            return object.structureType != STRUCTURE_WALL && object.hits < (object.hitsMax / 2);
-                        }
-                    });
-
-        if(creep.memory.building && (creep.carry.energy === 0 || (!sites.length && !toRepair.length))) 
-        {
-            creep.memory.building = false;
-            creep.say('🔄 harvest');
-        }
-
-        if(!creep.memory.building && creep.carry.energy === creep.carryCapacity &&
-            !targets.length && !towers.length && (sites.length || toRepair.length))
-        {
-            creep.memory.building = true;
-            creep.say('🚧 build');
-        }
-
-        if(creep.memory.building) {
-            const t = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES, {maxOps: 500});
-            if(t){
-                if(creep.build(t) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(t, {visualizePathStyle: {stroke: '#ffffff'}});
-                }
-            } else if(toRepair.length){
-                if(creep.repair(toRepair[0]) === ERR_NOT_IN_RANGE){
-                    creep.moveTo(toRepair[0], {visualizePathStyle: {stroke: '#ffefef'}});
-                }
-            } else {
-                creep.memory.building = false;
-            }
-        } else {
-            if(creep.carry.energy < creep.carryCapacity) {
-                const p = utils.findPathTo(creep, FIND_SOURCES);
-                if(p.path.length){
-                    let pos = p.path[0];
-                    creep.move(creep.pos.getDirectionTo(pos));
-                } else {
-                    const src = creep.pos.findInRange(FIND_SOURCES, 1);
-                    if(src.length){
-                        creep.harvest(src[0]);
-                    }
-                }
-            }
-            else {
-                if(targets.length > 0) {
-                    if(creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                    }
-                } else if(towers.length > 0) {
-                    if(creep.transfer(towers[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(towers[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                    }
-                }
-            }
+            return [WORK,WORK,WORK,WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //700
         }
     }
-};
 
-module.exports = roleHarvester;
+    /**
+     * @override
+     */
+    run (creep) {
+        util.tryBuildRoad(creep);
+
+        let target = Game.getObjectById(creep.memory.target);
+
+        if (!target) {
+            const sources = creep.room.find(FIND_SOURCES, {
+                filter: (src) => {
+                    return !Memory.harvestedSources.hasOwnProperty(src.id);
+                }
+            });
+
+            target = sources[0];
+
+            if(target) {
+                Memory.harvestedSources[target.id] = target.id;
+                creep.memory.target = target.id;
+                creep.say(util.HARVEST);
+            }
+        }
+
+        if (0 < creep.carry.energy) {
+            //console.log('Harvester ' + creep.name + ' unloading');// JSON.stringify(target, null, 4));
+            const dst = creep.pos.findInRange(FIND_STRUCTURES, 1, {
+                filter: (struct) => {
+                    return (struct.structureType === STRUCTURE_LINK && struct.energy < struct.energyCapacity) ||
+                        (struct.structureType === STRUCTURE_CONTAINER && _.sum(struct.store) < struct.storeCapacity);
+                }
+            });
+
+            if(dst.length){
+                creep.transfer(dst[0], RESOURCE_ENERGY);
+            } else {
+                creep.drop(RESOURCE_ENERGY);
+            }
+        }
+        //console.log('Harvester ' + creep.name + ' harvesting target: ' + target.id);// JSON.stringify(target, null, 4));
+        const err = creep.harvest(target);
+        if (err === ERR_NOT_IN_RANGE) {
+            util.moveTo(creep, target.pos);
+        }
+
+    }
+}
+
+module.exports = new Harvester();

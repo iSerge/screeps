@@ -1,48 +1,59 @@
-const utils = require('./utils');
+const util = require('./utils');
 
-const roleUpgrader = {
-    body: function(availEnergy){
+const Role = require('./Role');
+
+class Upgrader extends Role {
+    /**
+     * @override
+     */
+    body (availEnergy) {
         if(availEnergy < 250){
-            return [WORK, CARRY, MOVE];
+            return [WORK, CARRY, MOVE]; //200
         } else if(availEnergy < 350){
-            return [WORK, CARRY, MOVE, MOVE];
-        } else if(availEnergy < 450){
-            return [WORK,WORK, CARRY, MOVE, MOVE];
+            return [WORK, CARRY, MOVE,MOVE]; //250
+        } else if(availEnergy < 400){
+            return [WORK,WORK, CARRY, MOVE,MOVE]; //350
+        } else if(availEnergy < 500){
+            return [WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //400
+        } else if(availEnergy < 600){
+            return [WORK,WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //500
+        } else if(availEnergy < 700){
+            return [WORK,WORK,WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //600
         } else {
-            return [WORK,WORK,WORK, CARRY, MOVE, MOVE];
+            return [WORK,WORK,WORK,WORK,WORK, CARRY, MOVE,MOVE,MOVE]; //700
         }
-    },
+    }
 
-    /** @param creep Creep **/
-    run: function(creep) {
+    /**
+     * @override
+     */
+    run (creep) {
+        util.tryBuildRoad(creep);
 
         if(creep.memory.upgrading && creep.carry.energy === 0) {
             creep.memory.upgrading = false;
-            creep.say('🔄 harvest');
+            creep.say(util.HARVEST);
         }
         if(!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
             creep.memory.upgrading = true;
-            creep.say('⚡ upgrade');
+            creep.say(util.UPGRADE);
         }
 
         if(creep.memory.upgrading) {
             if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+                util.moveTo(creep, creep.room.controller.pos);
             }
         }
         else {
-            const p = utils.findPathTo(creep, FIND_SOURCES);
-            if(p.path.length){
-                let pos = p.path[0];
-                creep.move(creep.pos.getDirectionTo(pos));
+            const target = util.getEnergyStorageTarget(creep);
+            const src = creep.pos.findInRange([target], 1);
+            if(src.length){
+                util.getEnergy(creep, src[0]);
             } else {
-                const src = creep.pos.findInRange(FIND_SOURCES, 1);
-                if(src.length){
-                    creep.harvest(src[0]);
-                }
+                util.moveTo(creep, target.pos);
             }
         }
     }
-};
+}
 
-module.exports = roleUpgrader;
+module.exports = new Upgrader();
