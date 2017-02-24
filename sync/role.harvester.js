@@ -8,7 +8,7 @@ class Harvester extends Role {
      */
     body (availEnergy) {
         if(availEnergy < 350){
-            return [WORK, CARRY,CARRY, MOVE]; //300
+            return [WORK,WORK, CARRY, MOVE]; //300
         } else if(availEnergy < 400){
             return [WORK,WORK, CARRY, MOVE,MOVE]; //350
         } else if(availEnergy < 500){
