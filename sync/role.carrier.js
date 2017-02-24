@@ -66,9 +66,9 @@ class Carrier extends Role {
                     }
                 });
 
-                target = creep.pos.findClosestByPath(drops, {
-                    maxOps: 200
-                });
+                target = _.sortBy(drops, (drop) => {
+                    return -drop.amount;
+                })[0];
 
                 if(!target) {
                     // containers near sources
