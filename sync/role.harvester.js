@@ -7,10 +7,8 @@ class Harvester extends Role {
      * @override
      */
     body (availEnergy) {
-        if(availEnergy < 250){
-            return [WORK, CARRY, MOVE]; //200
-        } else if(availEnergy < 350){
-            return [WORK, CARRY, MOVE,MOVE]; //250
+        if(availEnergy < 350){
+            return [WORK, CARRY,CARRY, MOVE]; //300
         } else if(availEnergy < 400){
             return [WORK,WORK, CARRY, MOVE,MOVE]; //350
         } else if(availEnergy < 500){
