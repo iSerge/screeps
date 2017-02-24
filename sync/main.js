@@ -73,9 +73,18 @@ module.exports.loop = function () {
 
     _.forOwn(Game.structures, (tower) => {
         if(tower.structureType === STRUCTURE_TOWER) {
+            const closestDamagedCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
+                filter: (creep) => {
+                    return creep.hits < creep.hitsMax / 3;
+                }
+            });
+            if (closestDamagedCreep) {
+                tower.heal(closestDamagedCreep);
+            }
+
             const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return structure.hits < structure.hitsMax / 3;
+                    return structure.structureType !== STRUCTURE_WALL && structure.hits < structure.hitsMax / 3;
                 }
             });
             if (closestDamagedStructure) {
