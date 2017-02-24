@@ -158,7 +158,7 @@ class Carrier extends Role {
                         console.log('Carrier ' + creep.name + ' looking for towers');
                         const towers = _.filter(Game.structures, (struct) => {
                             return struct.structureType === STRUCTURE_TOWER &&
-                                    0 < struct.energyCapacity - struct.energy;
+                                    0 < struct.energyCapacity - struct.energy - 300;
                         });
 
                         // emptiest tower
