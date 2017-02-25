@@ -11,10 +11,10 @@ module.exports.loop = function () {
     _.forOwn(Game.rooms, (room) => {
         room.find(FIND_STRUCTURES, {
         filter: (struct) =>{
-            if (struct.structureType !== STRUCTURE_RAMPART &&
-                ((struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
-                (struct.structureType === STRUCTURE_WALL && struct.hits < Memory.maxWallHits) ||
+            if ((struct.structureType === STRUCTURE_WALL && struct.hits < Memory.maxWallHits) ||
                 (struct.structureType === STRUCTURE_RAMPART && struct.hits < Memory.maxRampartHits / 2) ||
+                (struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
+                (struct.structureType !== STRUCTURE_RAMPART && struct.structureType !== STRUCTURE_WALL &&
                 struct.hits < struct.hitsMax / 2))
             {
                 util.enqueueStructure(struct);
@@ -63,13 +63,15 @@ module.exports.loop = function () {
                 tower.heal(closestDamagedCreep);
             }
 
-            const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return structure.structureType !== STRUCTURE_WALL && structure.hits < structure.hitsMax / 3;
+            if( 700 < tower.energy) {
+                const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return structure.structureType !== STRUCTURE_WALL && structure.hits < structure.hitsMax / 3;
+                    }
+                });
+                if (closestDamagedStructure) {
+                    tower.repair(closestDamagedStructure);
                 }
-            });
-            if (closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
             }
 
             const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
