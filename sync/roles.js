@@ -13,7 +13,7 @@ const roles = {
 const limits = {
     'harvester': 2,
     'carrier':   3,
-    'upgrader':  1,
+    'upgrader':  2,
     'builder':   2
 };
 
@@ -82,7 +82,6 @@ const rolesModule = {
      *  @param {StructureSpawn} spawn Spawn on which start spawning
      */
     processSpawnQueue: (spawn) => {
-        console.log('Tick');
         if(!Memory.spawnQueue.length){
             return;
         }

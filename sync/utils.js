@@ -43,33 +43,27 @@ module.exports = {
      * @function
      * @param {object} object
      * @param {string} object.id
-     * @param {Array} queue
      */
-    enqueueStructure: (object, queue) => {
+    enqueueStructure: (object) => {
         if(_.isUndefined(object)){
             return;
         }
 
-        console.log('Broken object: ' + object.id);
-        if(!queue.hasOwnProperty(object.id)){
-            console.log('Object put to repair queue: ' + object.id);
-            queue[object.id] = queue.push(object.id);
+        if(!_.includes(Memory.repairQueue, object.id)){
+            Memory.repairQueue.push(object.id);
         }
     },
 
     /**
      * @function
-     * @param {Array<string>} queue
      * @return {undefined|RoomObject}
      */
-    shiftStructure: (queue) => {
-        const id = queue.shift();
+    shiftStructure: () => {
+        const id = Memory.repairQueue.shift();
 
         if(_.isUndefined(id)){
             return undefined;
         }
-
-        delete queue[id];
 
         return Game.getObjectById(id);
     },

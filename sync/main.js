@@ -18,31 +18,18 @@ module.exports.loop = function () {
 
     util.updateInfrastructure();
 
-    _.forEach(Game.structures, (structure) => {
-        if(structure.structureType === STRUCTURE_CONTAINER && structure.hits < structure.hitsMax / 2) {
-            console.log('Broken container');
-            util.enqueueStructure(structure, Memory.repairQueue);
-        }
-    });
-
-    const roads = _.map(Game.rooms, (room) => {
-        room.find(STRUCTURE_ROAD, {
-        filter: (road) =>{
-            console.log('Testing road: ' + JSON.stringify(road, null, 4));
-            return road.hits < road.hitsMax / 3;
+    _.forOwn(Game.rooms, (room) => {
+        room.find(FIND_STRUCTURES, {
+        filter: (struct) =>{
+            if ((struct.structureType !== STRUCTURE_WALL &&
+                struct.structureType !== STRUCTURE_RAMPART) && struct.hits < struct.hitsMax / 2)
+            {
+                util.enqueueStructure(struct);
+            }
         }})});
-    console.log('Broken roads: ' + JSON.stringify(roads, null, 4));
-
-    const brokenRoads = [].concat.apply([], roads);
-
-    _.forEach(brokenRoads, (road) => {
-        console.log('Broken road');
-        util.enqueueStructure(road, Memory.repairQueue);
-    });
 
     if(Object.getOwnPropertyNames(Game.creeps).length === 0)
     {
-        console.log('Tick');
         Memory.spawnQueue = [];
         Memory.spawnQueue.unshift({
             body: [CARRY, MOVE],

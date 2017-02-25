@@ -69,7 +69,7 @@ class Builder extends Role {
         if(creep.memory.building) {
             let target = Game.getObjectById(creep.memory.buildTarget);
             if(!target){
-                target = util.shiftStructure(Memory.repairQueue);
+                target = util.shiftStructure();
                 if(!target){
                     target = findConstructionSite(STRUCTURE_EXTENSION, creep);
                 }
