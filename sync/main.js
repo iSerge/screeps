@@ -25,7 +25,9 @@ module.exports.loop = function () {
         room.find(FIND_STRUCTURES, {
         filter: (struct) =>{
             if ((struct.structureType !== STRUCTURE_WALL &&
-                struct.structureType !== STRUCTURE_RAMPART) && struct.hits < struct.hitsMax / 2)
+                struct.structureType !== STRUCTURE_RAMPART) &&
+                ((struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
+                struct.hits < struct.hitsMax / 2))
             {
                 util.enqueueStructure(struct);
             }
