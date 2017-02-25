@@ -13,6 +13,9 @@ module.exports.loop = function () {
     if(_.isUndefined(Memory.harvestedSources)){
         Memory.harvestedSources = {};
     }
+    if(_.isUndefined(Memory.autoBuildRoads)){
+        Memory.autoBuildRoads = true;
+    }
 
     util.clearMemory();
 

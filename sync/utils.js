@@ -140,15 +140,17 @@ module.exports = {
      * @param {Creep} creep
      */
     tryBuildRoad: (creep) => {
-        const road = _.filter(creep.room.lookAt(creep.pos), (obj) => {
+        if(Memory.autoBuildRoads) {
+            const road = _.filter(creep.room.lookAt(creep.pos), (obj) => {
 
-            return !_.isUndefined(obj) &&
-                ((obj.type === LOOK_STRUCTURES && obj.structure.structureType === STRUCTURE_ROAD) ||
-                obj.type === LOOK_CONSTRUCTION_SITES);
-        });
+                return !_.isUndefined(obj) &&
+                    ((obj.type === LOOK_STRUCTURES && obj.structure.structureType === STRUCTURE_ROAD) ||
+                    obj.type === LOOK_CONSTRUCTION_SITES);
+            });
 
-        if(!road.length){
-            creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+            if (!road.length) {
+                creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+            }
         }
     },
 
