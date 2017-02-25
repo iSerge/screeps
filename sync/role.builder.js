@@ -104,7 +104,11 @@ class Builder extends Role {
                 }
             }
             if(target instanceof Structure) {
-                if(target.hits < target.hitsMax){
+                if((target.structureType !== STRUCTURE_WALL &&
+                    target.structureType !== STRUCTURE_RAMPART && target.hits < target.hitsMax) ||
+                    (target.structureType === STRUCTURE_WALL && target.hits < Memory.maxWallHits) ||
+                    (target.structureType === STRUCTURE_RAMPART && target.hits < Memory.maxRampartHits))
+                {
                     if(creep.repair(target) === ERR_NOT_IN_RANGE){
                         util.moveTo(creep, target.pos);
                     }

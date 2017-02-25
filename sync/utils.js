@@ -7,6 +7,37 @@
  * mod.thing == 'a thing'; // true
  */
 
+let rampartHits = 0;
+let wallHits = 0;
+
+function calcToughHits(){
+    let firstWall = true;
+    let firstRmpart = true;
+    _.forOwn(Game.rooms, (room) => {
+       room.find(FIND_STRUCTURES, {
+           filter: (s) => {
+               if(s.structureType === STRUCTURE_WALL) {
+                   if (firstWall) {
+                       wallHits = s.hits;
+                       firstWall = false;
+                   } else {
+                       wallHits = Math.min(s.hits, wallHits);
+                   }
+               }
+               if(s.structureType === STRUCTURE_RAMPART) {
+                   if (firstRmpart) {
+                       rampartHits = s.hits;
+                       firstRmpart = false;
+                   } else {
+                       rampartHits = Math.min(s.hits, rampartHits);
+                   }
+               }
+               return false;
+           }
+        });
+    });
+}
+
 module.exports = {
     /**
      * @const
@@ -240,10 +271,26 @@ module.exports = {
     },
 
     updateInfrastructure: () => {
-        //console.log('Infrastructure: update');
-
+        if(_.isUndefined(Memory.repairQueue)){
+            Memory.repairQueue = [];
+        }
+        if(_.isUndefined(Memory.spawnQueue)){
+            Memory.spawnQueue = [];
+        }
+        if(_.isUndefined(Memory.harvestedSources)){
+            Memory.harvestedSources = {};
+        }
+        if(_.isUndefined(Memory.autoBuildRoads)){
+            Memory.autoBuildRoads = true;
+        }
         if(_.isUndefined(Memory.controllerCont)){
             Memory.controllerCont = '';
+        }
+        if(_.isUndefined(Memory.maxWallHits)){
+            Memory.maxWallHits = 100000;
+        }
+        if(_.isUndefined(Memory.maxRampartHits)){
+            Memory.maxRampartHits = 10000;
         }
 
         const controllerCont = Game.getObjectById(Memory.controllerCont);
@@ -264,5 +311,14 @@ module.exports = {
                 Memory.controllerCont = controllerConts[0].id;
             }
         }
+
+        // calcToughHits();
+        // if(Memory.maxWallHits <= wallHits){
+        //     Memory.maxWallHits += 100000;
+        // }
+        //
+        // if(Memory.maxRampartHits <= rampartHits){
+        //     Memory.maxRampartHits += 10000;
+        // }
     }
 };

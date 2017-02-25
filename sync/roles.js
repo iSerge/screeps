@@ -17,6 +17,30 @@ const limits = {
     'builder':   2
 };
 
+
+/**
+ *
+ * @returns {number}
+ */
+function countControllers() {
+    let controllers = 0;
+    _.forOwn(Game.rooms, (room) => {
+        if (!_.isUndefined(room.controller) && room.controller.my){
+            controllers += 1;
+        }
+    });
+    return controllers;
+}
+
+/**
+ *
+ * @param {string} role
+ * @returns {number}
+ */
+function limit(role){
+    return limits[role];
+}
+
 /**
  * @returns {StructureSpawn}
  */
@@ -41,7 +65,7 @@ const rolesModule = {
     roles: roles,
 
     /** @const */
-    limits: limits,
+    limit: limit,
 
     /**
      *  @type {function}
@@ -53,7 +77,7 @@ const rolesModule = {
     spawn: (role) => {
         if(_.isUndefined(role)){
             _.forOwn(roles, (role, name) => {
-                if(Memory.creepCount[name] < limits[name]){
+                if(Memory.creepCount[name] < limit(name)){
                     const energy = getMaxEnergySpawn().room.energyAvailable;
 
                     const body = role.body(energy);

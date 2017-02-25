@@ -4,19 +4,6 @@ const roles = require('./roles');
 module.exports.loop = function () {
     PathFinder.use(true);
 
-    if(_.isUndefined(Memory.repairQueue)){
-        Memory.repairQueue = [];
-    }
-    if(_.isUndefined(Memory.spawnQueue)){
-        Memory.spawnQueue = [];
-    }
-    if(_.isUndefined(Memory.harvestedSources)){
-        Memory.harvestedSources = {};
-    }
-    if(_.isUndefined(Memory.autoBuildRoads)){
-        Memory.autoBuildRoads = true;
-    }
-
     util.clearMemory();
 
     util.updateInfrastructure();
@@ -24,13 +11,15 @@ module.exports.loop = function () {
     _.forOwn(Game.rooms, (room) => {
         room.find(FIND_STRUCTURES, {
         filter: (struct) =>{
-            if ((struct.structureType !== STRUCTURE_WALL &&
-                struct.structureType !== STRUCTURE_RAMPART) &&
+            if (struct.structureType !== STRUCTURE_RAMPART &&
                 ((struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
+                (struct.structureType === STRUCTURE_WALL && struct.hits < Memory.maxWallHits) ||
+                (struct.structureType === STRUCTURE_RAMPART && struct.hits < Memory.maxRampartHits / 2) ||
                 struct.hits < struct.hitsMax / 2))
             {
                 util.enqueueStructure(struct);
             }
+            return false;
         }})});
 
     if(Object.getOwnPropertyNames(Game.creeps).length === 0)
