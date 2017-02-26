@@ -290,7 +290,7 @@ module.exports = {
             Memory.maxWallHits = 100000;
         }
         if(_.isUndefined(Memory.maxRampartHits)){
-            Memory.maxRampartHits = 10000;
+            Memory.maxRampartHits = 30000;
         }
 
         const controllerCont = Game.getObjectById(Memory.controllerCont);
