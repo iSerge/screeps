@@ -211,6 +211,19 @@ module.exports = {
         let target = Game.getObjectById(creep.memory.energyTarget);
 
         if(!target) {
+            let storages = creep.room.find(FIND_STRUCTURES, {
+                filter: (store) => {
+                    return store.structureType === STRUCTURE_STORAGE && creep.carryCapacity <= store.store[RESOURCE_ENERGY];
+                }
+            });
+
+            if (storages.length) {
+            }
+
+            target = storages[0];
+        }
+
+        if(!target) {
             let targets = creep.room.find(FIND_DROPPED_RESOURCES, {
                 filter: (res) => {
                     return res.resourceType === RESOURCE_ENERGY;
