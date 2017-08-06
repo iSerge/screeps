@@ -14,26 +14,26 @@ function calcToughHits(){
     let firstWall = true;
     let firstRmpart = true;
     _.forOwn(Game.rooms, (room) => {
-       room.find(FIND_STRUCTURES, {
-           filter: (s) => {
-               if(s.structureType === STRUCTURE_WALL) {
-                   if (firstWall) {
-                       wallHits = s.hits;
-                       firstWall = false;
-                   } else {
-                       wallHits = Math.min(s.hits, wallHits);
-                   }
-               }
-               if(s.structureType === STRUCTURE_RAMPART) {
-                   if (firstRmpart) {
-                       rampartHits = s.hits;
-                       firstRmpart = false;
-                   } else {
-                       rampartHits = Math.min(s.hits, rampartHits);
-                   }
-               }
-               return false;
-           }
+        room.find(FIND_STRUCTURES, {
+            filter: (s) => {
+                if(s.structureType === STRUCTURE_WALL) {
+                    if (firstWall) {
+                        wallHits = s.hits;
+                        firstWall = false;
+                    } else {
+                        wallHits = Math.min(s.hits, wallHits);
+                    }
+                }
+                if(s.structureType === STRUCTURE_RAMPART) {
+                    if (firstRmpart) {
+                        rampartHits = s.hits;
+                        firstRmpart = false;
+                    } else {
+                        rampartHits = Math.min(s.hits, rampartHits);
+                    }
+                }
+                return false;
+            }
         });
     });
 }
@@ -153,14 +153,14 @@ module.exports = {
 
     clearMemory: () => {
         _.forOwn(Memory.creeps, (creep, name) => {
-           if(!Game.creeps.hasOwnProperty(name)){
-               if(creep.hasOwnProperty('target')) {
-                   delete Memory.harvestedSources[creep.target];
-               }
+            if(!Game.creeps.hasOwnProperty(name)){
+                if(creep.hasOwnProperty('target')) {
+                    delete Memory.harvestedSources[creep.target];
+                }
 
-               delete Memory.creeps[name];
-               console.log('Clearing non-existing creep memory:', name);
-           }
+                delete Memory.creeps[name];
+                console.log('Clearing non-existing creep memory:', name);
+            }
         });
     },
 
@@ -176,7 +176,7 @@ module.exports = {
 
                 return !_.isUndefined(obj) &&
                     ((obj.type === LOOK_STRUCTURES && obj.structure.structureType === STRUCTURE_ROAD) ||
-                    obj.type === LOOK_CONSTRUCTION_SITES);
+                        obj.type === LOOK_CONSTRUCTION_SITES);
             });
 
             if (!road.length) {
@@ -192,9 +192,9 @@ module.exports = {
      */
     moveTo: (creep, target) => {
         if(ERR_NOT_FOUND === creep.moveTo(target, {
-            noPathFinding: true,
-            visualizePathStyle: {stroke: '#ffffff'}
-        })) {
+                noPathFinding: true,
+                visualizePathStyle: {stroke: '#ffffff'}
+            })) {
             creep.moveTo(target, {
                 reusePath: 20,
                 visualizePathStyle: {stroke: '#ffffff'}
@@ -233,15 +233,15 @@ module.exports = {
             targets = targets.concat(creep.room.find(FIND_STRUCTURES, {
                 filter: (struct) => {
                     return ((struct.structureType === STRUCTURE_STORAGE ||
-                    struct.structureType === STRUCTURE_CONTAINER) &&
-                    0 < struct.store[RESOURCE_ENERGY]);
+                        struct.structureType === STRUCTURE_CONTAINER) &&
+                        0 < struct.store[RESOURCE_ENERGY]);
                 }}));
 
             targets = targets.concat(creep.room.find(FIND_STRUCTURES, {
                 filter: (struct) => {
                     return ((struct.structureType === STRUCTURE_STORAGE ||
-                    struct.structureType === STRUCTURE_CONTAINER) &&
-                    0 < struct.store[RESOURCE_ENERGY]) ||
+                        struct.structureType === STRUCTURE_CONTAINER) &&
+                        0 < struct.store[RESOURCE_ENERGY]) ||
                         (struct.structureType == STRUCTURE_LINK && 0 < struct.energy);
                 }}));
 

@@ -77,7 +77,7 @@ class Carrier extends Role {
                         return source.pos.findInRange(FIND_STRUCTURES, 2, {
                             filter: (struct) => {
                                 return (struct.structureType === STRUCTURE_CONTAINER &&
-                                0 < struct.store[RESOURCE_ENERGY]);
+                                    0 < struct.store[RESOURCE_ENERGY]);
                             }
                         });
                     }));
@@ -134,7 +134,7 @@ class Carrier extends Role {
                     return source.pos.findInRange(FIND_MY_STRUCTURES, 2, {
                         filter: (struct) => {
                             return (struct.structureType === STRUCTURE_LINK &&
-                            0 <  struct.energyCapacity - struct.energy);
+                                0 <  struct.energyCapacity - struct.energy);
                         }
                     });
                 }));
@@ -158,7 +158,7 @@ class Carrier extends Role {
                         console.log('Carrier ' + creep.name + ' looking for towers');
                         const towers = _.filter(Game.structures, (struct) => {
                             return struct.structureType === STRUCTURE_TOWER &&
-                                    0 < struct.energyCapacity - struct.energy - 300;
+                                0 <= struct.energyCapacity - struct.energy - 300;
                         });
 
                         // emptiest tower
@@ -170,11 +170,11 @@ class Carrier extends Role {
                             // looking for storage
                             console.log('Carrier ' + creep.name + ' looking for storage');
                             let storages = creep.room.find(FIND_STRUCTURES, {
-                                    filter: (struct) => {
-                                        return struct.structureType === STRUCTURE_STORAGE &&
-                                            0 < struct.storeCapacity - _.sum(struct.store);
-                                    }
-                                });
+                                filter: (struct) => {
+                                    return struct.structureType === STRUCTURE_STORAGE &&
+                                        0 < struct.storeCapacity - _.sum(struct.store);
+                                }
+                            });
                             target = storages[0];
                             if (!target) {
                                 console.log('Carrier ' + creep.name + ' looking for sources');

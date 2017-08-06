@@ -10,17 +10,17 @@ module.exports.loop = function () {
 
     _.forOwn(Game.rooms, (room) => {
         room.find(FIND_STRUCTURES, {
-        filter: (struct) =>{
-            if ((struct.structureType === STRUCTURE_WALL && struct.hits < Memory.maxWallHits) ||
-                (struct.structureType === STRUCTURE_RAMPART && struct.hits < Memory.maxRampartHits / 2) ||
-                (struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
-                (struct.structureType !== STRUCTURE_RAMPART && struct.structureType !== STRUCTURE_WALL &&
-                struct.hits < struct.hitsMax / 2))
-            {
-                util.enqueueStructure(struct);
-            }
-            return false;
-        }})});
+            filter: (struct) =>{
+                if ((struct.structureType === STRUCTURE_WALL && struct.hits < Memory.maxWallHits) ||
+                    (struct.structureType === STRUCTURE_RAMPART && struct.hits < Memory.maxRampartHits / 2) ||
+                    (struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
+                    (struct.structureType !== STRUCTURE_RAMPART && struct.structureType !== STRUCTURE_WALL &&
+                        struct.hits < struct.hitsMax / 2))
+                {
+                    util.enqueueStructure(struct);
+                }
+                return false;
+            }})});
 
     if(Object.getOwnPropertyNames(Game.creeps).length === 0)
     {
@@ -34,7 +34,7 @@ module.exports.loop = function () {
             role: roles.HARVESTER
         });
     }
-    
+
     Memory.creepCount = roles.count();
 
     _.forOwn(Game.spawns, (spawn) => {roles.processSpawnQueue(spawn);});
@@ -66,7 +66,8 @@ module.exports.loop = function () {
             if( 700 < tower.energy) {
                 const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return structure.structureType !== STRUCTURE_WALL && structure.hits < structure.hitsMax / 3;
+                        return (structure.structureType === STRUCTURE_RAMPART && structure.hits < Memory.maxRampartHits)
+                            || (structure.structureType !== STRUCTURE_WALL && structure.hits < structure.hitsMax / 3);
                     }
                 });
                 if (closestDamagedStructure) {

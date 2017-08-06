@@ -105,7 +105,7 @@ class Builder extends Role {
             }
             if(target instanceof Structure) {
                 if((target.structureType !== STRUCTURE_WALL &&
-                    target.structureType !== STRUCTURE_RAMPART && target.hits < target.hitsMax) ||
+                        target.structureType !== STRUCTURE_RAMPART && target.hits < target.hitsMax) ||
                     (target.structureType === STRUCTURE_WALL && target.hits < Memory.maxWallHits) ||
                     (target.structureType === STRUCTURE_RAMPART && target.hits < Memory.maxRampartHits))
                 {
