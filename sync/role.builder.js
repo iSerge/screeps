@@ -97,7 +97,7 @@ class Builder extends Role {
                 if(target){
                     creep.memory.buildTarget = target.id;
                 } else {
-                    creep.say(util.HARVEST);
+                    creep.say('\uD83D\uDEA7 nothing');
                     creep.memory.buildTarget = '';
                     creep.memory.energyTarget = '';
                     creep.memory.building = false;
