@@ -211,19 +211,6 @@ module.exports = {
         let target = Game.getObjectById(creep.memory.energyTarget);
 
         if(!target) {
-            let storages = creep.room.find(FIND_STRUCTURES, {
-                filter: (store) => {
-                    return store.structureType === STRUCTURE_STORAGE && creep.carryCapacity <= store.store[RESOURCE_ENERGY];
-                }
-            });
-
-            if (storages.length) {
-            }
-
-            target = storages[0];
-        }
-
-        if(!target) {
             let targets = creep.room.find(FIND_DROPPED_RESOURCES, {
                 filter: (res) => {
                     return res.resourceType === RESOURCE_ENERGY;
@@ -234,15 +221,8 @@ module.exports = {
                 filter: (struct) => {
                     return ((struct.structureType === STRUCTURE_STORAGE ||
                         struct.structureType === STRUCTURE_CONTAINER) &&
-                        0 < struct.store[RESOURCE_ENERGY]);
-                }}));
-
-            targets = targets.concat(creep.room.find(FIND_STRUCTURES, {
-                filter: (struct) => {
-                    return ((struct.structureType === STRUCTURE_STORAGE ||
-                        struct.structureType === STRUCTURE_CONTAINER) &&
                         0 < struct.store[RESOURCE_ENERGY]) ||
-                        (struct.structureType == STRUCTURE_LINK && 0 < struct.energy);
+                        (struct.structureType === STRUCTURE_LINK && 0 < struct.energy);
                 }}));
 
             target = creep.pos.findClosestByPath(targets, {
