@@ -122,6 +122,8 @@ const rolesModule = {
         if(spawn.canCreateCreep(spec.body) === OK){
             const newName = spawn.createCreep(spec.body, undefined, {role: spec.role});
             console.log('Spawning new ' + spec.role + ': ' + newName);
+        } else if(CLAIMER === spec.role) {
+            Memory.spawnQueue.push(spec);
         } else {
             Memory.spawnQueue.unshift(spec);
         }
