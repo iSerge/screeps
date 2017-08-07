@@ -7,7 +7,7 @@ const Role = require('./Role');
  * @class
  * @extends {Role}
  */
-class Claim extends Role {
+class Claimer extends Role {
     /**
      * @override
      */
@@ -30,4 +30,4 @@ class Claim extends Role {
     }
 }
 
-module.exports = new Claim();
+module.exports = new Claimer();

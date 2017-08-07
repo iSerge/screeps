@@ -4,14 +4,14 @@ const roleHarvester = require('./role.harvester');
 const roleUpgrader = require('./role.upgrader');
 const roleBuilder = require('./role.builder');
 const roleCarrier = require('./role.carrier');
-const roleClaim = require('./role.claim');
+const roleClaimer = require('./role.claim');
 
 const roles = {
     'harvester': roleHarvester,
     'carrier':   roleCarrier,
     'upgrader':  roleUpgrader,
     'builder':   roleBuilder,
-    'claim':     roleClaim
+    'claimer':   roleClaimer
 };
 
 const limits = {
@@ -19,7 +19,7 @@ const limits = {
     'carrier':   3,
     'upgrader':  2,
     'builder':   2,
-    'claim':     1
+    'claimer':   1
 };
 
 
@@ -66,7 +66,7 @@ const rolesModule = {
     /** @const {string} */
     UPGRADER: 'upgrader',
     /** @const {string} */
-    CLAIM: 'claim',
+    CLAIMER: 'claimer',
 
     /** @const */
     roles: roles,
