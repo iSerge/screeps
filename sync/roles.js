@@ -4,7 +4,7 @@ const roleHarvester = require('./role.harvester');
 const roleUpgrader = require('./role.upgrader');
 const roleBuilder = require('./role.builder');
 const roleCarrier = require('./role.carrier');
-const roleClaimer = require('./role.claim');
+const roleClaimer = require('./role.claimer');
 
 const roles = {
     'harvester': roleHarvester,
