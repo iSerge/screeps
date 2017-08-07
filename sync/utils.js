@@ -7,6 +7,8 @@
  * mod.thing == 'a thing'; // true
  */
 
+const _ = require('lodash');
+
 let rampartHits = 0;
 let wallHits = 0;
 

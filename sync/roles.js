@@ -1,20 +1,25 @@
+const _ = require('lodash');
+
 const roleHarvester = require('./role.harvester');
 const roleUpgrader = require('./role.upgrader');
 const roleBuilder = require('./role.builder');
 const roleCarrier = require('./role.carrier');
+const roleClaim = require('./role.claim');
 
 const roles = {
     'harvester': roleHarvester,
     'carrier':   roleCarrier,
     'upgrader':  roleUpgrader,
-    'builder':   roleBuilder
+    'builder':   roleBuilder,
+    'claim':     roleClaim
 };
 
 const limits = {
     'harvester': 2,
     'carrier':   3,
     'upgrader':  2,
-    'builder':   2
+    'builder':   2,
+    'claim':     1
 };
 
 
@@ -60,6 +65,8 @@ const rolesModule = {
     BUILDER: 'builder',
     /** @const {string} */
     UPGRADER: 'upgrader',
+    /** @const {string} */
+    CLAIM: 'claim',
 
     /** @const */
     roles: roles,

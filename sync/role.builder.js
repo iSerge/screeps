@@ -71,6 +71,10 @@ class Builder extends Role {
             if(!target){
                 target = util.shiftStructure();
                 if(!target){
+                    target = findConstructionSite(STRUCTURE_SPAWN, creep);
+                }
+
+                if(!target){
                     target = findConstructionSite(STRUCTURE_EXTENSION, creep);
                 }
 
