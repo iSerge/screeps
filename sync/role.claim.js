@@ -30,4 +30,4 @@ class Claim extends Role {
     }
 }
 
-module.exports = new Carrier();
+module.exports = new Claim();
