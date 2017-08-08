@@ -258,7 +258,7 @@ module.exports = {
             });
 
             if (!target) {
-                target = creep.pos.findClosestByRange(targets);
+                target = creep.pos.findClosestByPath(FIND_SOURCES);
             }
 
             if(target) {
