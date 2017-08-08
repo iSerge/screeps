@@ -258,8 +258,8 @@ module.exports = {
             });
 
             if (!target) {
-                target = pos.findClosestByPath(targets, {
-                    maxOps: 1000
+                target = creep.pos.findClosestByPath(targets, {
+                    maxOps: 3000
                 });
             }
 
