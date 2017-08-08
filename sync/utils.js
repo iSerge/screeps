@@ -258,9 +258,7 @@ module.exports = {
             });
 
             if (!target) {
-                target = creep.pos.findClosestByPath(targets, {
-                    maxOps: 3000
-                });
+                target = creep.pos.findClosestByRange(targets);
             }
 
             creep.memory.energyTarget = target.id;
