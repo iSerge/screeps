@@ -49,11 +49,13 @@ class Upgrader extends Role {
             }
             else {
                 const target = util.getEnergyStorageTarget(creep);
-                const src = creep.pos.findInRange([target], 1);
-                if(src.length){
-                    util.getEnergy(creep, src[0]);
-                } else {
-                    util.moveTo(creep, target.pos);
+                if(target) {
+                    const src = creep.pos.findInRange([target], 1);
+                    if (src.length) {
+                        util.getEnergy(creep, src[0]);
+                    } else {
+                        util.moveTo(creep, target.pos);
+                    }
                 }
             }
         }
