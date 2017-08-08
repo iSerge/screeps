@@ -24,9 +24,16 @@ class Claimer extends Role {
     run(creep) {
         util.tryBuildRoad(creep);
 
-        const flag = Game.flags['claim'];
+        let flag = Game.flags['claim'];
+        if(!flag){
+            flag = Game.flags['reserve'];
+        }
 
         const sameRoom = flag && creep.room.name === flag.pos.roomName;
+
+        if(!flag){
+            delete(creep.memory.claimTarget);
+        }
 
         if(flag && !sameRoom){
             util.moveTo(creep, flag.pos);
@@ -46,8 +53,14 @@ class Claimer extends Role {
         if (creep.memory.claimTarget) {
             // Move to target & claim
             const controller = Game.getObjectById(creep.memory.claimTarget);
-            if(creep.claimController(controller) !== OK){
-                util.moveTo(creep, controller.pos);
+            if(flag.name === 'claim') {
+                if (creep.claimController(controller) !== OK) {
+                    util.moveTo(creep, controller.pos);
+                }
+            } else {
+                if (creep.reserveController(controller) !== OK) {
+                    util.moveTo(creep, controller.pos);
+                }
             }
         }
     }

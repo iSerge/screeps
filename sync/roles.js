@@ -35,7 +35,11 @@ function countControllers() {
  * @returns {number}
  */
 function limit(role){
-    return role !== 'claimer' ? limits[role] * Memory.controllerCount : limits[role];
+    if(role === 'claimer'){
+        return _.isUndefined(Game.flags['claim']) && _.isUndefined(Game.flags['reserve'])  ? 0 : limits[role];
+    } else {
+        return limits[role] * Memory.controllerCount;
+    }
 }
 
 /**
