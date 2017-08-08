@@ -254,12 +254,13 @@ module.exports = {
                 }}));
 
             target = creep.pos.findClosestByPath(targets, {
-                maxOps: 500
+                maxOps: 1000
             });
 
             if (!target) {
-                const targets = creep.room.find(FIND_SOURCES);
-                target = targets[0];
+                target = pos.findClosestByPath(targets, {
+                    maxOps: 1000
+                });
             }
 
             creep.memory.energyTarget = target.id;
