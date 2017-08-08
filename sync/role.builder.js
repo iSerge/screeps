@@ -57,7 +57,7 @@ class Builder extends Role {
     run(creep) {
         util.tryBuildRoad(creep);
 
-        if(!creep.memory.building && util.navigateToDesignatedRoom(creep)) {
+        if(!creep.memory.building && !creep.memory.energyTarget && util.navigateToDesignatedRoom(creep)) {
             util.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
             return;
         }
