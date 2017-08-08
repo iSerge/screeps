@@ -117,80 +117,60 @@ class Carrier extends Role {
 
         if(!target) {
             //console.log('Carrier ' + creep.name + ' looking for spawns and extensions');
-            if(creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
+            if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: (struct) => {
                         return (struct.structureType === STRUCTURE_SPAWN || struct.structureType === STRUCTURE_EXTENSION) &&
-                            struct.energy < struct.energyCapacity;
+                            struct.energy < struct.energyCapacity && creep.memory.operateInRoom === struct.pos.roomName;
                     },
                     maxOps: 100
                 });
             }
+        }
             //console.log('Harvester ' + creep.name + ' harvesting target: ' + target.id);
 
-            if(!target) {
-                // links near sources
-                //console.log('Carrier ' + creep.name + ' looking for source links');
-                const sources = creep.room.find(FIND_SOURCES);
-                let sourceLinks = [].concat.apply([], _.map(sources, (source) => {
-                    return source.pos.findInRange(FIND_MY_STRUCTURES, 2, {
-                        filter: (struct) => {
-                            return (struct.structureType === STRUCTURE_LINK &&
-                                0 <  struct.energyCapacity - struct.energy);
-                        }
-                    });
-                }));
+        if (!target) {
+            // containers near controllers
+            //console.log('Carrier ' + creep.name + ' looking for controller container');
 
-                // emptiest link
-                target = _.sortBy(sourceLinks, (link) => {
-                    return link.energyCapacity + link.energy;
-                })[0];
-
-                if (!target) {
-                    // containers near controllers
-                    //console.log('Carrier ' + creep.name + ' looking for controller container');
-
-                    const cont = Game.getObjectById(Memory.controllerCont);
-                    if(cont && 500 < cont.storeCapacity - _.sum(cont.store)){
-                        target = cont;
-                    }
-
-
-                    if(!target) {
-                        //console.log('Carrier ' + creep.name + ' looking for towers');
-                        const towers = _.filter(Game.structures, (struct) => {
-                            return struct.structureType === STRUCTURE_TOWER &&
-                                0 <= struct.energyCapacity - struct.energy - 300;
-                        });
-
-                        // emptiest tower
-                        target = _.sortBy(towers, (tower) => {
-                            return tower.energyCapacity + tower.energy;
-                        })[0];
-
-                        if (!target) {
-                            // looking for storage
-                            //console.log('Carrier ' + creep.name + ' looking for storage');
-                            let storages = creep.room.find(FIND_STRUCTURES, {
-                                filter: (struct) => {
-                                    return struct.structureType === STRUCTURE_STORAGE &&
-                                        0 < struct.storeCapacity - _.sum(struct.store);
-                                }
-                            });
-                            target = storages[0];
-                            if (!target) {
-                                //console.log('Carrier ' + creep.name + ' looking for sources');
-
-                                const targets = creep.room.find(FIND_SOURCES);
-                                target = targets[0];
-                            }
-                        }
-                    }
-                }
+            const cont = Game.getObjectById(Memory.controllerCont);
+            if (cont && 500 < cont.storeCapacity - _.sum(cont.store)) {
+                target = cont;
             }
-
-            creep.memory.energyTarget = target.id;
         }
+
+        if(!target) {
+            //console.log('Carrier ' + creep.name + ' looking for towers');
+            const towers = _.filter(Game.structures, (struct) => {
+                return struct.structureType === STRUCTURE_TOWER &&
+                    0 <= struct.energyCapacity - struct.energy - 300;
+            });
+
+            // emptiest tower
+            target = _.sortBy(towers, (tower) => {
+                return tower.energyCapacity + tower.energy;
+            })[0];
+        }
+
+        if (!target) {
+            // looking for storage
+            //console.log('Carrier ' + creep.name + ' looking for storage');
+            let storages = creep.room.find(FIND_STRUCTURES, {
+                filter: (struct) => {
+                    return struct.structureType === STRUCTURE_STORAGE &&
+                        0 < struct.storeCapacity - _.sum(struct.store);
+                }
+            });
+            target = storages[0];
+        }
+        if (!target) {
+            //console.log('Carrier ' + creep.name + ' looking for sources');
+
+            const targets = creep.room.find(FIND_SOURCES);
+            target = targets[0];
+        }
+
+        creep.memory.energyTarget = target.id;
 
         return target;
     }
@@ -201,7 +181,7 @@ class Carrier extends Role {
     run(creep) {
         util.tryBuildRoad(creep);
 
-        if(!creep.memory.hauling && util.navigateToDesignatedRoom(creep)) {
+        if(!creep.memory.hauling && !creep.memory.energyTarget && util.navigateToDesignatedRoom(creep)) {
             util.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
             return;
         }
@@ -227,13 +207,10 @@ class Carrier extends Role {
             }
         } else {
             const target = this.getEnergyTarget(creep);
-            if(target) {
-                const src = creep.pos.findInRange([target], 1);
-                if (src.length) {
-                    util.getEnergy(creep, src[0]);
-                } else {
-                    util.moveTo(creep, target.pos);
-                }
+            if(target && util.getEnergy(creep, target) === ERR_NOT_IN_RANGE){
+                util.moveTo(creep, target.pos);
+            } else {
+                creep.memory.energyTarget = '';
             }
         }
     }
