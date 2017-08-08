@@ -261,7 +261,9 @@ module.exports = {
                 target = creep.pos.findClosestByRange(targets);
             }
 
-            creep.memory.energyTarget = target.id;
+            if(target) {
+                creep.memory.energyTarget = target.id;
+            }
         }
 
         return target;
