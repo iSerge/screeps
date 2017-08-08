@@ -30,27 +30,31 @@ class Upgrader extends Role {
     run (creep) {
         util.tryBuildRoad(creep);
 
-        if(creep.memory.upgrading && creep.carry.energy === 0) {
-            creep.memory.upgrading = false;
-            creep.say(util.HARVEST);
-        }
-        if(!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            creep.say(util.UPGRADE);
-        }
-
-        if(creep.memory.upgrading) {
-            if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                util.moveTo(creep, creep.room.controller.pos);
+        if(util.navigateToDesignatedRoom(creep)){
+            util.moveTo(creep, new RoomPosition(25,25,creep.memory.operateInRoom));
+        } else {
+            if(creep.memory.upgrading && creep.carry.energy === 0) {
+                creep.memory.upgrading = false;
+                creep.say(util.HARVEST);
             }
-        }
-        else {
-            const target = util.getEnergyStorageTarget(creep);
-            const src = creep.pos.findInRange([target], 1);
-            if(src.length){
-                util.getEnergy(creep, src[0]);
-            } else {
-                util.moveTo(creep, target.pos);
+            if(!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
+                creep.memory.upgrading = true;
+                creep.say(util.UPGRADE);
+            }
+
+            if(creep.memory.upgrading) {
+                if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+                    util.moveTo(creep, creep.room.controller.pos);
+                }
+            }
+            else {
+                const target = util.getEnergyStorageTarget(creep);
+                const src = creep.pos.findInRange([target], 1);
+                if(src.length){
+                    util.getEnergy(creep, src[0]);
+                } else {
+                    util.moveTo(creep, target.pos);
+                }
             }
         }
     }

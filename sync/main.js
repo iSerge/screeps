@@ -4,8 +4,6 @@ const util = require('./utils');
 const roles = require('./roles');
 
 module.exports.loop = function () {
-    PathFinder.use(true);
-
     util.clearMemory();
 
     util.updateInfrastructure();

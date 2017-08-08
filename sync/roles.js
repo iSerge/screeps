@@ -1,5 +1,6 @@
 const _ = require('lodash');
 
+const limits = require('./limits');
 const roleHarvester = require('./role.harvester');
 const roleUpgrader = require('./role.upgrader');
 const roleBuilder = require('./role.builder');
@@ -13,15 +14,6 @@ const roles = {
     'builder':   roleBuilder,
     'claimer':   roleClaimer
 };
-
-const limits = {
-    'harvester': 2,
-    'carrier':   3,
-    'upgrader':  2,
-    'builder':   2,
-    'claimer':   1
-};
-
 
 /**
  *
@@ -43,7 +35,7 @@ function countControllers() {
  * @returns {number}
  */
 function limit(role){
-    return limits[role];
+    return role !== 'claimer' ? limits[role] * Memory.controllerCount : limits[role];
 }
 
 /**

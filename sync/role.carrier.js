@@ -45,9 +45,9 @@ class Carrier extends Role {
         }
 
         if(!target){
-            let targets = creep.pos.findInRange(FIND_DROPPED_ENERGY, 1, {
+            let targets = creep.pos.findInRange(FIND_DROPPED_RESOURCES, 1, {
                 filter: (drop) => {
-                    return 0 < drop.amount;
+                    return drop.resourceType === RESOURCE_ENERGY && 0 < drop.amount;
                 }
             });
 
@@ -62,9 +62,9 @@ class Carrier extends Role {
 
             if(!target) {
                 //dropped energy
-                const drops = creep.room.find(FIND_DROPPED_ENERGY, {
+                const drops = creep.room.find(FIND_DROPPED_RESOURCES, {
                     filter: (drop) => {
-                        return 0 < drop.amount;
+                        return drop.resourceType === RESOURCE_ENERGY && 0 < drop.amount;
                     }
                 });
 
@@ -116,11 +116,11 @@ class Carrier extends Role {
         let target = Game.getObjectById(creep.memory.energyTarget);
 
         if(!target) {
-            console.log('Carrier ' + creep.name + ' looking for spawns and extensions');
+            //console.log('Carrier ' + creep.name + ' looking for spawns and extensions');
             if(creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: (struct) => {
-                        return (struct.structureType == STRUCTURE_SPAWN || struct.structureType === STRUCTURE_EXTENSION) &&
+                        return (struct.structureType === STRUCTURE_SPAWN || struct.structureType === STRUCTURE_EXTENSION) &&
                             struct.energy < struct.energyCapacity;
                     },
                     maxOps: 100
@@ -130,7 +130,7 @@ class Carrier extends Role {
 
             if(!target) {
                 // links near sources
-                console.log('Carrier ' + creep.name + ' looking for source links');
+                //console.log('Carrier ' + creep.name + ' looking for source links');
                 const sources = creep.room.find(FIND_SOURCES);
                 let sourceLinks = [].concat.apply([], _.map(sources, (source) => {
                     return source.pos.findInRange(FIND_MY_STRUCTURES, 2, {
@@ -148,7 +148,7 @@ class Carrier extends Role {
 
                 if (!target) {
                     // containers near controllers
-                    console.log('Carrier ' + creep.name + ' looking for controller container');
+                    //console.log('Carrier ' + creep.name + ' looking for controller container');
 
                     const cont = Game.getObjectById(Memory.controllerCont);
                     if(cont && 500 < cont.storeCapacity - _.sum(cont.store)){
@@ -157,7 +157,7 @@ class Carrier extends Role {
 
 
                     if(!target) {
-                        console.log('Carrier ' + creep.name + ' looking for towers');
+                        //console.log('Carrier ' + creep.name + ' looking for towers');
                         const towers = _.filter(Game.structures, (struct) => {
                             return struct.structureType === STRUCTURE_TOWER &&
                                 0 <= struct.energyCapacity - struct.energy - 300;
@@ -170,7 +170,7 @@ class Carrier extends Role {
 
                         if (!target) {
                             // looking for storage
-                            console.log('Carrier ' + creep.name + ' looking for storage');
+                            //console.log('Carrier ' + creep.name + ' looking for storage');
                             let storages = creep.room.find(FIND_STRUCTURES, {
                                 filter: (struct) => {
                                     return struct.structureType === STRUCTURE_STORAGE &&
@@ -179,7 +179,7 @@ class Carrier extends Role {
                             });
                             target = storages[0];
                             if (!target) {
-                                console.log('Carrier ' + creep.name + ' looking for sources');
+                                //console.log('Carrier ' + creep.name + ' looking for sources');
 
                                 const targets = creep.room.find(FIND_SOURCES);
                                 target = targets[0];
@@ -200,6 +200,11 @@ class Carrier extends Role {
      */
     run(creep) {
         util.tryBuildRoad(creep);
+
+        // if(util.navigateToDesignatedRoom(creep)) {
+        //     util.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
+        //     return;
+        // }
 
         if (creep.memory.hauling && creep.carry.energy === 0) {
             creep.memory.hauling = false;

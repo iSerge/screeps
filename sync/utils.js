@@ -9,6 +9,8 @@
 
 const _ = require('lodash');
 
+const limits = require('./limits');
+
 let rampartHits = 0;
 let wallHits = 0;
 
@@ -205,6 +207,30 @@ module.exports = {
     },
 
     /**
+     * @param {Creep} creep
+     * */
+    navigateToDesignatedRoom: (creep) => {
+        if(1 < Memory.controllerCount){
+            if(!creep.memory.operateInRoom){
+                const rooms = _.map(_.filter(Game.structures, (o,k) => o.structureType === STRUCTURE_CONTROLLER),
+                        s => { return s.pos.roomName; });
+                const creepCount = _.reduce(Game.creeps, (result, c, id) => {
+                    if(c.memory.role === creep.memory.role && c.memory.operateInRoom) {
+                        const room = c.memory.operateInRoom;
+                        result[room] = (result[room] || (result[room] = 0)) + 1;
+                    }
+                    return result;
+                }, {});
+                const limit = limits[creep.memory.role];
+                creep.memory.operateInRoom = _.filter(rooms, room => {
+                    return !creepCount.hasOwnProperty(room) || creepCount[room] < limit;
+                })[0];
+            }
+            return creep.memory.operateInRoom !== creep.pos.roomName;
+        }
+    },
+
+    /**
      *
      * @param {Creep} creep
      * @return {RoomObject}
@@ -287,6 +313,8 @@ module.exports = {
         if(_.isUndefined(Memory.maxRampartHits)){
             Memory.maxRampartHits = 30000;
         }
+
+        Memory.controllerCount = _.size(_.filter(Game.structures, (o,k) => o.structureType === STRUCTURE_CONTROLLER));
 
         const controllerCont = Game.getObjectById(Memory.controllerCont);
         if(!controllerCont){

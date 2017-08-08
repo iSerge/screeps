@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const util = require('./utils');
 
 const Role = require('./Role');
@@ -11,14 +13,21 @@ const Role = require('./Role');
 function findConstructionSite(type, creep){
     let target = null;
 
-    const sites = creep.room.find(FIND_CONSTRUCTION_SITES, {
-        filter: (site) => {
-            return site.structureType === type;
-        }
+    let sites = [];
+
+    _.forEach(Game.rooms, (k,v) => {
+        _.forEach(k.find(FIND_CONSTRUCTION_SITES, {
+            filter: (site) => {
+                return site.structureType === type;
+            }
+        }), s => {sites.push(s)})
     });
 
     if(sites.length){
         target = creep.pos.findClosestByPath(sites);
+        if(!target){
+            target = sites[0];
+        }
     }
 
     return target;
@@ -54,8 +63,12 @@ class Builder extends Role {
     run(creep) {
         util.tryBuildRoad(creep);
 
-        if(creep.memory.building && creep.carry.energy === 0)
-        {
+        // if(util.navigateToDesignatedRoom(creep)) {
+        //     util.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
+        //     return;
+        // }
+
+        if(creep.memory.building && creep.carry.energy === 0) {
             creep.memory.building = false;
             creep.memory.energyTarget = '';
             creep.say(util.HARVEST);

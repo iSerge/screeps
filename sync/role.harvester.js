@@ -33,10 +33,14 @@ class Harvester extends Role {
         let target = Game.getObjectById(creep.memory.target);
 
         if (!target) {
-            const sources = creep.room.find(FIND_SOURCES, {
-                filter: (src) => {
-                    return !Memory.harvestedSources.hasOwnProperty(src.id);
-                }
+            let sources = [];
+
+            _.forEach(Game.rooms, (k,v) => {
+                _.forEach(k.find(FIND_SOURCES, {
+                    filter: (src) => {
+                        return !Memory.harvestedSources.hasOwnProperty(src.id);
+                    }
+                }), s => {sources.push(s)})
             });
 
             target = sources[0];
