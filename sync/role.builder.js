@@ -13,14 +13,8 @@ const Role = require('./Role');
 function findConstructionSite(type, creep){
     let target = null;
 
-    let sites = [];
-
-    _.forEach(Game.rooms, (k,v) => {
-        _.forEach(k.find(FIND_CONSTRUCTION_SITES, {
-            filter: (site) => {
-                return site.structureType === type;
-            }
-        }), s => {sites.push(s)})
+    const sites = _.filter(Game.constructionSites, site => {
+       return  site.structureType === type && site.pos.roomName === creep.memory.operateInRoom;
     });
 
     if(sites.length){
