@@ -140,9 +140,7 @@ module.exports = {
             return undefined;
         }
 
-        if(Memory.repairQueue[0] === needsRepair) {
-            Memory.repairQueue.shift();
-        }
+        Memory.repairQueue = _.filter(Memory.repairQueue, id => { return id !== needsRepair });
 
         return Game.getObjectById(needsRepair);
     },
