@@ -133,7 +133,7 @@ module.exports = {
     shiftStructure: (creep, own) => {
         const needsRepair = _.find(Memory.repairQueue, id => {
             const struct = _.isUndefined(id) ? undefined : Game.getObjectById(id);
-            return !own || struct.pos.roomName === creep.memory.operateInRoom;
+            return struct && (!own || struct.pos.roomName === creep.memory.operateInRoom);
         });
 
         if(_.isUndefined(needsRepair)){
