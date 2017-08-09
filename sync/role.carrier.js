@@ -165,7 +165,9 @@ class Carrier extends Role {
             target = targets[0];
         }
 
-        creep.memory.energyTarget = target.id;
+        if(target) {
+            creep.memory.energyTarget = target.id;
+        }
 
         return target;
     }
