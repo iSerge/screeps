@@ -360,7 +360,7 @@ module.exports = {
             Memory.autoBuildRoads = true;
         }
         if(_.isUndefined(Memory.controllerCont)){
-            Memory.controllerCont = '';
+            Memory.controllerCont = {};
         }
         if(_.isUndefined(Memory.maxWallHits)){
             Memory.maxWallHits = 100000;
@@ -370,33 +370,5 @@ module.exports = {
         }
 
         Memory.controllerCount = _.size(_.filter(Game.structures, (o,k) => o.structureType === STRUCTURE_CONTROLLER));
-
-        const controllerCont = Game.getObjectById(Memory.controllerCont);
-        if(!controllerCont){
-            const controllers = _.map(Game.rooms, (room) => {
-                return room.controller;
-            });
-
-            let controllerConts = [].concat.apply([], _.map(controllers, (source) => {
-                return source.pos.findInRange(FIND_STRUCTURES, 3, {
-                    filter: (cont) => {
-                        return cont.structureType === STRUCTURE_CONTAINER;
-                    }
-                });
-            }));
-
-            if(controllerConts.length) {
-                Memory.controllerCont = controllerConts[0].id;
-            }
-        }
-
-        // calcToughHits();
-        // if(Memory.maxWallHits <= wallHits){
-        //     Memory.maxWallHits += 100000;
-        // }
-        //
-        // if(Memory.maxRampartHits <= rampartHits){
-        //     Memory.maxRampartHits += 10000;
-        // }
     }
 };

@@ -123,7 +123,7 @@ class Carrier extends Role {
             // containers near controllers
             //console.log('Carrier ' + creep.name + ' looking for controller container');
 
-            const cont = Game.getObjectById(Memory.controllerCont);
+            const cont = Game.getObjectById(Memory.controllerCont[creep.pos.roomName]);
             if (cont && 500 < cont.storeCapacity - _.sum(cont.store)) {
                 target = cont;
             }
