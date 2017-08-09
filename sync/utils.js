@@ -91,16 +91,24 @@ module.exports = {
 
     /**
      * @function
+     * @param {Creep} creep
      * @return {undefined|RoomObject}
      */
-    shiftStructure: () => {
-        const id = Memory.repairQueue.shift();
+    shiftStructure: (creep) => {
+        const needsRepair = _.find(Memory.repairQueue, id => {
+            const struct = _.isUndefined(id) ? undefined : Game.getObjectById(id);
+            return struct.pos.roomName === creep.memory.operateInRoom;
+        });
 
-        if(_.isUndefined(id)){
+        if(_.isUndefined(needsRepair)){
             return undefined;
         }
 
-        return Game.getObjectById(id);
+        if(Memory.repairQueue[0] === needsRepair) {
+            Memory.repairQueue.shift();
+        }
+
+        return Game.getObjectById(needsRepair);
     },
 
     /**
