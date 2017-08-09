@@ -132,6 +132,7 @@ class Builder extends Role {
                     util.moveTo(creep, target.pos);
                 }
             } else {
+                creep.say('\uD83D\uDEA7 strange');
                 creep.memory.buildTarget = '';
             }
         } else {
