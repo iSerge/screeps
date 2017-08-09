@@ -77,35 +77,14 @@ class Builder extends Role {
         if(creep.memory.building) {
             let target = Game.getObjectById(creep.memory.buildTarget);
             if(!target){
-                target = util.shiftStructure(creep);
-                if(!target){
-                    target = findConstructionSite(STRUCTURE_SPAWN, creep);
-                }
+                target = util.shiftStructure(creep, true);
 
                 if(!target){
-                    target = findConstructionSite(STRUCTURE_EXTENSION, creep);
-                }
-
-                if(!target){
-                    target = findConstructionSite(STRUCTURE_CONTAINER, creep);
-                }
-
-                if(!target){
-                    target = findConstructionSite(STRUCTURE_LINK, creep);
-                }
-
-                if(!target){
-                    target = findConstructionSite(STRUCTURE_TOWER, creep);
-                }
-
-                if(!target){
-                    target = findConstructionSite(STRUCTURE_STORAGE, creep);
+                    target = util.findBuildSite(creep);
                 }
 
                 if(!target) {
-                    target = _.sortBy(Game.constructionSites, [site => {
-                        return site.pos.roomName === creep.memory.operateInRoom ? 1 : 2;
-                    }])[0];
+                    target = util.shiftStructure(creep, false);
                 }
 
                 if(target){

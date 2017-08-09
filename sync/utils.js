@@ -42,6 +42,41 @@ function calcToughHits(){
     });
 }
 
+/**
+ * @function
+ * @param {Creep} creep
+ * @param {ConstructionSite} site
+ * @return {number}
+ */
+function buildPriority(creep, site){
+    let priority;
+    switch (site.structureType){
+        case STRUCTURE_SPAWN:
+            priority = 1;
+            break;
+        case STRUCTURE_EXTENSION:
+            priority = 2;
+            break;
+        case STRUCTURE_CONTAINER:
+            priority = 3;
+            break;
+        case STRUCTURE_LINK:
+            priority = 4;
+            break;
+        case STRUCTURE_TOWER:
+            priority = 5;
+            break;
+        case STRUCTURE_STORAGE:
+            priority = 6;
+            break;
+        default:
+            priority = 7;
+            break;
+    }
+
+    return creep.memory.operateInRoom === site.pos.roomName ? priority : priority + 20;
+}
+
 module.exports = {
     /**
      * @const
@@ -92,12 +127,13 @@ module.exports = {
     /**
      * @function
      * @param {Creep} creep
+     * @param {boolean} own
      * @return {undefined|RoomObject}
      */
-    shiftStructure: (creep) => {
+    shiftStructure: (creep, own) => {
         const needsRepair = _.find(Memory.repairQueue, id => {
             const struct = _.isUndefined(id) ? undefined : Game.getObjectById(id);
-            return struct.pos.roomName === creep.memory.operateInRoom;
+            return !own || struct.pos.roomName === creep.memory.operateInRoom;
         });
 
         if(_.isUndefined(needsRepair)){
@@ -109,6 +145,17 @@ module.exports = {
         }
 
         return Game.getObjectById(needsRepair);
+    },
+
+    /**
+     * @function
+     * @param {Creep} creep
+     * @return {undefined|ConstructionSite}
+     */
+    findBuildSite: (creep) => {
+        return _.sortBy(Game.constructionSites, [site => {
+            return buildPriority(creep, site);
+        }])[0];
     },
 
     /**
