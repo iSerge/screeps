@@ -103,7 +103,9 @@ class Builder extends Role {
                 }
 
                 if(!target) {
-                    target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+                    target = _.sortBy(Game.constructionSites, [site => {
+                        return site.pos.roomName === creep.memory.operateInRoom ? 1 : 2;
+                    }])[0];
                 }
 
                 if(target){
