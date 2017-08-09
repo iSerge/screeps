@@ -259,19 +259,20 @@ module.exports = {
                         struct.structureType === STRUCTURE_CONTAINER) &&
                         0 < struct.store[RESOURCE_ENERGY]) ||
                         (struct.structureType === STRUCTURE_LINK && 0 < struct.energy);
-                }}));
+                }
+            }));
 
             target = creep.pos.findClosestByPath(targets, {
                 maxOps: 1000
             });
+        }
 
-            if (!target) {
-                target = creep.pos.findClosestByPath(FIND_SOURCES);
-            }
+        if (!target) {
+            target = creep.pos.findClosestByPath(FIND_SOURCES);
+        }
 
-            if(target) {
-                creep.memory.energyTarget = target.id;
-            }
+        if(target) {
+            creep.memory.energyTarget = target.id;
         }
 
         return target;
