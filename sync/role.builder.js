@@ -101,7 +101,9 @@ class Builder extends Role {
                     creep.memory.building = false;
                 }
             }
+
             if(target instanceof Structure) {
+                console.log(creep.name + ': Reparing ' + target.structureType + ', hits: ' + target.hits + ', hitsMax: ' + target.hitsMax);
                 if((target.structureType !== STRUCTURE_WALL &&
                         target.structureType !== STRUCTURE_RAMPART && target.hits < target.hitsMax) ||
                     (target.structureType === STRUCTURE_WALL && target.hits < Memory.maxWallHits) ||
