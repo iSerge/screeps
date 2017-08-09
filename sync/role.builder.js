@@ -71,6 +71,7 @@ class Builder extends Role {
 
         if(!creep.memory.building && creep.carry.energy === creep.carryCapacity) {
             creep.memory.building = true;
+            console.log(creep.name + ': building');
             creep.say(util.BUILD);
         }
 
@@ -81,7 +82,7 @@ class Builder extends Role {
 
                 if(!target){
                     console.log(creep.name + ': No room repair');
-                    target = util.findBuildSite(creep);
+                    target = util.findConstructionSite(creep);
                 }
 
                 if(!target) {
@@ -90,6 +91,7 @@ class Builder extends Role {
                 }
 
                 if(target){
+                    console.log(creep.name + ': Building ' + target);
                     creep.memory.buildTarget = target.id;
                 } else {
                     creep.say('\uD83D\uDEA7 nothing');

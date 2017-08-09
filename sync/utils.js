@@ -152,7 +152,7 @@ module.exports = {
      * @param {Creep} creep
      * @return {undefined|ConstructionSite}
      */
-    findBuildSite: (creep) => {
+    findConstructionSite: (creep) => {
         return _.sortBy(Game.constructionSites, [site => {
             return buildPriority(creep, site);
         }])[0];
