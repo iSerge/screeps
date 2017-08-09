@@ -107,6 +107,7 @@ class Builder extends Role {
                     }
                 } else {
                     creep.memory.buildTarget = '';
+                    creep.memory.building = false;
                 }
             } else if(target instanceof ConstructionSite){
                 if(creep.build(target) === ERR_NOT_IN_RANGE){
@@ -115,6 +116,7 @@ class Builder extends Role {
             } else {
                 creep.say('\uD83D\uDEA7 strange');
                 creep.memory.buildTarget = '';
+                creep.memory.building = false;
             }
         } else {
             if(creep.carry.energy < creep.carryCapacity) {
