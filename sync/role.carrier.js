@@ -44,65 +44,56 @@ class Carrier extends Role {
             target = null;
         }
 
-        if(!target){
-            let targets = creep.pos.findInRange(FIND_DROPPED_RESOURCES, 1, {
+        if(!target) {
+            //dropped energy
+            const drops = creep.room.find(FIND_DROPPED_RESOURCES, {
                 filter: (drop) => {
                     return drop.resourceType === RESOURCE_ENERGY && 0 < drop.amount;
                 }
             });
 
-            targets = targets.concat(creep.pos.findInRange(FIND_STRUCTURES, 1, {
-                filter: (s) => {
-                    return s.structureType === STRUCTURE_CONTAINER && 0 < s.store[RESOURCE_ENERGY] &&
-                        s.id !== Memory.controllerCont;
-                }
-            }));
+            target = _.sortBy(drops, (drop) => {
+                return -drop.amount;
+            })[0];
+        }
 
-            target = targets[0];
-
-            if(!target) {
-                //dropped energy
-                const drops = creep.room.find(FIND_DROPPED_RESOURCES, {
-                    filter: (drop) => {
-                        return drop.resourceType === RESOURCE_ENERGY && 0 < drop.amount;
+        if(!target) {
+            // containers near sources
+            const sources = creep.room.find(FIND_SOURCES);
+            let sourceConts = [].concat.apply([], _.map(sources, (source) => {
+                return source.pos.findInRange(FIND_STRUCTURES, 3, {
+                    filter: (struct) => {
+                        return (struct.structureType === STRUCTURE_CONTAINER &&
+                            0 < struct.store[RESOURCE_ENERGY]);
                     }
                 });
+            }));
 
-                target = _.sortBy(drops, (drop) => {
-                    return -drop.amount;
-                })[0];
-
-                if(!target) {
-                    // containers near sources
-                    const sources = creep.room.find(FIND_SOURCES);
-                    let sourceConts = [].concat.apply([], _.map(sources, (source) => {
-                        return source.pos.findInRange(FIND_STRUCTURES, 2, {
-                            filter: (struct) => {
-                                return (struct.structureType === STRUCTURE_CONTAINER &&
-                                    0 < struct.store[RESOURCE_ENERGY]);
-                            }
-                        });
-                    }));
-
-                    // most full container
-                    target = _.sortBy(sourceConts, (cont) => {
-                        return cont.storeCapacity - _.sum(cont.store);
-                    })[0];
-
-                    if (!target) {
-                        target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE, {
-                            maxOps: 100,
-                        });
-                        if (!target) {
-                            const targets = creep.room.find(FIND_SOURCES);
-                            target = targets[0];
-                        }
-                    }
-                }
-            }
-
-            creep.memory.energyTarget = target.id;
+            // most full container
+            target = _.sortBy(sourceConts, (cont) => {
+                return cont.storeCapacity - _.sum(cont.store);
+            })[0];
         }
+
+        if(!target){
+            target = creep.room.find(FIND_STRUCTURES, {
+                filter: store => {
+                    return store.structureType === STRUCTURE_STORAGE && 0 < store.energy;
+                }
+            })[0];
+        }
+
+        if (!target) {
+            target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE, {
+                maxOps: 100,
+            });
+            if (!target) {
+                const targets = creep.room.find(FIND_SOURCES);
+                target = targets[0];
+            }
+        }
+
+        creep.memory.energyTarget = target.id;
 
         return target;
     }
@@ -122,8 +113,7 @@ class Carrier extends Role {
                     filter: (struct) => {
                         return (struct.structureType === STRUCTURE_SPAWN || struct.structureType === STRUCTURE_EXTENSION) &&
                             struct.energy < struct.energyCapacity && creep.memory.operateInRoom === struct.pos.roomName;
-                    },
-                    maxOps: 100
+                    }
                 });
             }
         }
