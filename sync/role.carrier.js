@@ -156,7 +156,12 @@ class Carrier extends Role {
         if (!target) {
             //console.log('Carrier ' + creep.name + ' looking for sources');
 
-            const targets = creep.room.find(FIND_SOURCES);
+            const targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (spawn) => {
+                    return (spawn.structureType === STRUCTURE_SPAWN || spawn.structureType === STRUCTURE_EXTENSION) &&
+                        spawn.energy < spawn.energyCapacity && creep.memory.operateInRoom === spawn.pos.roomName;
+                }
+            });
             target = targets[0];
         }
 
