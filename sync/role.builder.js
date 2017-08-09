@@ -71,28 +71,23 @@ class Builder extends Role {
 
         if(!creep.memory.building && creep.carry.energy === creep.carryCapacity) {
             creep.memory.building = true;
-            console.log(creep.name + ': building');
             creep.say(util.BUILD);
         }
 
         if(creep.memory.building) {
             let target = Game.getObjectById(creep.memory.buildTarget);
             if(!target){
-                console.log(creep.name + ': No stored target');
                 target = util.shiftStructure(creep, true);
 
                 if(!target){
-                    console.log(creep.name + ': No room repair');
                     target = util.findConstructionSite(creep);
                 }
 
                 if(!target) {
-                    console.log(creep.name + ':Nothing to build');
                     target = util.shiftStructure(creep, false);
                 }
 
                 if(target){
-                    console.log(creep.name + ': Building ' + target);
                     creep.memory.buildTarget = target.id;
                 } else {
                     creep.say('\uD83D\uDEA7 nothing');
@@ -103,14 +98,12 @@ class Builder extends Role {
             }
 
             if(target instanceof Structure) {
-                console.log(creep.name + ': Reparing ' + target.structureType + ', hits: ' + target.hits + ', hitsMax: ' + target.hitsMax);
                 if((target.structureType !== STRUCTURE_WALL &&
                         target.structureType !== STRUCTURE_RAMPART && target.hits < target.hitsMax) ||
                     (target.structureType === STRUCTURE_WALL && target.hits < Memory.maxWallHits) ||
                     (target.structureType === STRUCTURE_RAMPART && target.hits < Memory.maxRampartHits))
                 {
                     if(creep.repair(target) === ERR_NOT_IN_RANGE){
-                        console.log(creep.name + ': not in repair range ' + target);
                         util.moveTo(creep, target.pos);
                     }
                 } else {
@@ -119,7 +112,6 @@ class Builder extends Role {
                 }
             } else if(target instanceof ConstructionSite){
                 if(creep.build(target) === ERR_NOT_IN_RANGE){
-                    console.log(creep.name + ': not in construction range ' + target);
                     util.moveTo(creep, target.pos);
                 }
             } else {
