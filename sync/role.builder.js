@@ -80,10 +80,12 @@ class Builder extends Role {
                 target = util.shiftStructure(creep, true);
 
                 if(!target){
+                    creep.say('No room repair');
                     target = util.findBuildSite(creep);
                 }
 
                 if(!target) {
+                    creep.say('Nothing to build');
                     target = util.shiftStructure(creep, false);
                 }
 
