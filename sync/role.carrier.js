@@ -35,7 +35,7 @@ class Carrier extends Role {
     /**
      *
      * @param {Creep} creep
-     * @return {RoomObject}
+     * @return {Resource|Source|Structure}
      */
     getEnergyTarget(creep) {
         let target = Game.getObjectById(creep.memory.energyTarget);
@@ -63,8 +63,10 @@ class Carrier extends Role {
             let sourceConts = [].concat.apply([], _.map(sources, (source) => {
                 return source.pos.findInRange(FIND_STRUCTURES, 3, {
                     filter: (struct) => {
-                        return (struct.structureType === STRUCTURE_CONTAINER &&
-                            0 < struct.store[RESOURCE_ENERGY]);
+                        const controllerCont = Memory.controllerCont.hasOwnProperty(struct.pos.roomName);
+                        return struct.structureType === STRUCTURE_CONTAINER &&
+                            ((!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
+                             (controllerCont && (struct.storeCapacity - _.sum(struct.store) < creep.carryCapacity)));
                     }
                 });
             }));
@@ -101,7 +103,7 @@ class Carrier extends Role {
     /**
      *
      * @param {Creep} creep
-     * @return {RoomObject}
+     * @return {Spawn|Structure}
      */
     getStoreTarget(creep) {
         let target = Game.getObjectById(creep.memory.energyTarget);
