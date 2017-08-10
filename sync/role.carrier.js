@@ -69,7 +69,9 @@ class Carrier extends Role {
 
                         const controllerCont = Memory.controllerCont.hasOwnProperty(struct.pos.roomName);
                         if(controllerCont){
-                            console.log('Considering controller cont -- capacity: ' + struct.storeCapacity + ', stored: '+_.sum(struct.store));
+                            console.log(creep.name + ' -- Considering controller cont -- capacity: ' + struct.storeCapacity + ', stored: '+_.sum(struct.store));
+                        } else {
+                            console.log(creep.name + ' -- Considering cont -- capacity: ' + struct.storeCapacity + ', stored: '+_.sum(struct.store));
                         }
                         return (!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
                              (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 50));
