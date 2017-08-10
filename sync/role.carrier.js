@@ -64,9 +64,12 @@ class Carrier extends Role {
                 return source.pos.findInRange(FIND_STRUCTURES, 3, {
                     filter: (struct) => {
                         const controllerCont = Memory.controllerCont.hasOwnProperty(struct.pos.roomName);
+                        if(controllerCont){
+                            console.log('Considering controller cont -- capacity: ' + struct.capacity + ', stored: '+_.sum(struct.store));
+                        }
                         return struct.structureType === STRUCTURE_CONTAINER &&
                             ((!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
-                             (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 100)));
+                             (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 50)));
                     }
                 });
             }));
