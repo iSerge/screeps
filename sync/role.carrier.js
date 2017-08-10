@@ -67,7 +67,7 @@ class Carrier extends Role {
                             return false;
                         }
 
-                        const controllerCont = Memory.controllerCont.hasOwnProperty(struct.pos.roomName);
+                        const controllerCont = Memory.controllerCont[struct.pos.roomName] === struct.id;
                         if(controllerCont){
                             console.log(creep.name + ' -- Considering controller cont -- capacity: ' + struct.storeCapacity + ', stored: '+_.sum(struct.store));
                         } else {
