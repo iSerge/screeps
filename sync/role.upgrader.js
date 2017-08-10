@@ -39,6 +39,7 @@ class Upgrader extends Role {
             }
             if(!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
                 creep.memory.upgrading = true;
+                creep.memory.energyTarget = '';
                 creep.say(util.UPGRADE);
             }
 
