@@ -66,7 +66,7 @@ class Carrier extends Role {
                         const controllerCont = Memory.controllerCont.hasOwnProperty(struct.pos.roomName);
                         return struct.structureType === STRUCTURE_CONTAINER &&
                             ((!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
-                             (controllerCont && (struct.storeCapacity - _.sum(struct.store) < creep.carryCapacity)));
+                             (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 100)));
                     }
                 });
             }));
