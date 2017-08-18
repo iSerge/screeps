@@ -131,6 +131,14 @@ module.exports = {
      * @return {undefined|RoomObject}
      */
     shiftStructure: (creep, own) => {
+        if(0 < Memory.repairQueue.length){
+            let id = Game.getObjectById(Memory.repairQueue[0]);
+            while (!id){
+                Memory.repairQueue.shift();
+                id = Game.getObjectById(Memory.repairQueue[0]);
+            }
+        }
+
         const needsRepair = _.find(Memory.repairQueue, id => {
             const struct = _.isUndefined(id) ? undefined : Game.getObjectById(id);
             return struct && (!own || struct.pos.roomName === creep.memory.operateInRoom);
