@@ -271,7 +271,7 @@ module.exports = {
      * @param {Creep} creep
      * */
     navigateToDesignatedRoom: (creep) => {
-        if(1 < Memory.controllerCount){
+        if(!creep.memory.operateInRoom){
             const rooms = _.map(_.filter(Game.structures, (o,k) => o.structureType === STRUCTURE_CONTROLLER),
                 s => { return s.pos.roomName; });
             const creepCount = _.reduce(Game.creeps, (result, c, id) => {
@@ -285,8 +285,8 @@ module.exports = {
             creep.memory.operateInRoom = _.filter(rooms, room => {
                 return !creepCount.hasOwnProperty(room) || creepCount[room] < limit;
             })[0];
-            return creep.memory.operateInRoom !== creep.pos.roomName;
         }
+        return creep.memory.operateInRoom !== creep.pos.roomName;
     },
 
     /**
