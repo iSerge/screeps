@@ -54,6 +54,15 @@ module.exports.loop = function () {
 
     _.forOwn(Game.structures, (tower) => {
         if(tower.structureType === STRUCTURE_TOWER) {
+            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
+                filter: (creep) => {
+                    return creep.pos.inRangeTo(tower.pos, 6);
+                }
+            });
+            if (closestHostile) {
+                tower.attack(closestHostile);
+            }
+
             const closestDamagedCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
                 filter: (creep) => {
                     return creep.hits < creep.hitsMax / 3;
@@ -74,11 +83,6 @@ module.exports.loop = function () {
                 if (closestDamagedStructure) {
                     tower.repair(closestDamagedStructure);
                 }
-            }
-
-            const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-            if (closestHostile) {
-                tower.attack(closestHostile);
             }
         }
     });
