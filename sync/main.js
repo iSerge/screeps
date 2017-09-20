@@ -401,7 +401,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 function init() {
     var defaults = {
         data: {},
-        total: 0
+        total: 0,
     };
     if (!Memory.profiler) {
         Memory.profiler = defaults;
@@ -444,7 +444,7 @@ function init() {
                 "Profiler.status() - Returns whether is profiler is currently running or not\n" +
                 "Profiler.output() - Pretty-prints the collected profiler data to the console\n" +
                 this.status();
-        }
+        },
     };
     return cli;
 }
@@ -510,7 +510,7 @@ function record(key, time) {
     if (!Memory.profiler.data[key]) {
         Memory.profiler.data[key] = {
             calls: 0,
-            time: 0
+            time: 0,
         };
     }
     Memory.profiler.data[key].calls++;

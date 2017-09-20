@@ -3,3 +3,7 @@ declare namespace NodeJS {
         Profiler: Profiler;
     }
 }
+
+interface Profiler {
+    toString(): void;
+}
