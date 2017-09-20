@@ -132,7 +132,7 @@ class Carrier implements Role {
 
         if (!target) {
             target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE, {
-                maxOps: 100,
+                maxOps: 100
             });
             if (!target) {
                 const targets: Source[] = creep.room.find(FIND_SOURCES);

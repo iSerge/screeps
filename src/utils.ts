@@ -17,7 +17,7 @@ export const Messages = {
     DISTRIBUTE: "\u2194 distr",
     HARVEST: "\uD83D\uDD04 harvest",
     PICKUP: "\u2B06 pickup",
-    UPGRADE: "\u26A1 upgrade",
+    UPGRADE: "\u26A1 upgrade"
 };
 
 /**

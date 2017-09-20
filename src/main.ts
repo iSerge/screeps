@@ -1,8 +1,7 @@
 import * as _ from "lodash";
 
-import {Messages, utils} from "./utils";
-
 import {CARRIER, HARVESTER, rolesModule as roles} from "./roles";
+import {Messages, utils} from "./utils";
 
 module.exports.loop = () => {
     utils.clearMemory();
