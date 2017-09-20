@@ -2,6 +2,9 @@ import {Messages, utils} from "./utils";
 
 import {Role} from "./Role";
 
+import { profile } from "../screeps-typescript-profiler";
+
+@profile
 class Upgrader implements Role {
     /**
      * @override

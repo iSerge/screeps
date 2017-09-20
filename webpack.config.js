@@ -2,6 +2,7 @@ const _ = require("lodash");
 const path = require("path");
 const webpack = require("webpack");
 const Config = require("webpack-chain");
+const nodeExternals = require('webpack-node-externals');
 
 // the "options" object is passed via commandline args
 // see: https://github.com/webpack/webpack/issues/2254
@@ -96,6 +97,28 @@ const fs = require("fs");
 //     }
 // };
 
+var ConcatSource = require("webpack-sources").ConcatSource;
+// Tiny tiny helper plugin that prepends "module.exports = " to all `.map` assets
+var ScreepsSourceMapToJson = /** @class */ (function () {
+    function ScreepsSourceMapToJson() {
+    }
+    // constructor(_options: any) {
+    //   // we don't use options
+    // }
+    ScreepsSourceMapToJson.prototype.apply = function (compiler) {
+        compiler.plugin("emit", function (compilation, cb) {
+            for (var filename in compilation.assets) {
+                // matches any files ending in ".map" or ".map.js"
+                if (path.basename(filename, ".js").match(/\.map/)) {
+                    compilation.assets[filename] = new ConcatSource("module.exports = ", compilation.assets[filename]);
+                }
+            }
+            cb();
+        });
+    };
+    return ScreepsSourceMapToJson;
+}());
+
 
 // Webpack + plugins:
 // disable tslint rule, because we don't have types for these files
@@ -156,10 +179,10 @@ function init(options) {
     config.resolve.plugin("tsConfigPaths") // name here is just an identifier
         .use(TsConfigPathsPlugin);
 
-    config.externals({
+    config.externals([nodeExternals(), {
         // webpack will not try to rewrite require("main.js.map")
         "main.js.map": "main.js.map",
-    });
+    }]);
 
     /////////
     /// Plugins
@@ -190,15 +213,16 @@ function init(options) {
             PRODUCTION: JSON.stringify(true),
             __BUILD_TIME__: JSON.stringify(Date.now()),  // example defination
             __REVISION__: gitRepoExists ? JSON.stringify(git.short()) : JSON.stringify(""),
+            __PROFILER_ENABLED__: true,
         }]);
 
-    // config.plugin("screeps-source-map")
-    //     .use((ScreepsSourceMapToJson));
+    config.plugin("screeps-source-map")
+        .use((ScreepsSourceMapToJson));
 
     config.plugin("no-emit-on-errors")
         .use((webpack.NoEmitOnErrorsPlugin));
 
-    config.plugin("uglify-js").use(webpack.optimize.UglifyJsPlugin);
+    //config.plugin("uglify-js").use(webpack.optimize.UglifyJsPlugin);
 
     /////////
     /// Modules
