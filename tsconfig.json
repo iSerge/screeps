@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": ["es2016", "dom"],
+    "removeComments": true,
+    "noEmitOnError": true,
+    "noResolve": false,
+    "experimentalDecorators": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "sourceMap": true,
+    "baseUrl": "./src/",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "declarationDir": "dist/types",
+    "outDir": "compiled",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "compileOnSave": false,
+  "include": [
+    "webpack.config.ts",
+    "libs/*.ts",
+    "typings/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "src/snippets"
+  ]
+}
