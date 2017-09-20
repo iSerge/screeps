@@ -42,7 +42,7 @@ export const roles: Roles = {
     carrier:   roleCarrier,
     claimer:   roleClaimer,
     harvester: roleHarvester,
-    upgrader:  roleUpgrader,
+    upgrader:  roleUpgrader
 };
 
 /**

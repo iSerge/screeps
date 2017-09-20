@@ -5,9 +5,11 @@
     "no-console": false,
     "no-namespace": false,
     "no-string-literal": false,
+    "quotemark": [true, "double", "avoid-escape"],
     "trailing-comma": [
       true,
-      "never"
+      {"singleline": "never",
+      "multiline": "never"}
     ],
     "variable-name": [
       true,

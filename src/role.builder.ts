@@ -4,6 +4,8 @@ import {Messages, utils} from "./utils";
 
 import {Role} from "./Role";
 
+import { profile } from "../screeps-typescript-profiler";
+
 /**
  *
  * @param {string} type
@@ -27,10 +29,12 @@ function findConstructionSite(type: StructureConstant, creep: Creep) {
     return target;
 }
 
+@profile
 class Builder implements Role {
     /**
      * @override
      */
+    @profile
     public body(availEnergy: number) {
         if (availEnergy < 250) {
             return [WORK, CARRY, MOVE]; // 200
@@ -54,6 +58,7 @@ class Builder implements Role {
     /**
      * @override
      */
+    @profile
     public run(creep: Creep) {
         utils.tryBuildRoad(creep);
 

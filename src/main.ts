@@ -1,8 +1,11 @@
 import * as _ from "lodash";
 
-import {Messages, utils} from "./utils";
+import * as Profiler from "../screeps-typescript-profiler";
 
 import {CARRIER, HARVESTER, rolesModule as roles} from "./roles";
+import {Messages, utils} from "./utils";
+
+global.Profiler = Profiler.init();
 
 module.exports.loop = () => {
     utils.clearMemory();
