@@ -1,0 +1,20 @@
+{
+  "extends" : "tslint:latest",
+  "rules": {
+    "interface-name": [ "never-prefix" ],
+    "no-console": false,
+    "no-namespace": false,
+    "no-string-literal": false,
+    "trailing-comma": [
+      true,
+      "never"
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case",
+      "allow-leading-underscore"
+    ]
+  }
+}
