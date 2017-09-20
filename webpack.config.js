@@ -1,27 +1,11 @@
-import * as _ from "lodash";
-import * as path from "path";
-import * as webpack from "webpack";
-import * as Config from "webpack-chain";
-
-interface EnvOptions {
-    ENV?: string;
-    ROOT?: string;
-    TEST?: boolean;
-}
-
-interface Credentials {
-    branch?: string;
-    email: string;
-    password: string;
-    token?: string;
-    serverUrl: string;
-    serverPassword?: string;
-    gzip?: boolean;
-}
+const _ = require("lodash");
+const path = require("path");
+const webpack = require("webpack");
+const Config = require("webpack-chain");
 
 // the "options" object is passed via commandline args
 // see: https://github.com/webpack/webpack/issues/2254
-function webpackConfig(options: EnvOptions = {}): webpack.Configuration {
+function webpackConfig(options) {
   // set some defaults
   _.defaults(options, {
     ENV: "dev",
@@ -29,10 +13,10 @@ function webpackConfig(options: EnvOptions = {}): webpack.Configuration {
     TEST: false,
   });
 
-  const config: Config = options.ENV === "local" ? webpackConfigLocal(options) : webpackConfigDev(options);
+  const config = options.ENV === "local" ? webpackConfigLocal(options) : webpackConfigDev(options);
 
   // call `toConfig` to convert to webpack object, and return it
-  return config.toConfig() as webpack.Configuration;
+  return config.toConfig();
 }
 
 module.exports = webpackConfig;
@@ -40,19 +24,19 @@ module.exports = webpackConfig;
 // config.dev
 const ScreepsWebpackPlugin = require("screeps-webpack-plugin");
 
-function webpackConfigDev(options: EnvOptions = {}): Config {
+function webpackConfigDev(options = {}) {
     // get the common configuration to start with
     const config = init(options);
 
     // make "dev" specific changes here
-    const credentials: Credentials = require("./credentials.json");
+    const credentials = require("./credentials.json");
     credentials.branch = "dev";
 
     config.plugin("screeps")
         .use(ScreepsWebpackPlugin, [credentials]);
 
     // modify the args of "define" plugin
-    config.plugin("define").tap((args: any[]) => {
+    config.plugin("define").tap((args) => {
         args[0].PRODUCTION = JSON.stringify(false);
         return args;
     });
@@ -61,7 +45,7 @@ function webpackConfigDev(options: EnvOptions = {}): Config {
 }
 
 // config.local
-function webpackConfigLocal(options: EnvOptions = {}): Config {
+function webpackConfigLocal(options = {}) {
     // get the common configuration to start with
     const config = init(options);
 
@@ -73,7 +57,7 @@ function webpackConfigLocal(options: EnvOptions = {}): Config {
     config.output.path(localPath);
 
     // modify the args of "define" plugin
-    config.plugin("define").tap((args: any[]) => {
+    config.plugin("define").tap((args) => {
         args[0].PRODUCTION = JSON.stringify(false);
         return args;
     });
@@ -85,8 +69,33 @@ function webpackConfigLocal(options: EnvOptions = {}): Config {
 }
 
 // config.common
-import * as fs from "fs";
-import { ScreepsSourceMapToJson } from "./libs/screeps-webpack-sources";
+const fs = require("fs");
+
+//import { Compiler, Plugin } from "webpack";
+
+// disable tslint rule, because we don't have types for these files
+/* tslint:disable:no-var-requires no-require-imports */
+// const ConcatSource = require("webpack-sources").ConcatSource;
+//
+// // Tiny tiny helper plugin that prepends "module.exports = " to all `.map` assets
+// const ScreepsSourceMapToJson = {
+//     // constructor(_options: any) {
+//     //   // we don't use options
+//     // }
+//
+//     apply(compiler): {
+//         compiler.plugin("emit", (compilation, cb) => {
+//             for (const filename in compilation.assets) {
+//                 // matches any files ending in ".map" or ".map.js"
+//                 if (path.basename(filename, ".js").match(/\.map/)) {
+//                     compilation.assets[filename] = new ConcatSource("module.exports = ", compilation.assets[filename]);
+//                 }
+//             }
+//             cb();
+//         });
+//     }
+// };
+
 
 // Webpack + plugins:
 // disable tslint rule, because we don't have types for these files
@@ -100,7 +109,7 @@ const git = require("git-rev-sync");
 
 // see https://github.com/mozilla-neutrino/webpack-chain
 // for documentation on how to work with the config object
-function init(options: EnvOptions): Config {
+function init(options) {
     const ENV = options.ENV || "dev";
     const ROOT = options.ROOT || __dirname;
     // const TEST = options.TEST || false;
@@ -177,19 +186,19 @@ function init(options: EnvOptions): Config {
     // Make sure to let typescript know about these via `define` !
     // See https://github.com/kurttheviking/git-rev-sync-js for more git options
     config.plugin("define")
-        .use((webpack.DefinePlugin as Config.PluginClass), [{
+        .use((webpack.DefinePlugin), [{
             PRODUCTION: JSON.stringify(true),
             __BUILD_TIME__: JSON.stringify(Date.now()),  // example defination
             __REVISION__: gitRepoExists ? JSON.stringify(git.short()) : JSON.stringify(""),
         }]);
 
-    config.plugin("screeps-source-map")
-        .use((ScreepsSourceMapToJson as Config.PluginClass));
+    // config.plugin("screeps-source-map")
+    //     .use((ScreepsSourceMapToJson));
 
     config.plugin("no-emit-on-errors")
-        .use((webpack.NoEmitOnErrorsPlugin as Config.PluginClass));
+        .use((webpack.NoEmitOnErrorsPlugin));
 
-    config.plugin("uglify-js").use(webpack.optimize.UglifyJsPlugin as Config.PluginClass);
+    config.plugin("uglify-js").use(webpack.optimize.UglifyJsPlugin);
 
     /////////
     /// Modules
