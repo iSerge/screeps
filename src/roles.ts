@@ -1,5 +1,7 @@
 import * as _ from "lodash";
 
+import { profile } from "../screeps-typescript-profiler";
+
 declare interface CreepMemory {
     building?: boolean;
     buildTarget?: string;
@@ -45,50 +47,51 @@ export const roles: Roles = {
     upgrader:  roleUpgrader
 };
 
-/**
- *
- * @returns {number}
- */
-function countControllers() {
-    let controllers = 0;
-    _.forOwn(Game.rooms, (room) => {
-        if (room.controller && room.controller.my) {
-            controllers += 1;
-        }
-    });
-    return controllers;
-}
-
-/**
- *
- * @param {string} role
- * @returns {number}
- */
-function limit(role: CreepRole): number {
-    if (role === "claimer") {
-        return _.isUndefined(Game.flags["claim"]) && _.isUndefined(Game.flags["reserve"])  ? 0 : limits[role];
-    } else {
-        return limits[role] * Memory.controllerCount;
-    }
-}
-
-/**
- * @returns {StructureSpawn}
- */
-function getMaxEnergySpawn(): Spawn {
-    const spawns: Spawn[] = [];
-    _.forOwn(Game.spawns, (spawn) => {spawns.push(spawn); });
-    spawns.sort((a, b) => b.room.energyAvailable - a.room.energyAvailable);
-    return spawns[0];
-}
-
 export interface BodySpec {
     body: BodyPartConstant[];
     role: CreepRole;
 }
 
-export const rolesModule = {
-    count: () => {
+@profile
+export class RolesModule {
+    /**
+     *
+     * @returns {number}
+     */
+    private static countControllers() {
+        let controllers = 0;
+        _.forOwn(Game.rooms, (room) => {
+            if (room.controller && room.controller.my) {
+                controllers += 1;
+            }
+        });
+        return controllers;
+    }
+
+    /**
+     *
+     * @param {string} role
+     * @returns {number}
+     */
+    private static limit(role: CreepRole): number {
+        if (role === "claimer") {
+            return _.isUndefined(Game.flags["claim"]) && _.isUndefined(Game.flags["reserve"])  ? 0 : limits[role];
+        } else {
+            return limits[role] * Memory.controllerCount;
+        }
+    }
+
+    /**
+     * @returns {StructureSpawn}
+     */
+    private static getMaxEnergySpawn(): Spawn | undefined {
+        const spawns: Spawn[] = [];
+        _.forOwn(Game.spawns, (spawn) => {spawns.push(spawn); });
+        spawns.sort((a, b) => b.room.energyAvailable - a.room.energyAvailable);
+        return spawns[0];
+    }
+
+    public count() {
         const count: {[name: string]: number} = {};
         _.forOwn(roles, (role, name: string) => {count[name] = 0; });
 
@@ -96,14 +99,14 @@ export const rolesModule = {
         _.forEach(Memory.spawnQueue, (spec) => { count[spec.role] += 1; });
 
         return count;
-    },
+    }
 
     /**
      *  @type {function}
      *
      *  @param {StructureSpawn} spawn Spawn on which start spawning
      */
-    processSpawnQueue: (spawn: Spawn) => {
+    public processSpawnQueue(spawn: Spawn) {
         const spec = Memory.spawnQueue.shift();
         if (spec) {
             console.log("Processing spawn Q " + spawn.name);
@@ -117,14 +120,14 @@ export const rolesModule = {
                 Memory.spawnQueue.unshift(spec);
             }
         }
-    },
+    }
 
     /**
      * @param {Creep} creep
      */
-    run: (creep: Creep) => {
+    public run(creep: Creep) {
         roles[creep.memory.role].run(creep);
-    },
+    }
 
     /**
      *  @type {function}
@@ -133,18 +136,26 @@ export const rolesModule = {
      *  @param {Array<string>} role.body Body of spawning creep
      *  @param {string} role.role Role of spawning creep
      */
-    spawn: (role?: CreepRole | BodySpec) => {
+    public spawn(role?: CreepRole | BodySpec) {
         if (!role) {
             _.forOwn(roles, (r, name: CreepRole) => {
-                if (name && Memory.creepCount[name] < limit(name)) {
-                    const energy = getMaxEnergySpawn().room.energyAvailable;
+                if (name && Memory.creepCount[name] < RolesModule.limit(name)) {
+                    const spawn = RolesModule.getMaxEnergySpawn();
+                    if (!spawn) {
+                        return;
+                    }
+                    const energy = spawn.room.energyAvailable;
 
                     const body = r.body(energy);
                     Memory.spawnQueue.push({ body, role: name });
                 }
             });
         } else if (typeof role === "string") {
-            const energy = getMaxEnergySpawn().room.energyAvailable;
+            const spawn = RolesModule.getMaxEnergySpawn();
+            if (!spawn) {
+                return;
+            }
+            const energy = spawn.room.energyAvailable;
 
             const body = roles[role].body(energy);
             Memory.spawnQueue.push({ body, role });
@@ -152,4 +163,6 @@ export const rolesModule = {
             Memory.spawnQueue.push(role);
         }
     }
-};
+}
+
+export const rolesModule = new RolesModule();

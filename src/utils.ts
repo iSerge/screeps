@@ -11,6 +11,8 @@ import * as _ from "lodash";
 
 import {limits} from "./limits";
 
+import { profile } from "../screeps-typescript-profiler";
+
 export const Messages = {
     BUILD: "\uD83D\uDEA7 build",
     CONSTRUCT_SYM: "\uD83D\uDEE0",
@@ -20,43 +22,44 @@ export const Messages = {
     UPGRADE: "\u26A1 upgrade"
 };
 
-/**
- * @function
- * @param {Creep} creep
- * @param {ConstructionSite} site
- * @return {number}
- */
-function buildPriority(creep: Creep, site: ConstructionSite) {
-    let priority;
-    switch (site.structureType) {
-        case STRUCTURE_SPAWN:
-            priority = 1;
-            break;
-        case STRUCTURE_EXTENSION:
-            priority = 2;
-            break;
-        case STRUCTURE_CONTAINER:
-            priority = 3;
-            break;
-        case STRUCTURE_LINK:
-            priority = 4;
-            break;
-        case STRUCTURE_TOWER:
-            priority = 5;
-            break;
-        case STRUCTURE_STORAGE:
-            priority = 6;
-            break;
-        default:
-            priority = 7;
-            break;
+@profile
+export class Utils {
+    /**
+     * @function
+     * @param {Creep} creep
+     * @param {ConstructionSite} site
+     * @return {number}
+     */
+    private static buildPriority(creep: Creep, site: ConstructionSite) {
+        let priority;
+        switch (site.structureType) {
+            case STRUCTURE_SPAWN:
+                priority = 1;
+                break;
+            case STRUCTURE_EXTENSION:
+                priority = 2;
+                break;
+            case STRUCTURE_CONTAINER:
+                priority = 3;
+                break;
+            case STRUCTURE_LINK:
+                priority = 4;
+                break;
+            case STRUCTURE_TOWER:
+                priority = 5;
+                break;
+            case STRUCTURE_STORAGE:
+                priority = 6;
+                break;
+            default:
+                priority = 7;
+                break;
+        }
+
+        return creep.memory.operateInRoom === site.pos.roomName ? priority : priority + 20;
     }
 
-    return creep.memory.operateInRoom === site.pos.roomName ? priority : priority + 20;
-}
-
-export const utils = {
-    clearMemory: () => {
+    public clearMemory() {
         _.forOwn(Memory.creeps, (creep, name: string) => {
             if (!Game.creeps.hasOwnProperty(name)) {
                 if (creep.target) {
@@ -67,14 +70,14 @@ export const utils = {
                 console.log("Clearing non-existing creep memory:", name);
             }
         });
-    },
+    }
 
     /**
      * @function
      * @param {object} object
      * @param {string} object.id
      */
-    enqueueStructure: (object: Structure) => {
+    public enqueueStructure(object: Structure) {
         if (_.isUndefined(object)) {
             return;
         }
@@ -82,25 +85,25 @@ export const utils = {
         if (!_.includes(Memory.repairQueue, object.id)) {
             Memory.repairQueue.push(object.id);
         }
-    },
+    }
 
     /**
      * @function
      * @param {Creep} creep
      * @return {undefined|ConstructionSite}
      */
-    findConstructionSite: (creep: Creep) => {
+    public findConstructionSite(creep: Creep) {
         return _.sortBy(Game.constructionSites, [(site: ConstructionSite) => {
-            return buildPriority(creep, site);
+            return Utils.buildPriority(creep, site);
         }])[0];
-    },
+    }
 
     /**
      *
      * @param {Creep} creep
      * @param {Resource|Source|Structure} target
      */
-    getEnergy: (creep: Creep, target: Resource | Source | Structure) => {
+    public getEnergy(creep: Creep, target: Resource | Source | Structure) {
         let result;
         if (target instanceof Resource) {
             result = creep.pickup(target);
@@ -116,14 +119,14 @@ export const utils = {
             }
         }
         return result;
-    },
+    }
 
     /**
      *
      * @param {Creep} creep
      * @return {RoomObject}
      */
-    getEnergyStorageTarget: (creep: Creep) => {
+    public getEnergyStorageTarget(creep: Creep) {
         let target: Structure | null = Game.getObjectById(creep.memory.energyTarget);
 
         if (!target) {
@@ -156,14 +159,14 @@ export const utils = {
         }
 
         return target;
-    },
+    }
 
     /**
      *
      * @param {Creep} creep
      * @param {RoomPosition} target
      */
-    moveTo: (creep: Creep, target: RoomPosition) => {
+    public moveTo(creep: Creep, target: RoomPosition) {
         if (ERR_NOT_FOUND === creep.moveTo(target, {
                 noPathFinding: true,
                 visualizePathStyle: {stroke: "#ffffff"}
@@ -173,12 +176,12 @@ export const utils = {
                 visualizePathStyle: {stroke: "#ffffff"}
             });
         }
-    },
+    }
 
     /**
      * @param {Creep} creep
      */
-    navigateToDesignatedRoom: (creep: Creep) => {
+    public navigateToDesignatedRoom(creep: Creep) {
         if (!creep.memory.operateInRoom) {
             const rooms = _.map(_.filter(Game.structures, (o, k) => o.structureType === STRUCTURE_CONTROLLER),
                 (s) => s.pos.roomName);
@@ -195,7 +198,7 @@ export const utils = {
             })[0];
         }
         return creep.memory.operateInRoom !== creep.pos.roomName;
-    },
+    }
 
     /**
      * @function
@@ -203,7 +206,7 @@ export const utils = {
      * @param {boolean} own
      * @return {null|RoomObject}
      */
-    shiftStructure: (creep: Creep, own: boolean): Structure | null => {
+    public shiftStructure(creep: Creep, own: boolean): Structure | null {
         if (0 < Memory.repairQueue.length) {
             let id = Game.getObjectById(Memory.repairQueue[0]);
             while (!id) {
@@ -224,7 +227,7 @@ export const utils = {
         Memory.repairQueue = _.filter(Memory.repairQueue, (id) => id !== needsRepair);
 
         return Game.getObjectById(needsRepair);
-    },
+    }
 
     /**
      * @function
@@ -232,7 +235,7 @@ export const utils = {
      *
      * @param {Creep} creep
      */
-    tryBuildRoad: (creep: Creep) => {
+    public tryBuildRoad(creep: Creep) {
         if (Memory.autoBuildRoads) {
             const road = _.filter(creep.room.lookAt(creep.pos), (obj: LookAtResult) => {
 
@@ -245,9 +248,9 @@ export const utils = {
                 creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
             }
         }
-    },
+    }
 
-    updateInfrastructure: () => {
+    public updateInfrastructure() {
         if (_.isUndefined(Memory.repairQueue)) {
             Memory.repairQueue = [];
         }
@@ -272,4 +275,6 @@ export const utils = {
 
         Memory.controllerCount = _.size(_.filter(Game.structures, (o, k) => o.structureType === STRUCTURE_CONTROLLER));
     }
-};
+}
+
+export const utils = new Utils();

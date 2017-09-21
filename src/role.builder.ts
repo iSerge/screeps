@@ -6,35 +6,11 @@ import {Role} from "./Role";
 
 import { profile } from "../screeps-typescript-profiler";
 
-/**
- *
- * @param {string} type
- * @param {Creep} creep
- * @returns {ConstructionSite}
- */
-function findConstructionSite(type: StructureConstant, creep: Creep) {
-    let target = null;
-
-    const sites = _.filter(Game.constructionSites, (site: Structure) => {
-       return  site.structureType === type && site.pos.roomName === creep.memory.operateInRoom;
-    });
-
-    if (sites.length) {
-        target = creep.pos.findClosestByPath(sites);
-        if (!target) {
-            target = sites[0];
-        }
-    }
-
-    return target;
-}
-
 @profile
 class Builder implements Role {
     /**
      * @override
      */
-    @profile
     public body(availEnergy: number) {
         if (availEnergy < 250) {
             return [WORK, CARRY, MOVE]; // 200
@@ -58,7 +34,6 @@ class Builder implements Role {
     /**
      * @override
      */
-    @profile
     public run(creep: Creep) {
         utils.tryBuildRoad(creep);
 
@@ -139,6 +114,30 @@ class Builder implements Role {
             }
         }
     }
+
+    /**
+     *
+     * @param {string} type
+     * @param {Creep} creep
+     * @returns {ConstructionSite}
+     */
+    private findConstructionSite(type: StructureConstant, creep: Creep) {
+        let target = null;
+
+        const sites = _.filter(Game.constructionSites, (site: Structure) => {
+            return  site.structureType === type && site.pos.roomName === creep.memory.operateInRoom;
+        });
+
+        if (sites.length) {
+            target = creep.pos.findClosestByPath(sites);
+            if (!target) {
+                target = sites[0];
+            }
+        }
+
+        return target;
+    }
+
 }
 
 export const roleBuilder: Role = new Builder();

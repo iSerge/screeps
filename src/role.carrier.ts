@@ -11,11 +11,11 @@ import { profile } from "../screeps-typescript-profiler";
  * @class
  * @extends {Role}
  */
+@profile
 class Carrier implements Role {
     /**
      * @override
      */
-    @profile
     public body(availEnergy: number) {
         let parts;
         if (availEnergy < 150) {
@@ -38,7 +38,6 @@ class Carrier implements Role {
     /**
      * @override
      */
-    @profile
     public run(creep: Creep) {
         utils.tryBuildRoad(creep);
 
