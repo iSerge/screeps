@@ -629,10 +629,7 @@ var Builder = (function () {
     function Builder() {
     }
     Builder.prototype.body = function (availEnergy) {
-        if (availEnergy < 250) {
-            return [WORK, CARRY, MOVE];
-        }
-        else if (availEnergy < 350) {
+        if (availEnergy < 350) {
             return [WORK, CARRY, CARRY, MOVE];
         }
         else if (availEnergy < 450) {
@@ -775,8 +772,8 @@ var Carrier = (function () {
     }
     Carrier.prototype.body = function (availEnergy) {
         var parts;
-        if (availEnergy < 150) {
-            parts = 3;
+        if (availEnergy < 300) {
+            parts = 6;
         }
         else if (750 < availEnergy) {
             parts = 15;
@@ -1118,10 +1115,7 @@ var Upgrader = (function () {
     function Upgrader() {
     }
     Upgrader.prototype.body = function (availEnergy) {
-        if (availEnergy < 250) {
-            return [WORK, CARRY, MOVE];
-        }
-        else if (availEnergy < 350) {
+        if (availEnergy < 350) {
             return [WORK, CARRY, MOVE, MOVE];
         }
         else if (availEnergy < 400) {

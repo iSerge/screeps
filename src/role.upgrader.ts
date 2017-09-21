@@ -10,9 +10,7 @@ class Upgrader implements Role {
      */
     @profile
     public body(availEnergy: number) {
-        if (availEnergy < 250) {
-            return [WORK, CARRY, MOVE]; // 200
-        } else if (availEnergy < 350) {
+        if (availEnergy < 350) {
             return [WORK, CARRY, MOVE, MOVE]; // 250
         } else if (availEnergy < 400) {
             return [WORK, WORK, CARRY, MOVE, MOVE]; // 350

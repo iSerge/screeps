@@ -18,8 +18,8 @@ class Carrier implements Role {
      */
     public body(availEnergy: number) {
         let parts;
-        if (availEnergy < 150) {
-            parts = 3;
+        if (availEnergy < 300) {
+            parts = 6;
         } else if (750 < availEnergy) {
             parts = 15;
         } else {
