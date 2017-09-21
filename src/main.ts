@@ -56,7 +56,7 @@ module.exports.loop = () => {
         if (tower.structureType === STRUCTURE_TOWER) {
             const closestHostile: Creep | null = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
                 filter: (creep: Creep) => {
-                    return creep.pos.inRangeTo(tower.pos, 6);
+                    return creep.pos.inRangeTo(tower.pos, 15);
                 }
             });
             if (closestHostile) {
@@ -84,6 +84,16 @@ module.exports.loop = () => {
                 if (closestDamagedStructure) {
                     tower.repair(closestDamagedStructure);
                 }
+            }
+
+            // if nothing to do heal damaged creeps
+            const damagedCreep: Creep | null = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
+                filter: (creep: Creep) => {
+                    return creep.hits < creep.hitsMax;
+                }
+            });
+            if (damagedCreep) {
+                tower.heal(damagedCreep);
             }
         }
     });
