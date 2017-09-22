@@ -22,7 +22,7 @@ class LoopFunctions {
                 }}); });
     }
 
-    public static towerLogic(){
+    public static towerLogic() {
         _.forOwn(Game.structures, (tower: Tower) => {
             if (tower.structureType === STRUCTURE_TOWER) {
                 const closestHostile: Creep | null = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {

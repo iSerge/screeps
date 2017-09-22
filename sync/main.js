@@ -69,12 +69,6 @@ module.exports =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
-
-module.exports = require("lodash");
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85,6 +79,12 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(5));
 
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
 
 /***/ }),
 /* 2 */
@@ -99,9 +99,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(0);
+var _ = __webpack_require__(1);
 var limits_1 = __webpack_require__(3);
-var screeps_typescript_profiler_1 = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
 exports.Messages = {
     BUILD: "\uD83D\uDEA7 build",
     CONSTRUCT_SYM: "\uD83D\uDEE0",
@@ -316,7 +316,7 @@ exports.limits = {
     carrier: 3,
     claimer: 2,
     harvester: 2,
-    upgrader: 2
+    upgrader: 3
 };
 
 
@@ -333,8 +333,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(0);
-var Profiler = __webpack_require__(1);
+var _ = __webpack_require__(1);
+var Profiler = __webpack_require__(0);
 var roles_1 = __webpack_require__(11);
 var utils_1 = __webpack_require__(2);
 global.Profiler = Profiler.init();
@@ -622,9 +622,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(0);
+var _ = __webpack_require__(1);
 var utils_1 = __webpack_require__(2);
-var screeps_typescript_profiler_1 = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
 var Builder = (function () {
     function Builder() {
     }
@@ -764,9 +764,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(0);
+var _ = __webpack_require__(1);
 var utils_1 = __webpack_require__(2);
-var screeps_typescript_profiler_1 = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
 var Carrier = (function () {
     function Carrier() {
     }
@@ -952,9 +952,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(0);
+var _ = __webpack_require__(1);
 var utils_1 = __webpack_require__(2);
-var screeps_typescript_profiler_1 = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
 var Claimer = (function () {
     function Claimer() {
     }
@@ -1021,9 +1021,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(0);
+var _ = __webpack_require__(1);
 var utils_1 = __webpack_require__(2);
-var screeps_typescript_profiler_1 = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
 var Harvester = (function () {
     function Harvester() {
     }
@@ -1110,7 +1110,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(2);
-var screeps_typescript_profiler_1 = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
 var Upgrader = (function () {
     function Upgrader() {
     }
@@ -1198,8 +1198,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var _ = __webpack_require__(0);
-var screeps_typescript_profiler_1 = __webpack_require__(1);
+var _ = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
 var limits_1 = __webpack_require__(3);
 var role_builder_1 = __webpack_require__(6);
 var role_carrier_1 = __webpack_require__(7);

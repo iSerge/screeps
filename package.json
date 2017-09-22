@@ -42,7 +42,8 @@
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^2.5.1",
     "webpack-chain": "^3.2.0",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.6.0",
+    "webpack-uglify-js-plugin": "^1.1.9"
   },
   "dependencies": {
     "source-map": "^0.5.6"
