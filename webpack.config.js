@@ -222,7 +222,15 @@ function init(options) {
     config.plugin("no-emit-on-errors")
         .use((webpack.NoEmitOnErrorsPlugin));
 
-    //config.plugin("uglify-js").use(webpack.optimize.UglifyJsPlugin);
+    // const webpackUglifyJsPlugin = require('uglifyjs-webpack-plugin');
+    //
+    // config.plugin("uglify-js").use(webpackUglifyJsPlugin, [{
+    //     parallel: true,
+    //     sourceMap: true,
+    //     uglifyOptions: {
+    //         output: { ascii_only: true, beautify: true, semicolons: false }
+    //     }
+    // }]);
 
     /////////
     /// Modules
