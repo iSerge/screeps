@@ -4,19 +4,22 @@ import {Messages, utils} from "./utils";
 
 import {Role} from "./Role";
 
+import { profile } from "../screeps-typescript-profiler";
+
 /**
  *
  * @class
  * @extends {Role}
  */
+@profile
 class Carrier implements Role {
     /**
      * @override
      */
     public body(availEnergy: number) {
         let parts;
-        if (availEnergy < 150) {
-            parts = 3;
+        if (availEnergy < 300) {
+            parts = 6;
         } else if (750 < availEnergy) {
             parts = 15;
         } else {
@@ -132,7 +135,7 @@ class Carrier implements Role {
 
         if (!target) {
             target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE, {
-                maxOps: 100,
+                maxOps: 100
             });
             if (!target) {
                 const targets: Source[] = creep.room.find(FIND_SOURCES);

@@ -1,1 +1,1320 @@
-module.exports=function(r){function n(e){if(t[e])return t[e].exports;var o=t[e]={i:e,l:!1,exports:{}};return r[e].call(o.exports,o,o.exports,n),o.l=!0,o.exports}var t={};return n.m=r,n.c=t,n.i=function(r){return r},n.d=function(r,t,e){n.o(r,t)||Object.defineProperty(r,t,{configurable:!1,enumerable:!0,get:e})},n.n=function(r){var t=r&&r.__esModule?function(){return r.default}:function(){return r};return n.d(t,"a",t),t},n.o=function(r,n){return Object.prototype.hasOwnProperty.call(r,n)},n.p="",n(n.s=11)}([function(r,n,t){(function(r){var e;(function(){function o(r,n){if(r!==n){var t=null===r,e=r===w,o=r===r,u=null===n,i=n===w,a=n===n;if(r>n&&!u||!o||t&&!i&&a||e&&a)return 1;if(r<n&&!t||!a||u&&!e&&o||i&&o)return-1}return 0}function u(r,n,t){for(var e=r.length,o=t?e:-1;t?o--:++o<e;)if(n(r[o],o,r))return o;return-1}function i(r,n,t){if(n!==n)return _(r,t);for(var e=t-1,o=r.length;++e<o;)if(r[e]===n)return e;return-1}function a(r){return"function"==typeof r||!1}function f(r){return null==r?"":r+""}function c(r,n){for(var t=-1,e=r.length;++t<e&&n.indexOf(r.charAt(t))>-1;);return t}function l(r,n){for(var t=r.length;t--&&n.indexOf(r.charAt(t))>-1;);return t}function s(r,n){return o(r.criteria,n.criteria)||r.index-n.index}function p(r,n,t){for(var e=-1,u=r.criteria,i=n.criteria,a=u.length,f=t.length;++e<a;){var c=o(u[e],i[e]);if(c){if(e>=f)return c;var l=t[e];return c*("asc"===l||!0===l?1:-1)}}return r.index-n.index}function y(r){return Yr[r]}function h(r){return Dr[r]}function v(r,n,t){return n?r=Qr[r]:t&&(r=$r[r]),"\\"+r}function g(r){return"\\"+$r[r]}function _(r,n,t){for(var e=r.length,o=n+(t?0:-1);t?o--:++o<e;){var u=r[o];if(u!==u)return o}return-1}function m(r){return!!r&&"object"==typeof r}function R(r){return r<=160&&r>=9&&r<=13||32==r||160==r||5760==r||6158==r||r>=8192&&(r<=8202||8232==r||8233==r||8239==r||8287==r||12288==r||65279==r)}function d(r,n){for(var t=-1,e=r.length,o=-1,u=[];++t<e;)r[t]===n&&(r[t]=F,u[++o]=t);return u}function O(r,n){for(var t,e=-1,o=r.length,u=-1,i=[];++e<o;){var a=r[e],f=n?n(a,e,r):a;e&&t===f||(t=f,i[++u]=a)}return i}function E(r){for(var n=-1,t=r.length;++n<t&&R(r.charCodeAt(n)););return n}function T(r){for(var n=r.length;n--&&R(r.charCodeAt(n)););return n}function C(r){return Lr[r]}function b(r){function n(r){if(m(r)&&!Sa(r)&&!(r instanceof R)){if(r instanceof e)return r;if(ni.call(r,"__chain__")&&ni.call(r,"__wrapped__"))return ye(r)}return new e(r)}function t(){}function e(r,n,t){this.__wrapped__=r,this.__actions__=t||[],this.__chain__=!!n}function R(r){this.__wrapped__=r,this.__actions__=[],this.__dir__=1,this.__filtered__=!1,this.__iteratees__=[],this.__takeCount__=Ui,this.__views__=[]}function Yr(){var r=new R(this.__wrapped__);return r.__actions__=tn(this.__actions__),r.__dir__=this.__dir__,r.__filtered__=this.__filtered__,r.__iteratees__=tn(this.__iteratees__),r.__takeCount__=this.__takeCount__,r.__views__=tn(this.__views__),r}function Dr(){if(this.__filtered__){var r=new R(this);r.__dir__=-1,r.__filtered__=!0}else r=this.clone(),r.__dir__*=-1;return r}function Lr(){var r=this.__wrapped__.value(),n=this.__dir__,t=Sa(r),e=n<0,o=t?r.length:0,u=Qt(0,o,this.__views__),i=u.start,a=u.end,f=a-i,c=e?a:i-1,l=this.__iteratees__,s=l.length,p=0,y=Ti(f,this.__takeCount__);if(!t||o<B||o==f&&y==f)return et(e&&t?r.reverse():r,this.__actions__);var h=[];r:for(;f--&&p<y;){c+=n;for(var v=-1,g=r[c];++v<s;){var _=l[v],m=_.iteratee,R=_.type,d=m(g);if(R==D)g=d;else if(!d){if(R==Y)continue r;break r}}h[p++]=g}return h}function Fr(){this.__data__={}}function Qr(r){return this.has(r)&&delete this.__data__[r]}function $r(r){return"__proto__"==r?w:this.__data__[r]}function Hr(r){return"__proto__"!=r&&ni.call(this.__data__,r)}function zr(r,n){return"__proto__"!=r&&(this.__data__[r]=n),this}function qr(r){var n=r?r.length:0;for(this.data={hash:_i(null),set:new si};n--;)this.push(r[n])}function Xr(r,n){var t=r.data;return("string"==typeof n||jo(n)?t.set.has(n):t.hash[n])?0:-1}function Jr(r){var n=this.data;"string"==typeof r||jo(r)?n.set.add(r):n.hash[r]=!0}function nn(r,n){for(var t=-1,e=r.length,o=-1,u=n.length,i=Bu(e+u);++t<e;)i[t]=r[t];for(;++o<u;)i[t++]=n[o];return i}function tn(r,n){var t=-1,e=r.length;for(n||(n=Bu(e));++t<e;)n[t]=r[t];return n}function en(r,n){for(var t=-1,e=r.length;++t<e&&!1!==n(r[t],t,r););return r}function on(r,n){for(var t=r.length;t--&&!1!==n(r[t],t,r););return r}function un(r,n){for(var t=-1,e=r.length;++t<e;)if(!n(r[t],t,r))return!1;return!0}function an(r,n,t,e){for(var o=-1,u=r.length,i=e,a=i;++o<u;){var f=r[o],c=+n(f);t(c,i)&&(i=c,a=f)}return a}function fn(r,n){for(var t=-1,e=r.length,o=-1,u=[];++t<e;){var i=r[t];n(i,t,r)&&(u[++o]=i)}return u}function cn(r,n){for(var t=-1,e=r.length,o=Bu(e);++t<e;)o[t]=n(r[t],t,r);return o}function ln(r,n){for(var t=-1,e=n.length,o=r.length;++t<e;)r[o+t]=n[t];return r}function sn(r,n,t,e){var o=-1,u=r.length;for(e&&u&&(t=r[++o]);++o<u;)t=n(t,r[o],o,r);return t}function pn(r,n,t,e){var o=r.length;for(e&&o&&(t=r[--o]);o--;)t=n(t,r[o],o,r);return t}function yn(r,n){for(var t=-1,e=r.length;++t<e;)if(n(r[t],t,r))return!0;return!1}function hn(r,n){for(var t=r.length,e=0;t--;)e+=+n(r[t])||0;return e}function vn(r,n){return r===w?n:r}function gn(r,n,t,e){return r!==w&&ni.call(e,t)?r:n}function _n(r,n,t){for(var e=-1,o=Ga(n),u=o.length;++e<u;){var i=o[e],a=r[i],f=t(a,n[i],i,r,n);(f===f?f===a:a!==a)&&(a!==w||i in r)||(r[i]=f)}return r}function mn(r,n){return null==n?r:dn(n,Ga(n),r)}function Rn(r,n){for(var t=-1,e=null==r,o=!e&&Xt(r),u=o?r.length:0,i=n.length,a=Bu(i);++t<i;){var f=n[t];a[t]=o?Jt(f,u)?r[f]:w:e?w:r[f]}return a}function dn(r,n,t){t||(t={});for(var e=-1,o=n.length;++e<o;){var u=n[e];t[u]=r[u]}return t}function On(r,n,t){var e=typeof r;return"function"==e?n===w?r:it(r,n,t):null==r?Uu:"object"==e?Gn(r):n===w?Wu(r):Bn(r,n)}function En(r,n,t,e,o,u,i){var a;if(t&&(a=o?t(r,e,o):t(r)),a!==w)return a;if(!jo(r))return r;var f=Sa(r);if(f){if(a=$t(r),!n)return tn(r,a)}else{var c=ei.call(r),l=c==X;if(c!=Z&&c!=Q&&(!l||o))return Br[c]?zt(r,c,n):o?r:{};if(a=Ht(l?{}:r),!n)return mn(a,r)}u||(u=[]),i||(i=[]);for(var s=u.length;s--;)if(u[s]==r)return i[s];return u.push(r),i.push(a),(f?en:In)(r,function(e,o){a[o]=En(e,n,t,o,r,u,i)}),a}function Tn(r,n,t){if("function"!=typeof r)throw new qu(L);return pi(function(){r.apply(w,t)},n)}function Cn(r,n){var t=r?r.length:0,e=[];if(!t)return e;var o=-1,u=Dt(),a=u==i,f=a&&n.length>=B?vt(n):null,c=n.length;f&&(u=Xr,a=!1,n=f);r:for(;++o<t;){var l=r[o];if(a&&l===l){for(var s=c;s--;)if(n[s]===l)continue r;e.push(l)}else u(n,l,0)<0&&e.push(l)}return e}function bn(r,n){var t=!0;return Ki(r,function(r,e,o){return t=!!n(r,e,o)}),t}function wn(r,n,t,e){var o=e,u=o;return Ki(r,function(r,i,a){var f=+n(r,i,a);(t(f,o)||f===e&&f===u)&&(o=f,u=r)}),u}function Mn(r,n,t,e){var o=r.length;for(t=null==t?0:+t||0,t<0&&(t=-t>o?0:o+t),e=e===w||e>o?o:+e||0,e<0&&(e+=o),o=t>e?0:e>>>0,t>>>=0;t<o;)r[t++]=n;return r}function Un(r,n){var t=[];return Ki(r,function(r,e,o){n(r,e,o)&&t.push(r)}),t}function Sn(r,n,t,e){var o;return t(r,function(r,t,u){if(n(r,t,u))return o=e?t:r,!1}),o}function An(r,n,t,e){e||(e=[]);for(var o=-1,u=r.length;++o<u;){var i=r[o];m(i)&&Xt(i)&&(t||Sa(i)||wo(i))?n?An(i,n,t,e):ln(e,i):t||(e[e.length]=i)}return e}function xn(r,n){return Pi(r,n,nu)}function In(r,n){return Pi(r,n,Ga)}function Nn(r,n){return ki(r,n,Ga)}function Wn(r,n){for(var t=-1,e=n.length,o=-1,u=[];++t<e;){var i=n[t];Wo(r[i])&&(u[++o]=i)}return u}function jn(r,n,t){if(null!=r){t!==w&&t in se(r)&&(n=[t]);for(var e=0,o=n.length;null!=r&&e<o;)r=r[n[e++]];return e&&e==o?r:w}}function Kn(r,n,t,e,o,u){return r===n||(null==r||null==n||!jo(r)&&!m(n)?r!==r&&n!==n:Vn(r,n,Kn,t,e,o,u))}function Vn(r,n,t,e,o,u,i){var a=Sa(r),f=Sa(n),c=$,l=$;a||(c=ei.call(r),c==Q?c=Z:c!=Z&&(a=Lo(r))),f||(l=ei.call(n),l==Q?l=Z:l!=Z&&(f=Lo(n)));var s=c==Z,p=l==Z,y=c==l;if(y&&!a&&!s)return kt(r,n,c);if(!o){var h=s&&ni.call(r,"__wrapped__"),v=p&&ni.call(n,"__wrapped__");if(h||v)return t(h?r.value():r,v?n.value():n,e,o,u,i)}if(!y)return!1;u||(u=[]),i||(i=[]);for(var g=u.length;g--;)if(u[g]==r)return i[g]==n;u.push(r),i.push(n);var _=(a?Pt:Gt)(r,n,t,e,o,u,i);return u.pop(),i.pop(),_}function Pn(r,n,t){var e=n.length,o=e,u=!t;if(null==r)return!o;for(r=se(r);e--;){var i=n[e];if(u&&i[2]?i[1]!==r[i[0]]:!(i[0]in r))return!1}for(;++e<o;){i=n[e];var a=i[0],f=r[a],c=i[1];if(u&&i[2]){if(f===w&&!(a in r))return!1}else{var l=t?t(f,c,a):w;if(!(l===w?Kn(c,f,t,!0):l))return!1}}return!0}function kn(r,n){var t=-1,e=Xt(r)?Bu(r.length):[];return Ki(r,function(r,o,u){e[++t]=n(r,o,u)}),e}function Gn(r){var n=Lt(r);if(1==n.length&&n[0][2]){var t=n[0][0],e=n[0][1];return function(r){return null!=r&&(r[t]===e&&(e!==w||t in se(r)))}}return function(r){return Pn(r,n)}}function Bn(r,n){var t=Sa(r),e=re(r)&&ee(n),o=r+"";return r=pe(r),function(u){if(null==u)return!1;var i=o;if(u=se(u),(t||!e)&&!(i in u)){if(null==(u=1==r.length?u:jn(u,zn(r,0,-1))))return!1;i=we(r),u=se(u)}return u[i]===n?n!==w||i in u:Kn(n,u[i],w,!0)}}function Yn(r,n,t,e,o){if(!jo(r))return r;var u=Xt(n)&&(Sa(n)||Lo(n)),i=u?w:Ga(n);return en(i||n,function(a,f){if(i&&(f=a,a=n[f]),m(a))e||(e=[]),o||(o=[]),Dn(r,n,f,Yn,t,e,o);else{var c=r[f],l=t?t(c,a,f,r,n):w,s=l===w;s&&(l=a),l===w&&(!u||f in r)||!s&&(l===l?l===c:c!==c)||(r[f]=l)}}),r}function Dn(r,n,t,e,o,u,i){for(var a=u.length,f=n[t];a--;)if(u[a]==f)return void(r[t]=i[a]);var c=r[t],l=o?o(c,f,t,r,n):w,s=l===w;s&&(l=f,Xt(f)&&(Sa(f)||Lo(f))?l=Sa(c)?c:Xt(c)?tn(c):[]:Bo(f)||wo(f)?l=wo(c)?zo(c):Bo(c)?c:{}:s=!1),u.push(f),i.push(l),s?r[t]=e(l,f,o,u,i):(l===l?l!==c:c===c)&&(r[t]=l)}function Ln(r){return function(n){return null==n?w:n[r]}}function Fn(r){var n=r+"";return r=pe(r),function(t){return jn(t,r,n)}}function Qn(r,n){for(var t=r?n.length:0;t--;){var e=n[t];if(e!=o&&Jt(e)){var o=e;yi.call(r,e,1)}}return r}function $n(r,n){return r+mi(wi()*(n-r+1))}function Hn(r,n,t,e,o){return o(r,function(r,o,u){t=e?(e=!1,r):n(t,r,o,u)}),t}function zn(r,n,t){var e=-1,o=r.length;n=null==n?0:+n||0,n<0&&(n=-n>o?0:o+n),t=t===w||t>o?o:+t||0,t<0&&(t+=o),o=n>t?0:t-n>>>0,n>>>=0;for(var u=Bu(o);++e<o;)u[e]=r[e+n];return u}function qn(r,n){var t;return Ki(r,function(r,e,o){return!(t=n(r,e,o))}),!!t}function Xn(r,n){var t=r.length;for(r.sort(n);t--;)r[t]=r[t].value;return r}function Jn(r,n,t){var e=Bt(),o=-1;return n=cn(n,function(r){return e(r)}),Xn(kn(r,function(r){return{criteria:cn(n,function(n){return n(r)}),index:++o,value:r}}),function(r,n){return p(r,n,t)})}function Zn(r,n){var t=0;return Ki(r,function(r,e,o){t+=+n(r,e,o)||0}),t}function rt(r,n){var t=-1,e=Dt(),o=r.length,u=e==i,a=u&&o>=B,f=a?vt():null,c=[];f?(e=Xr,u=!1):(a=!1,f=n?[]:c);r:for(;++t<o;){var l=r[t],s=n?n(l,t,r):l;if(u&&l===l){for(var p=f.length;p--;)if(f[p]===s)continue r;n&&f.push(s),c.push(l)}else e(f,s,0)<0&&((n||a)&&f.push(s),c.push(l))}return c}function nt(r,n){for(var t=-1,e=n.length,o=Bu(e);++t<e;)o[t]=r[n[t]];return o}function tt(r,n,t,e){for(var o=r.length,u=e?o:-1;(e?u--:++u<o)&&n(r[u],u,r););return t?zn(r,e?0:u,e?u+1:o):zn(r,e?u+1:0,e?o:u)}function et(r,n){var t=r;t instanceof R&&(t=t.value());for(var e=-1,o=n.length;++e<o;){var u=n[e];t=u.func.apply(u.thisArg,ln([t],u.args))}return t}function ot(r,n,t){var e=0,o=r?r.length:e;if("number"==typeof n&&n===n&&o<=xi){for(;e<o;){var u=e+o>>>1,i=r[u];(t?i<=n:i<n)&&null!==i?e=u+1:o=u}return o}return ut(r,n,Uu,t)}function ut(r,n,t,e){n=t(n);for(var o=0,u=r?r.length:0,i=n!==n,a=null===n,f=n===w;o<u;){var c=mi((o+u)/2),l=t(r[c]),s=l!==w,p=l===l;if(i)var y=p||e;else y=a?p&&s&&(e||null!=l):f?p&&(e||s):null!=l&&(e?l<=n:l<n);y?o=c+1:u=c}return Ti(u,Ai)}function it(r,n,t){if("function"!=typeof r)return Uu;if(n===w)return r;switch(t){case 1:return function(t){return r.call(n,t)};case 3:return function(t,e,o){return r.call(n,t,e,o)};case 4:return function(t,e,o,u){return r.call(n,t,e,o,u)};case 5:return function(t,e,o,u,i){return r.call(n,t,e,o,u,i)}}return function(){return r.apply(n,arguments)}}function at(r){var n=new ii(r.byteLength);return new hi(n).set(new hi(r)),n}function ft(r,n,t){for(var e=t.length,o=-1,u=Ei(r.length-e,0),i=-1,a=n.length,f=Bu(a+u);++i<a;)f[i]=n[i];for(;++o<e;)f[t[o]]=r[o];for(;u--;)f[i++]=r[o++];return f}function ct(r,n,t){for(var e=-1,o=t.length,u=-1,i=Ei(r.length-o,0),a=-1,f=n.length,c=Bu(i+f);++u<i;)c[u]=r[u];for(var l=u;++a<f;)c[l+a]=n[a];for(;++e<o;)c[l+t[e]]=r[u++];return c}function lt(r,n){return function(t,e,o){var u=n?n():{};if(e=Bt(e,o,3),Sa(t))for(var i=-1,a=t.length;++i<a;){var f=t[i];r(u,f,e(f,i,t),t)}else Ki(t,function(n,t,o){r(u,n,e(n,t,o),o)});return u}}function st(r){return _o(function(n,t){var e=-1,o=null==n?0:t.length,u=o>2?t[o-2]:w,i=o>2?t[2]:w,a=o>1?t[o-1]:w;for("function"==typeof u?(u=it(u,a,5),o-=2):(u="function"==typeof a?a:w,o-=u?1:0),i&&Zt(t[0],t[1],i)&&(u=o<3?w:u,o=1);++e<o;){var f=t[e];f&&r(n,f,u)}return n})}function pt(r,n){return function(t,e){var o=t?Yi(t):0;if(!te(o))return r(t,e);for(var u=n?o:-1,i=se(t);(n?u--:++u<o)&&!1!==e(i[u],u,i););return t}}function yt(r){return function(n,t,e){for(var o=se(n),u=e(n),i=u.length,a=r?i:-1;r?a--:++a<i;){var f=u[a];if(!1===t(o[f],f,o))break}return n}}function ht(r,n){function t(){return(this&&this!==Zr&&this instanceof t?e:r).apply(n,arguments)}var e=_t(r);return t}function vt(r){return _i&&si?new qr(r):null}function gt(r){return function(n){for(var t=-1,e=bu(su(n)),o=e.length,u="";++t<o;)u=r(u,e[t],t);return u}}function _t(r){return function(){var n=arguments;switch(n.length){case 0:return new r;case 1:return new r(n[0]);case 2:return new r(n[0],n[1]);case 3:return new r(n[0],n[1],n[2]);case 4:return new r(n[0],n[1],n[2],n[3]);case 5:return new r(n[0],n[1],n[2],n[3],n[4]);case 6:return new r(n[0],n[1],n[2],n[3],n[4],n[5]);case 7:return new r(n[0],n[1],n[2],n[3],n[4],n[5],n[6])}var t=ji(r.prototype),e=r.apply(t,n);return jo(e)?e:t}}function mt(r){function n(t,e,o){o&&Zt(t,e,o)&&(e=w);var u=Vt(t,r,w,w,w,w,w,e);return u.placeholder=n.placeholder,u}return n}function Rt(r,n){return _o(function(t){var e=t[0];return null==e?e:(t.push(n),r.apply(w,t))})}function dt(r,n){return function(t,e,o){if(o&&Zt(t,e,o)&&(e=w),e=Bt(e,o,3),1==e.length){t=Sa(t)?t:le(t);var u=an(t,e,r,n);if(!t.length||u!==n)return u}return wn(t,e,r,n)}}function Ot(r,n){return function(t,e,o){if(e=Bt(e,o,3),Sa(t)){var i=u(t,e,n);return i>-1?t[i]:w}return Sn(t,e,r)}}function Et(r){return function(n,t,e){return n&&n.length?(t=Bt(t,e,3),u(n,t,r)):-1}}function Tt(r){return function(n,t,e){return t=Bt(t,e,3),Sn(n,t,r,!0)}}function Ct(r){return function(){for(var n,t=arguments.length,o=r?t:-1,u=0,i=Bu(t);r?o--:++o<t;){var a=i[u++]=arguments[o];if("function"!=typeof a)throw new qu(L);!n&&e.prototype.thru&&"wrapper"==Yt(a)&&(n=new e([],!0))}for(o=n?-1:t;++o<t;){a=i[o];var f=Yt(a),c="wrapper"==f?Bi(a):w;n=c&&ne(c[0])&&c[1]==(j|x|N|K)&&!c[4].length&&1==c[9]?n[Yt(c[0])].apply(n,c[3]):1==a.length&&ne(a)?n[f]():n.thru(a)}return function(){var r=arguments,e=r[0];if(n&&1==r.length&&Sa(e)&&e.length>=B)return n.plant(e).value();for(var o=0,u=t?i[o].apply(this,r):e;++o<t;)u=i[o].call(this,u);return u}}}function bt(r,n){return function(t,e,o){return"function"==typeof e&&o===w&&Sa(t)?r(t,e):n(t,it(e,o,3))}}function wt(r){return function(n,t,e){return"function"==typeof t&&e===w||(t=it(t,e,3)),r(n,t,nu)}}function Mt(r){return function(n,t,e){return"function"==typeof t&&e===w||(t=it(t,e,3)),r(n,t)}}function Ut(r){return function(n,t,e){var o={};return t=Bt(t,e,3),In(n,function(n,e,u){var i=t(n,e,u);e=r?i:e,n=r?n:i,o[e]=n}),o}}function St(r){return function(n,t,e){return n=f(n),(r?n:"")+Nt(n,t,e)+(r?"":n)}}function At(r){var n=_o(function(t,e){var o=d(e,n.placeholder);return Vt(t,r,w,e,o)});return n}function xt(r,n){return function(t,e,o,u){var i=arguments.length<3;return"function"==typeof e&&u===w&&Sa(t)?r(t,e,o,i):Hn(t,Bt(e,u,4),o,i,n)}}function It(r,n,t,e,o,u,i,a,f,c){function l(){for(var m=arguments.length,R=m,O=Bu(m);R--;)O[R]=arguments[R];if(e&&(O=ft(O,e,o)),u&&(O=ct(O,u,i)),h||g){var E=l.placeholder,T=d(O,E);if((m-=T.length)<c){var C=a?tn(a):w,b=Ei(c-m,0),M=h?T:w,A=h?w:T,x=h?O:w,I=h?w:O;n|=h?N:W,n&=~(h?W:N),v||(n&=~(U|S));var j=[r,n,t,x,M,I,A,C,f,b],K=It.apply(w,j);return ne(r)&&Di(K,j),K.placeholder=E,K}}var V=p?t:this,P=y?V[r]:r;return a&&(O=fe(O,a)),s&&f<O.length&&(O.length=f),this&&this!==Zr&&this instanceof l&&(P=_||_t(r)),P.apply(V,O)}var s=n&j,p=n&U,y=n&S,h=n&x,v=n&A,g=n&I,_=y?w:_t(r);return l}function Nt(r,n,t){var e=r.length;if(n=+n,e>=n||!di(n))return"";var o=n-e;return t=null==t?" ":t+"",_u(t,gi(o/t.length)).slice(0,o)}function Wt(r,n,t,e){function o(){for(var n=-1,a=arguments.length,f=-1,c=e.length,l=Bu(c+a);++f<c;)l[f]=e[f];for(;a--;)l[f++]=arguments[++n];return(this&&this!==Zr&&this instanceof o?i:r).apply(u?t:this,l)}var u=n&U,i=_t(r);return o}function jt(r){var n=Fu[r];return function(r,t){return t=t===w?0:+t||0,t?(t=ci(10,t),n(r*t)/t):n(r)}}function Kt(r){return function(n,t,e,o){var u=Bt(e);return null==e&&u===On?ot(n,t,r):ut(n,t,u(e,o,1),r)}}function Vt(r,n,t,e,o,u,i,a){var f=n&S;if(!f&&"function"!=typeof r)throw new qu(L);var c=e?e.length:0;if(c||(n&=~(N|W),e=o=w),c-=o?o.length:0,n&W){var l=e,s=o;e=o=w}var p=f?w:Bi(r),y=[r,n,t,e,o,l,s,u,i,a];if(p&&(oe(y,p),n=y[1],a=y[9]),y[9]=null==a?f?0:r.length:Ei(a-c,0)||0,n==U)var h=ht(y[0],y[2]);else h=n!=N&&n!=(U|N)||y[4].length?It.apply(w,y):Wt.apply(w,y);return(p?Gi:Di)(h,y)}function Pt(r,n,t,e,o,u,i){var a=-1,f=r.length,c=n.length;if(f!=c&&!(o&&c>f))return!1;for(;++a<f;){var l=r[a],s=n[a],p=e?e(o?s:l,o?l:s,a):w;if(p!==w){if(p)continue;return!1}if(o){if(!yn(n,function(r){return l===r||t(l,r,e,o,u,i)}))return!1}else if(l!==s&&!t(l,s,e,o,u,i))return!1}return!0}function kt(r,n,t){switch(t){case H:case z:return+r==+n;case q:return r.name==n.name&&r.message==n.message;case J:return r!=+r?n!=+n:r==+n;case rr:case nr:return r==n+""}return!1}function Gt(r,n,t,e,o,u,i){var a=Ga(r),f=a.length;if(f!=Ga(n).length&&!o)return!1;for(var c=f;c--;){var l=a[c];if(!(o?l in n:ni.call(n,l)))return!1}for(var s=o;++c<f;){l=a[c];var p=r[l],y=n[l],h=e?e(o?y:p,o?p:y,l):w;if(!(h===w?t(p,y,e,o,u,i):h))return!1;s||(s="constructor"==l)}if(!s){var v=r.constructor,g=n.constructor;if(v!=g&&"constructor"in r&&"constructor"in n&&!("function"==typeof v&&v instanceof v&&"function"==typeof g&&g instanceof g))return!1}return!0}function Bt(r,t,e){var o=n.callback||wu;return o=o===wu?On:o,e?o(r,t,e):o}function Yt(r){for(var n=r.name,t=Wi[n],e=t?t.length:0;e--;){var o=t[e],u=o.func;if(null==u||u==r)return o.name}return n}function Dt(r,t,e){var o=n.indexOf||Ce;return o=o===Ce?i:o,r?o(r,t,e):o}function Lt(r){for(var n=tu(r),t=n.length;t--;)n[t][2]=ee(n[t][1]);return n}function Ft(r,n){var t=null==r?w:r[n];return Po(t)?t:w}function Qt(r,n,t){for(var e=-1,o=t.length;++e<o;){var u=t[e],i=u.size;switch(u.type){case"drop":r+=i;break;case"dropRight":n-=i;break;case"take":n=Ti(n,r+i);break;case"takeRight":r=Ei(r,n-i)}}return{start:r,end:n}}function $t(r){var n=r.length,t=new r.constructor(n);return n&&"string"==typeof r[0]&&ni.call(r,"index")&&(t.index=r.index,t.input=r.input),t}function Ht(r){var n=r.constructor;return"function"==typeof n&&n instanceof n||(n=$u),new n}function zt(r,n,t){var e=r.constructor;switch(n){case tr:return at(r);case H:case z:return new e(+r);case er:case or:case ur:case ir:case ar:case fr:case cr:case lr:case sr:var o=r.buffer;return new e(t?at(o):o,r.byteOffset,r.length);case J:case nr:return new e(r);case rr:var u=new e(r.source,Ar.exec(r));u.lastIndex=r.lastIndex}return u}function qt(r,n,t){null==r||re(n,r)||(n=pe(n),r=1==n.length?r:jn(r,zn(n,0,-1)),n=we(n));var e=null==r?r:r[n];return null==e?w:e.apply(r,t)}function Xt(r){return null!=r&&te(Yi(r))}function Jt(r,n){return r="number"==typeof r||Nr.test(r)?+r:-1,n=null==n?Ii:n,r>-1&&r%1==0&&r<n}function Zt(r,n,t){if(!jo(t))return!1;var e=typeof n;if("number"==e?Xt(t)&&Jt(n,t.length):"string"==e&&n in t){var o=t[n];return r===r?r===o:o!==o}return!1}function re(r,n){var t=typeof r;return!!("string"==t&&Tr.test(r)||"number"==t)||!Sa(r)&&(!Er.test(r)||null!=n&&r in se(n))}function ne(r){var t=Yt(r);if(!(t in R.prototype))return!1;var e=n[t];if(r===e)return!0;var o=Bi(e);return!!o&&r===o[0]}function te(r){return"number"==typeof r&&r>-1&&r%1==0&&r<=Ii}function ee(r){return r===r&&!jo(r)}function oe(r,n){var t=r[1],e=n[1],o=t|e,u=o<j,i=e==j&&t==x||e==j&&t==K&&r[7].length<=n[8]||e==(j|K)&&t==x;if(!u&&!i)return r;e&U&&(r[2]=n[2],o|=t&U?0:A);var a=n[3];if(a){var f=r[3];r[3]=f?ft(f,a,n[4]):tn(a),r[4]=f?d(r[3],F):tn(n[4])}return a=n[5],a&&(f=r[5],r[5]=f?ct(f,a,n[6]):tn(a),r[6]=f?d(r[5],F):tn(n[6])),a=n[7],a&&(r[7]=tn(a)),e&j&&(r[8]=null==r[8]?n[8]:Ti(r[8],n[8])),null==r[9]&&(r[9]=n[9]),r[0]=n[0],r[1]=o,r}function ue(r,n){return r===w?n:Aa(r,n,ue)}function ie(r,n){r=se(r);for(var t=-1,e=n.length,o={};++t<e;){var u=n[t];u in r&&(o[u]=r[u])}return o}function ae(r,n){var t={};return xn(r,function(r,e,o){n(r,e,o)&&(t[e]=r)}),t}function fe(r,n){for(var t=r.length,e=Ti(n.length,t),o=tn(r);e--;){var u=n[e];r[e]=Jt(u,t)?o[u]:w}return r}function ce(r){for(var n=nu(r),t=n.length,e=t&&r.length,o=!!e&&te(e)&&(Sa(r)||wo(r)),u=-1,i=[];++u<t;){var a=n[u];(o&&Jt(a,e)||ni.call(r,a))&&i.push(a)}return i}function le(r){return null==r?[]:Xt(r)?jo(r)?r:$u(r):iu(r)}function se(r){return jo(r)?r:$u(r)}function pe(r){if(Sa(r))return r;var n=[];return f(r).replace(Cr,function(r,t,e,o){n.push(e?o.replace(Ur,"$1"):t||r)}),n}function ye(r){return r instanceof R?r.clone():new e(r.__wrapped__,r.__chain__,tn(r.__actions__))}function he(r,n,t){n=(t?Zt(r,n,t):null==n)?1:Ei(mi(n)||1,1);for(var e=0,o=r?r.length:0,u=-1,i=Bu(gi(o/n));e<o;)i[++u]=zn(r,e,e+=n);return i}function ve(r){for(var n=-1,t=r?r.length:0,e=-1,o=[];++n<t;){var u=r[n];u&&(o[++e]=u)}return o}function ge(r,n,t){return(r?r.length:0)?((t?Zt(r,n,t):null==n)&&(n=1),zn(r,n<0?0:n)):[]}function _e(r,n,t){var e=r?r.length:0;return e?((t?Zt(r,n,t):null==n)&&(n=1),n=e-(+n||0),zn(r,0,n<0?0:n)):[]}function me(r,n,t){return r&&r.length?tt(r,Bt(n,t,3),!0,!0):[]}function Re(r,n,t){return r&&r.length?tt(r,Bt(n,t,3),!0):[]}function de(r,n,t,e){var o=r?r.length:0;return o?(t&&"number"!=typeof t&&Zt(r,n,t)&&(t=0,e=o),Mn(r,n,t,e)):[]}function Oe(r){return r?r[0]:w}function Ee(r,n,t){var e=r?r.length:0;return t&&Zt(r,n,t)&&(n=!1),e?An(r,n):[]}function Te(r){return(r?r.length:0)?An(r,!0):[]}function Ce(r,n,t){var e=r?r.length:0;if(!e)return-1;if("number"==typeof t)t=t<0?Ei(e+t,0):t;else if(t){var o=ot(r,n);return o<e&&(n===n?n===r[o]:r[o]!==r[o])?o:-1}return i(r,n,t||0)}function be(r){return _e(r,1)}function we(r){var n=r?r.length:0;return n?r[n-1]:w}function Me(r,n,t){var e=r?r.length:0;if(!e)return-1;var o=e;if("number"==typeof t)o=(t<0?Ei(e+t,0):Ti(t||0,e-1))+1;else if(t){o=ot(r,n,!0)-1;var u=r[o];return(n===n?n===u:u!==u)?o:-1}if(n!==n)return _(r,o,!0);for(;o--;)if(r[o]===n)return o;return-1}function Ue(){var r=arguments,n=r[0];if(!n||!n.length)return n;for(var t=0,e=Dt(),o=r.length;++t<o;)for(var u=0,i=r[t];(u=e(n,i,u))>-1;)yi.call(n,u,1);return n}function Se(r,n,t){var e=[];if(!r||!r.length)return e;var o=-1,u=[],i=r.length;for(n=Bt(n,t,3);++o<i;){var a=r[o];n(a,o,r)&&(e.push(a),u.push(o))}return Qn(r,u),e}function Ae(r){return ge(r,1)}function xe(r,n,t){var e=r?r.length:0;return e?(t&&"number"!=typeof t&&Zt(r,n,t)&&(n=0,t=e),zn(r,n,t)):[]}function Ie(r,n,t){return(r?r.length:0)?((t?Zt(r,n,t):null==n)&&(n=1),zn(r,0,n<0?0:n)):[]}function Ne(r,n,t){var e=r?r.length:0;return e?((t?Zt(r,n,t):null==n)&&(n=1),n=e-(+n||0),zn(r,n<0?0:n)):[]}function We(r,n,t){return r&&r.length?tt(r,Bt(n,t,3),!1,!0):[]}function je(r,n,t){return r&&r.length?tt(r,Bt(n,t,3)):[]}function Ke(r,n,t,e){if(!(r?r.length:0))return[];null!=n&&"boolean"!=typeof n&&(e=t,t=Zt(r,n,e)?w:n,n=!1);var o=Bt();return null==t&&o===On||(t=o(t,e,3)),n&&Dt()==i?O(r,t):rt(r,t)}function Ve(r){if(!r||!r.length)return[];var n=-1,t=0;r=fn(r,function(r){if(Xt(r))return t=Ei(r.length,t),!0});for(var e=Bu(t);++n<t;)e[n]=cn(r,Ln(n));return e}function Pe(r,n,t){if(!(r?r.length:0))return[];var e=Ve(r);return null==n?e:(n=it(n,t,4),cn(e,function(r){return sn(r,n,w,!0)}))}function ke(){for(var r=-1,n=arguments.length;++r<n;){var t=arguments[r];if(Xt(t))var e=e?ln(Cn(e,t),Cn(t,e)):t}return e?rt(e):[]}function Ge(r,n){var t=-1,e=r?r.length:0,o={};for(!e||n||Sa(r[0])||(n=[]);++t<e;){var u=r[t];n?o[u]=n[t]:u&&(o[u[0]]=u[1])}return o}function Be(r){var t=n(r);return t.__chain__=!0,t}function Ye(r,n,t){return n.call(t,r),r}function De(r,n,t){return n.call(t,r)}function Le(){return Be(this)}function Fe(){return new e(this.value(),this.__chain__)}function Qe(r){for(var n,e=this;e instanceof t;){var o=ye(e);n?u.__wrapped__=o:n=o;var u=o;e=e.__wrapped__}return u.__wrapped__=r,n}function $e(){var r=this.__wrapped__,n=function(r){return t&&t.__dir__<0?r:r.reverse()};if(r instanceof R){var t=r;return this.__actions__.length&&(t=new R(this)),t=t.reverse(),t.__actions__.push({func:De,args:[n],thisArg:w}),new e(t,this.__chain__)}return this.thru(n)}function He(){return this.value()+""}function ze(){return et(this.__wrapped__,this.__actions__)}function qe(r,n,t){var e=Sa(r)?un:bn;return t&&Zt(r,n,t)&&(n=w),"function"==typeof n&&t===w||(n=Bt(n,t,3)),e(r,n)}function Xe(r,n,t){var e=Sa(r)?fn:Un;return n=Bt(n,t,3),e(r,n)}function Je(r,n){return oa(r,Gn(n))}function Ze(r,n,t,e){var o=r?Yi(r):0;return te(o)||(r=iu(r),o=r.length),t="number"!=typeof t||e&&Zt(n,t,e)?0:t<0?Ei(o+t,0):t||0,"string"==typeof r||!Sa(r)&&Do(r)?t<=o&&r.indexOf(n,t)>-1:!!o&&Dt(r,n,t)>-1}function ro(r,n,t){var e=Sa(r)?cn:kn;return n=Bt(n,t,3),e(r,n)}function no(r,n){return ro(r,Wu(n))}function to(r,n,t){var e=Sa(r)?fn:Un;return n=Bt(n,t,3),e(r,function(r,t,e){return!n(r,t,e)})}function eo(r,n,t){if(t?Zt(r,n,t):null==n){r=le(r);var e=r.length;return e>0?r[$n(0,e-1)]:w}var o=-1,u=Ho(r),e=u.length,i=e-1;for(n=Ti(n<0?0:+n||0,e);++o<n;){var a=$n(o,i),f=u[a];u[a]=u[o],u[o]=f}return u.length=n,u}function oo(r){return eo(r,Ui)}function uo(r){var n=r?Yi(r):0;return te(n)?n:Ga(r).length}function io(r,n,t){var e=Sa(r)?yn:qn;return t&&Zt(r,n,t)&&(n=w),"function"==typeof n&&t===w||(n=Bt(n,t,3)),e(r,n)}function ao(r,n,t){if(null==r)return[];t&&Zt(r,n,t)&&(n=w);var e=-1;return n=Bt(n,t,3),Xn(kn(r,function(r,t,o){return{criteria:n(r,t,o),index:++e,value:r}}),s)}function fo(r,n,t,e){return null==r?[]:(e&&Zt(n,t,e)&&(t=w),Sa(n)||(n=null==n?[]:[n]),Sa(t)||(t=null==t?[]:[t]),Jn(r,n,t))}function co(r,n){return Xe(r,Gn(n))}function lo(r,n){if("function"!=typeof n){if("function"!=typeof r)throw new qu(L);var t=r;r=n,n=t}return r=di(r=+r)?r:0,function(){if(--r<1)return n.apply(this,arguments)}}function so(r,n,t){return t&&Zt(r,n,t)&&(n=w),n=r&&null==n?r.length:Ei(+n||0,0),Vt(r,j,w,w,w,w,n)}function po(r,n){var t;if("function"!=typeof n){if("function"!=typeof r)throw new qu(L);var e=r;r=n,n=e}return function(){return--r>0&&(t=n.apply(this,arguments)),r<=1&&(n=w),t}}function yo(r,n,t){function e(){y&&ai(y),c&&ai(c),v=0,c=y=h=w}function o(n,t){t&&ai(t),c=y=h=w,n&&(v=va(),l=r.apply(p,f),y||c||(f=p=w))}function u(){var r=n-(va()-s);r<=0||r>n?o(h,c):y=pi(u,r)}function i(){o(_,y)}function a(){if(f=arguments,s=va(),p=this,h=_&&(y||!m),!1===g)var t=m&&!y;else{c||m||(v=s);var e=g-(s-v),o=e<=0||e>g;o?(c&&(c=ai(c)),v=s,l=r.apply(p,f)):c||(c=pi(i,e))}return o&&y?y=ai(y):y||n===g||(y=pi(u,n)),t&&(o=!0,l=r.apply(p,f)),!o||y||c||(f=p=w),l}var f,c,l,s,p,y,h,v=0,g=!1,_=!0;if("function"!=typeof r)throw new qu(L);if(n=n<0?0:+n||0,!0===t){var m=!0;_=!1}else jo(t)&&(m=!!t.leading,g="maxWait"in t&&Ei(+t.maxWait||0,n),_="trailing"in t?!!t.trailing:_);return a.cancel=e,a}function ho(r,n){if("function"!=typeof r||n&&"function"!=typeof n)throw new qu(L);var t=function(){var e=arguments,o=n?n.apply(this,e):e[0],u=t.cache;if(u.has(o))return u.get(o);var i=r.apply(this,e);return t.cache=u.set(o,i),i};return t.cache=new ho.Cache,t}function vo(r){if("function"!=typeof r)throw new qu(L);return function(){return!r.apply(this,arguments)}}function go(r){return po(2,r)}function _o(r,n){if("function"!=typeof r)throw new qu(L);return n=Ei(n===w?r.length-1:+n||0,0),function(){for(var t=arguments,e=-1,o=Ei(t.length-n,0),u=Bu(o);++e<o;)u[e]=t[n+e];switch(n){case 0:return r.call(this,u);case 1:return r.call(this,t[0],u);case 2:return r.call(this,t[0],t[1],u)}var i=Bu(n+1);for(e=-1;++e<n;)i[e]=t[e];return i[n]=u,r.apply(this,i)}}function mo(r){if("function"!=typeof r)throw new qu(L);return function(n){return r.apply(this,n)}}function Ro(r,n,t){var e=!0,o=!0;if("function"!=typeof r)throw new qu(L);return!1===t?e=!1:jo(t)&&(e="leading"in t?!!t.leading:e,o="trailing"in t?!!t.trailing:o),yo(r,n,{leading:e,maxWait:+n,trailing:o})}function Oo(r,n){return n=null==n?Uu:n,Vt(n,N,w,[r],[])}function Eo(r,n,t,e){return n&&"boolean"!=typeof n&&Zt(r,n,t)?n=!1:"function"==typeof n&&(e=t,t=n,n=!1),"function"==typeof t?En(r,n,it(t,e,1)):En(r,n)}function To(r,n,t){return"function"==typeof n?En(r,!0,it(n,t,1)):En(r,!0)}function Co(r,n){return r>n}function bo(r,n){return r>=n}function wo(r){return m(r)&&Xt(r)&&ni.call(r,"callee")&&!li.call(r,"callee")}function Mo(r){return!0===r||!1===r||m(r)&&ei.call(r)==H}function Uo(r){return m(r)&&ei.call(r)==z}function So(r){return!!r&&1===r.nodeType&&m(r)&&!Bo(r)}function Ao(r){return null==r||(Xt(r)&&(Sa(r)||Do(r)||wo(r)||m(r)&&Wo(r.splice))?!r.length:!Ga(r).length)}function xo(r,n,t,e){t="function"==typeof t?it(t,e,3):w;var o=t?t(r,n):w;return o===w?Kn(r,n,t):!!o}function Io(r){return m(r)&&"string"==typeof r.message&&ei.call(r)==q}function No(r){return"number"==typeof r&&di(r)}function Wo(r){return jo(r)&&ei.call(r)==X}function jo(r){var n=typeof r;return!!r&&("object"==n||"function"==n)}function Ko(r,n,t,e){return t="function"==typeof t?it(t,e,3):w,Pn(r,Lt(n),t)}function Vo(r){return Go(r)&&r!=+r}function Po(r){return null!=r&&(Wo(r)?ui.test(ri.call(r)):m(r)&&Ir.test(r))}function ko(r){return null===r}function Go(r){return"number"==typeof r||m(r)&&ei.call(r)==J}function Bo(r){var n;if(!m(r)||ei.call(r)!=Z||wo(r)||!ni.call(r,"constructor")&&"function"==typeof(n=r.constructor)&&!(n instanceof n))return!1;var t;return xn(r,function(r,n){t=n}),t===w||ni.call(r,t)}function Yo(r){return jo(r)&&ei.call(r)==rr}function Do(r){return"string"==typeof r||m(r)&&ei.call(r)==nr}function Lo(r){return m(r)&&te(r.length)&&!!Gr[ei.call(r)]}function Fo(r){return r===w}function Qo(r,n){return r<n}function $o(r,n){return r<=n}function Ho(r){var n=r?Yi(r):0;return te(n)?n?tn(r):[]:iu(r)}function zo(r){return dn(r,nu(r))}function qo(r,n,t){var e=ji(r);return t&&Zt(r,n,t)&&(n=w),n?mn(e,n):e}function Xo(r){return Wn(r,nu(r))}function Jo(r,n,t){var e=null==r?w:jn(r,pe(n),n+"");return e===w?t:e}function Zo(r,n){if(null==r)return!1;var t=ni.call(r,n);if(!t&&!re(n)){if(n=pe(n),null==(r=1==n.length?r:jn(r,zn(n,0,-1))))return!1;n=we(n),t=ni.call(r,n)}return t||te(r.length)&&Jt(n,r.length)&&(Sa(r)||wo(r))}function ru(r,n,t){t&&Zt(r,n,t)&&(n=w);for(var e=-1,o=Ga(r),u=o.length,i={};++e<u;){var a=o[e],f=r[a];n?ni.call(i,f)?i[f].push(a):i[f]=[a]:i[f]=a}return i}function nu(r){if(null==r)return[];jo(r)||(r=$u(r));var n=r.length;n=n&&te(n)&&(Sa(r)||wo(r))&&n||0;for(var t=r.constructor,e=-1,o="function"==typeof t&&t.prototype===r,u=Bu(n),i=n>0;++e<n;)u[e]=e+"";for(var a in r)i&&Jt(a,n)||"constructor"==a&&(o||!ni.call(r,a))||u.push(a);return u}function tu(r){r=se(r);for(var n=-1,t=Ga(r),e=t.length,o=Bu(e);++n<e;){var u=t[n];o[n]=[u,r[u]]}return o}function eu(r,n,t){var e=null==r?w:r[n];return e===w&&(null==r||re(n,r)||(n=pe(n),r=1==n.length?r:jn(r,zn(n,0,-1)),e=null==r?w:r[we(n)]),e=e===w?t:e),Wo(e)?e.call(r):e}function ou(r,n,t){if(null==r)return r;var e=n+"";n=null!=r[e]||re(n,r)?[e]:pe(n);for(var o=-1,u=n.length,i=u-1,a=r;null!=a&&++o<u;){var f=n[o];jo(a)&&(o==i?a[f]=t:null==a[f]&&(a[f]=Jt(n[o+1])?[]:{})),a=a[f]}return r}function uu(r,n,t,e){var o=Sa(r)||Lo(r);if(n=Bt(n,e,4),null==t)if(o||jo(r)){var u=r.constructor;t=o?Sa(r)?new u:[]:ji(Wo(u)?u.prototype:w)}else t={};return(o?en:In)(r,function(r,e,o){return n(t,r,e,o)}),t}function iu(r){return nt(r,Ga(r))}function au(r){return nt(r,nu(r))}function fu(r,n,t){return n=+n||0,t===w?(t=n,n=0):t=+t||0,r>=Ti(n,t)&&r<Ei(n,t)}function cu(r,n,t){t&&Zt(r,n,t)&&(n=t=w);var e=null==r,o=null==n;if(null==t&&(o&&"boolean"==typeof r?(t=r,r=1):"boolean"==typeof n&&(t=n,o=!0)),e&&o&&(n=1,o=!1),r=+r||0,o?(n=r,r=0):n=+n||0,t||r%1||n%1){var u=wi();return Ti(r+u*(n-r+fi("1e-"+((u+"").length-1))),n)}return $n(r,n)}function lu(r){return(r=f(r))&&r.charAt(0).toUpperCase()+r.slice(1)}function su(r){return(r=f(r))&&r.replace(Wr,y).replace(Mr,"")}function pu(r,n,t){r=f(r),n+="";var e=r.length;return t=t===w?e:Ti(t<0?0:+t||0,e),(t-=n.length)>=0&&r.indexOf(n,t)==t}function yu(r){return r=f(r),r&&mr.test(r)?r.replace(gr,h):r}function hu(r){return r=f(r),r&&wr.test(r)?r.replace(br,v):r||"(?:)"}function vu(r,n,t){r=f(r),n=+n;var e=r.length;if(e>=n||!di(n))return r;var o=(n-e)/2,u=mi(o);return t=Nt("",gi(o),t),t.slice(0,u)+r+t}function gu(r,n,t){return(t?Zt(r,n,t):null==n)?n=0:n&&(n=+n),r=du(r),bi(r,n||(xr.test(r)?16:10))}function _u(r,n){var t="";if(r=f(r),(n=+n)<1||!r||!di(n))return t;do{n%2&&(t+=r),n=mi(n/2),r+=r}while(n);return t}function mu(r,n,t){return r=f(r),t=null==t?0:Ti(t<0?0:+t||0,r.length),r.lastIndexOf(n,t)==t}function Ru(r,t,e){var o=n.templateSettings;e&&Zt(r,t,e)&&(t=e=w),r=f(r),t=_n(mn({},e||t),o,gn);var u,i,a=_n(mn({},t.imports),o.imports,gn),c=Ga(a),l=nt(a,c),s=0,p=t.interpolate||jr,y="__p += '",h=Hu((t.escape||jr).source+"|"+p.source+"|"+(p===Or?Sr:jr).source+"|"+(t.evaluate||jr).source+"|$","g"),v="//# sourceURL="+("sourceURL"in t?t.sourceURL:"lodash.templateSources["+ ++kr+"]")+"\n";r.replace(h,function(n,t,e,o,a,f){return e||(e=o),y+=r.slice(s,f).replace(Kr,g),t&&(u=!0,y+="' +\n__e("+t+") +\n'"),a&&(i=!0,y+="';\n"+a+";\n__p += '"),e&&(y+="' +\n((__t = ("+e+")) == null ? '' : __t) +\n'"),s=f+n.length,n}),y+="';\n";var _=t.variable;_||(y="with (obj) {\n"+y+"\n}\n"),y=(i?y.replace(pr,""):y).replace(yr,"$1").replace(hr,"$1;"),y="function("+(_||"obj")+") {\n"+(_?"":"obj || (obj = {});\n")+"var __t, __p = ''"+(u?", __e = _.escape":"")+(i?", __j = Array.prototype.join;\nfunction print() { __p += __j.call(arguments, '') }\n":";\n")+y+"return __p\n}";var m=Xa(function(){return Lu(c,v+"return "+y).apply(w,l)});if(m.source=y,Io(m))throw m;return m}function du(r,n,t){var e=r;return(r=f(r))?(t?Zt(e,n,t):null==n)?r.slice(E(r),T(r)+1):(n+="",r.slice(c(r,n),l(r,n)+1)):r}function Ou(r,n,t){var e=r;return r=f(r),r?(t?Zt(e,n,t):null==n)?r.slice(E(r)):r.slice(c(r,n+"")):r}function Eu(r,n,t){var e=r;return r=f(r),r?(t?Zt(e,n,t):null==n)?r.slice(0,T(r)+1):r.slice(0,l(r,n+"")+1):r}function Tu(r,n,t){t&&Zt(r,n,t)&&(n=w);var e=V,o=P;if(null!=n)if(jo(n)){var u="separator"in n?n.separator:u;e="length"in n?+n.length||0:e,o="omission"in n?f(n.omission):o}else e=+n||0;if(r=f(r),e>=r.length)return r;var i=e-o.length;if(i<1)return o;var a=r.slice(0,i);if(null==u)return a+o;if(Yo(u)){if(r.slice(i).search(u)){var c,l,s=r.slice(0,i);for(u.global||(u=Hu(u.source,(Ar.exec(u)||"")+"g")),u.lastIndex=0;c=u.exec(s);)l=c.index;a=a.slice(0,null==l?i:l)}}else if(r.indexOf(u,i)!=i){var p=a.lastIndexOf(u);p>-1&&(a=a.slice(0,p))}return a+o}function Cu(r){return r=f(r),r&&_r.test(r)?r.replace(vr,C):r}function bu(r,n,t){return t&&Zt(r,n,t)&&(n=w),r=f(r),r.match(n||Vr)||[]}function wu(r,n,t){return t&&Zt(r,n,t)&&(n=w),m(r)?Su(r):On(r,n)}function Mu(r){return function(){return r}}function Uu(r){return r}function Su(r){return Gn(En(r,!0))}function Au(r,n){return Bn(r,En(n,!0))}function xu(r,n,t){if(null==t){var e=jo(n),o=e?Ga(n):w,u=o&&o.length?Wn(n,o):w;(u?u.length:e)||(u=!1,t=n,n=r,r=this)}u||(u=Wn(n,Ga(n)));var i=!0,a=-1,f=Wo(r),c=u.length;!1===t?i=!1:jo(t)&&"chain"in t&&(i=t.chain);for(;++a<c;){var l=u[a],s=n[l];r[l]=s,f&&(r.prototype[l]=function(n){return function(){var t=this.__chain__;if(i||t){var e=r(this.__wrapped__);return(e.__actions__=tn(this.__actions__)).push({func:n,args:arguments,thisArg:r}),e.__chain__=t,e}return n.apply(r,ln([this.value()],arguments))}}(s))}return r}function Iu(){return Zr._=oi,this}function Nu(){}function Wu(r){return re(r)?Ln(r):Fn(r)}function ju(r){return function(n){return jn(r,pe(n),n+"")}}function Ku(r,n,t){t&&Zt(r,n,t)&&(n=t=w),r=+r||0,t=null==t?1:+t||0,null==n?(n=r,r=0):n=+n||0;for(var e=-1,o=Ei(gi((n-r)/(t||1)),0),u=Bu(o);++e<o;)u[e]=r,r+=t;return u}function Vu(r,n,t){if((r=mi(r))<1||!di(r))return[];var e=-1,o=Bu(Ti(r,Si));for(n=it(n,t,1);++e<r;)e<Si?o[e]=n(e):n(e);return o}function Pu(r){var n=++ti;return f(r)+n}function ku(r,n){return(+r||0)+(+n||0)}function Gu(r,n,t){return t&&Zt(r,n,t)&&(n=w),n=Bt(n,t,3),1==n.length?hn(Sa(r)?r:le(r),n):Zn(r,n)}r=r?rn.defaults(Zr.Object(),r,rn.pick(Zr,Pr)):Zr;var Bu=r.Array,Yu=r.Date,Du=r.Error,Lu=r.Function,Fu=r.Math,Qu=r.Number,$u=r.Object,Hu=r.RegExp,zu=r.String,qu=r.TypeError,Xu=Bu.prototype,Ju=$u.prototype,Zu=zu.prototype,ri=Lu.prototype.toString,ni=Ju.hasOwnProperty,ti=0,ei=Ju.toString,oi=Zr._,ui=Hu("^"+ri.call(ni).replace(/[\\^$.*+?()[\]{}|]/g,"\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$"),ii=r.ArrayBuffer,ai=r.clearTimeout,fi=r.parseFloat,ci=Fu.pow,li=Ju.propertyIsEnumerable,si=Ft(r,"Set"),pi=r.setTimeout,yi=Xu.splice,hi=r.Uint8Array,vi=Ft(r,"WeakMap"),gi=Fu.ceil,_i=Ft($u,"create"),mi=Fu.floor,Ri=Ft(Bu,"isArray"),di=r.isFinite,Oi=Ft($u,"keys"),Ei=Fu.max,Ti=Fu.min,Ci=Ft(Yu,"now"),bi=r.parseInt,wi=Fu.random,Mi=Qu.NEGATIVE_INFINITY,Ui=Qu.POSITIVE_INFINITY,Si=4294967295,Ai=Si-1,xi=Si>>>1,Ii=9007199254740991,Ni=vi&&new vi,Wi={};n.support={};n.templateSettings={escape:Rr,evaluate:dr,interpolate:Or,variable:"",imports:{_:n}};var ji=function(){function r(){}return function(n){if(jo(n)){r.prototype=n;var t=new r;r.prototype=w}return t||{}}}(),Ki=pt(In),Vi=pt(Nn,!0),Pi=yt(),ki=yt(!0),Gi=Ni?function(r,n){return Ni.set(r,n),r}:Uu,Bi=Ni?function(r){return Ni.get(r)}:Nu,Yi=Ln("length"),Di=function(){var r=0,n=0;return function(t,e){var o=va(),u=G-(o-n);if(n=o,u>0){if(++r>=k)return t}else r=0;return Gi(t,e)}}(),Li=_o(function(r,n){return m(r)&&Xt(r)?Cn(r,An(n,!1,!0)):[]}),Fi=Et(),Qi=Et(!0),$i=_o(function(r){for(var n=r.length,t=n,e=Bu(s),o=Dt(),u=o==i,a=[];t--;){var f=r[t]=Xt(f=r[t])?f:[];e[t]=u&&f.length>=120?vt(t&&f):null}var c=r[0],l=-1,s=c?c.length:0,p=e[0];r:for(;++l<s;)if(f=c[l],(p?Xr(p,f):o(a,f,0))<0){for(var t=n;--t;){var y=e[t];if((y?Xr(y,f):o(r[t],f,0))<0)continue r}p&&p.push(f),a.push(f)}return a}),Hi=_o(function(r,n){n=An(n);var t=Rn(r,n);return Qn(r,n.sort(o)),t}),zi=Kt(),qi=Kt(!0),Xi=_o(function(r){return rt(An(r,!1,!0))}),Ji=_o(function(r,n){return Xt(r)?Cn(r,n):[]}),Zi=_o(Ve),ra=_o(function(r){var n=r.length,t=n>2?r[n-2]:w,e=n>1?r[n-1]:w;return n>2&&"function"==typeof t?n-=2:(t=n>1&&"function"==typeof e?(--n,e):w,e=w),r.length=n,Pe(r,t,e)}),na=_o(function(r){return r=An(r),this.thru(function(n){return nn(Sa(n)?n:[se(n)],r)})}),ta=_o(function(r,n){return Rn(r,An(n))}),ea=lt(function(r,n,t){ni.call(r,t)?++r[t]:r[t]=1}),oa=Ot(Ki),ua=Ot(Vi,!0),ia=bt(en,Ki),aa=bt(on,Vi),fa=lt(function(r,n,t){ni.call(r,t)?r[t].push(n):r[t]=[n]}),ca=lt(function(r,n,t){r[t]=n}),la=_o(function(r,n,t){var e=-1,o="function"==typeof n,u=re(n),i=Xt(r)?Bu(r.length):[];return Ki(r,function(r){var a=o?n:u&&null!=r?r[n]:w;i[++e]=a?a.apply(r,t):qt(r,n,t)}),i}),sa=lt(function(r,n,t){r[t?0:1].push(n)},function(){return[[],[]]}),pa=xt(sn,Ki),ya=xt(pn,Vi),ha=_o(function(r,n){if(null==r)return[];var t=n[2];return t&&Zt(n[0],n[1],t)&&(n.length=1),Jn(r,An(n),[])}),va=Ci||function(){return(new Yu).getTime()},ga=_o(function(r,n,t){var e=U;if(t.length){var o=d(t,ga.placeholder);e|=N}return Vt(r,e,n,t,o)}),_a=_o(function(r,n){n=n.length?An(n):Xo(r);for(var t=-1,e=n.length;++t<e;){var o=n[t];r[o]=Vt(r[o],U,r)}return r}),ma=_o(function(r,n,t){var e=U|S;if(t.length){var o=d(t,ma.placeholder);e|=N}return Vt(n,e,r,t,o)}),Ra=mt(x),da=mt(I),Oa=_o(function(r,n){return Tn(r,1,n)}),Ea=_o(function(r,n,t){return Tn(r,n,t)}),Ta=Ct(),Ca=Ct(!0),ba=_o(function(r,n){if(n=An(n),"function"!=typeof r||!un(n,a))throw new qu(L);var t=n.length;return _o(function(e){for(var o=Ti(e.length,t);o--;)e[o]=n[o](e[o]);return r.apply(this,e)})}),wa=At(N),Ma=At(W),Ua=_o(function(r,n){return Vt(r,K,w,w,w,An(n))}),Sa=Ri||function(r){return m(r)&&te(r.length)&&ei.call(r)==$},Aa=st(Yn),xa=st(function(r,n,t){return t?_n(r,n,t):mn(r,n)}),Ia=Rt(xa,vn),Na=Rt(Aa,ue),Wa=Tt(In),ja=Tt(Nn),Ka=wt(Pi),Va=wt(ki),Pa=Mt(In),ka=Mt(Nn),Ga=Oi?function(r){var n=null==r?w:r.constructor;return"function"==typeof n&&n.prototype===r||"function"!=typeof r&&Xt(r)?ce(r):jo(r)?Oi(r):[]}:ce,Ba=Ut(!0),Ya=Ut(),Da=_o(function(r,n){if(null==r)return{};if("function"!=typeof n[0]){var n=cn(An(n),zu);return ie(r,Cn(nu(r),n))}var t=it(n[0],n[1],3);return ae(r,function(r,n,e){return!t(r,n,e)})}),La=_o(function(r,n){return null==r?{}:"function"==typeof n[0]?ae(r,it(n[0],n[1],3)):ie(r,An(n))}),Fa=gt(function(r,n,t){return n=n.toLowerCase(),r+(t?n.charAt(0).toUpperCase()+n.slice(1):n)}),Qa=gt(function(r,n,t){return r+(t?"-":"")+n.toLowerCase()}),$a=St(),Ha=St(!0),za=gt(function(r,n,t){return r+(t?"_":"")+n.toLowerCase()}),qa=gt(function(r,n,t){return r+(t?" ":"")+(n.charAt(0).toUpperCase()+n.slice(1))}),Xa=_o(function(r,n){try{return r.apply(w,n)}catch(r){return Io(r)?r:new Du(r)}}),Ja=_o(function(r,n){return function(t){return qt(t,r,n)}}),Za=_o(function(r,n){return function(t){return qt(r,t,n)}}),rf=jt("ceil"),nf=jt("floor"),tf=dt(Co,Mi),ef=dt(Qo,Ui),of=jt("round");return n.prototype=t.prototype,e.prototype=ji(t.prototype),e.prototype.constructor=e,R.prototype=ji(t.prototype),R.prototype.constructor=R,Fr.prototype.delete=Qr,Fr.prototype.get=$r,Fr.prototype.has=Hr,Fr.prototype.set=zr,qr.prototype.push=Jr,ho.Cache=Fr,n.after=lo,n.ary=so,n.assign=xa,n.at=ta,n.before=po,n.bind=ga,n.bindAll=_a,n.bindKey=ma,n.callback=wu,n.chain=Be,n.chunk=he,n.compact=ve,n.constant=Mu,n.countBy=ea,n.create=qo,n.curry=Ra,n.curryRight=da,n.debounce=yo,n.defaults=Ia,n.defaultsDeep=Na,n.defer=Oa,n.delay=Ea,n.difference=Li,n.drop=ge,n.dropRight=_e,n.dropRightWhile=me,n.dropWhile=Re,n.fill=de,n.filter=Xe,n.flatten=Ee,n.flattenDeep=Te,n.flow=Ta,n.flowRight=Ca,n.forEach=ia,n.forEachRight=aa,n.forIn=Ka,n.forInRight=Va,n.forOwn=Pa,n.forOwnRight=ka,n.functions=Xo,n.groupBy=fa,n.indexBy=ca,n.initial=be,n.intersection=$i,n.invert=ru,n.invoke=la,n.keys=Ga,n.keysIn=nu,n.map=ro,n.mapKeys=Ba,n.mapValues=Ya,n.matches=Su,n.matchesProperty=Au,n.memoize=ho,n.merge=Aa,n.method=Ja,n.methodOf=Za,n.mixin=xu,n.modArgs=ba,n.negate=vo,n.omit=Da,n.once=go,n.pairs=tu,n.partial=wa,n.partialRight=Ma,n.partition=sa,n.pick=La,n.pluck=no,n.property=Wu,n.propertyOf=ju,n.pull=Ue,n.pullAt=Hi,n.range=Ku,n.rearg=Ua,n.reject=to,n.remove=Se,n.rest=Ae,n.restParam=_o,n.set=ou,n.shuffle=oo,n.slice=xe,n.sortBy=ao,n.sortByAll=ha,n.sortByOrder=fo,n.spread=mo,n.take=Ie,n.takeRight=Ne,n.takeRightWhile=We,n.takeWhile=je,n.tap=Ye,n.throttle=Ro,n.thru=De,n.times=Vu,n.toArray=Ho,n.toPlainObject=zo,n.transform=uu,n.union=Xi,n.uniq=Ke,n.unzip=Ve,n.unzipWith=Pe,n.values=iu,n.valuesIn=au,n.where=co,n.without=Ji,n.wrap=Oo,n.xor=ke,n.zip=Zi,n.zipObject=Ge,n.zipWith=ra,n.backflow=Ca,n.collect=ro,n.compose=Ca,n.each=ia,n.eachRight=aa,n.extend=xa,n.iteratee=wu,n.methods=Xo,n.object=Ge,n.select=Xe,n.tail=Ae,n.unique=Ke,xu(n,n),n.add=ku,n.attempt=Xa,n.camelCase=Fa,n.capitalize=lu,n.ceil=rf,n.clone=Eo,n.cloneDeep=To,n.deburr=su,n.endsWith=pu,n.escape=yu,n.escapeRegExp=hu,n.every=qe,n.find=oa,n.findIndex=Fi,n.findKey=Wa,n.findLast=ua,n.findLastIndex=Qi,n.findLastKey=ja,n.findWhere=Je,n.first=Oe,n.floor=nf,n.get=Jo,n.gt=Co,n.gte=bo,n.has=Zo,n.identity=Uu,n.includes=Ze,n.indexOf=Ce,n.inRange=fu,n.isArguments=wo,n.isArray=Sa,n.isBoolean=Mo,n.isDate=Uo,n.isElement=So,n.isEmpty=Ao,n.isEqual=xo,n.isError=Io,n.isFinite=No,n.isFunction=Wo,n.isMatch=Ko,n.isNaN=Vo,n.isNative=Po,n.isNull=ko,n.isNumber=Go,n.isObject=jo,n.isPlainObject=Bo,n.isRegExp=Yo,n.isString=Do,n.isTypedArray=Lo,n.isUndefined=Fo,n.kebabCase=Qa,n.last=we,n.lastIndexOf=Me,n.lt=Qo,n.lte=$o,n.max=tf,n.min=ef,n.noConflict=Iu,n.noop=Nu,n.now=va,n.pad=vu,n.padLeft=$a,n.padRight=Ha,n.parseInt=gu,n.random=cu,n.reduce=pa,n.reduceRight=ya,n.repeat=_u,n.result=eu,n.round=of,n.runInContext=b,n.size=uo,n.snakeCase=za,n.some=io,n.sortedIndex=zi,n.sortedLastIndex=qi,n.startCase=qa,n.startsWith=mu,n.sum=Gu,n.template=Ru,n.trim=du,n.trimLeft=Ou,n.trimRight=Eu,n.trunc=Tu,n.unescape=Cu,n.uniqueId=Pu,n.words=bu,n.all=qe,n.any=io,n.contains=Ze,n.eq=xo,n.detect=oa,n.foldl=pa,n.foldr=ya,n.head=Oe,n.include=Ze,n.inject=pa,xu(n,function(){var r={};return In(n,function(t,e){n.prototype[e]||(r[e]=t)}),r}(),!1),n.sample=eo,n.prototype.sample=function(r){return this.__chain__||null!=r?this.thru(function(n){return eo(n,r)}):eo(this.value())},n.VERSION=M,en(["bind","bindKey","curry","curryRight","partial","partialRight"],function(r){n[r].placeholder=n}),en(["drop","take"],function(r,n){R.prototype[r]=function(t){var e=this.__filtered__;if(e&&!n)return new R(this);t=null==t?1:Ei(mi(t)||0,0);var o=this.clone();return e?o.__takeCount__=Ti(o.__takeCount__,t):o.__views__.push({size:t,type:r+(o.__dir__<0?"Right":"")}),o},R.prototype[r+"Right"]=function(n){return this.reverse()[r](n).reverse()}}),en(["filter","map","takeWhile"],function(r,n){var t=n+1,e=t!=D;R.prototype[r]=function(r,n){var o=this.clone();return o.__iteratees__.push({iteratee:Bt(r,n,1),type:t}),o.__filtered__=o.__filtered__||e,o}}),en(["first","last"],function(r,n){var t="take"+(n?"Right":"");R.prototype[r]=function(){return this[t](1).value()[0]}}),en(["initial","rest"],function(r,n){var t="drop"+(n?"":"Right");R.prototype[r]=function(){return this.__filtered__?new R(this):this[t](1)}}),en(["pluck","where"],function(r,n){var t=n?"filter":"map",e=n?Gn:Wu;R.prototype[r]=function(r){return this[t](e(r))}}),R.prototype.compact=function(){return this.filter(Uu)},R.prototype.reject=function(r,n){return r=Bt(r,n,1),this.filter(function(n){return!r(n)})},R.prototype.slice=function(r,n){r=null==r?0:+r||0;var t=this;return t.__filtered__&&(r>0||n<0)?new R(t):(r<0?t=t.takeRight(-r):r&&(t=t.drop(r)),n!==w&&(n=+n||0,t=n<0?t.dropRight(-n):t.take(n-r)),t)},R.prototype.takeRightWhile=function(r,n){return this.reverse().takeWhile(r,n).reverse()},R.prototype.toArray=function(){return this.take(Ui)},In(R.prototype,function(r,t){var o=/^(?:filter|map|reject)|While$/.test(t),u=/^(?:first|last)$/.test(t),i=n[u?"take"+("last"==t?"Right":""):t];i&&(n.prototype[t]=function(){var n=u?[1]:arguments,t=this.__chain__,a=this.__wrapped__,f=!!this.__actions__.length,c=a instanceof R,l=n[0],s=c||Sa(a);s&&o&&"function"==typeof l&&1!=l.length&&(c=s=!1);var p=function(r){return u&&t?i(r,1)[0]:i.apply(w,ln([r],n))},y={func:De,args:[p],thisArg:w},h=c&&!f;if(u&&!t)return h?(a=a.clone(),a.__actions__.push(y),r.call(a)):i.call(w,this.value())[0];if(!u&&s){a=h?a:new R(this);var v=r.apply(a,n);return v.__actions__.push(y),new e(v,t)}return this.thru(p)})}),en(["join","pop","push","replace","shift","sort","splice","split","unshift"],function(r){var t=(/^(?:replace|split)$/.test(r)?Zu:Xu)[r],e=/^(?:push|sort|unshift)$/.test(r)?"tap":"thru",o=/^(?:join|pop|replace|shift)$/.test(r);n.prototype[r]=function(){var r=arguments;return o&&!this.__chain__?t.apply(this.value(),r):this[e](function(n){return t.apply(n,r)})}}),In(R.prototype,function(r,t){var e=n[t];if(e){var o=e.name;(Wi[o]||(Wi[o]=[])).push({name:t,func:e})}}),Wi[It(w,S).name]=[{name:"wrapper",func:w}],R.prototype.clone=Yr,R.prototype.reverse=Dr,R.prototype.value=Lr,n.prototype.chain=Le,n.prototype.commit=Fe,n.prototype.concat=na,n.prototype.plant=Qe,n.prototype.reverse=$e,n.prototype.toString=He,n.prototype.run=n.prototype.toJSON=n.prototype.valueOf=n.prototype.value=ze,n.prototype.collect=n.prototype.map,n.prototype.head=n.prototype.first,n.prototype.select=n.prototype.filter,n.prototype.tail=n.prototype.rest,n}var w,M="3.10.1",U=1,S=2,A=4,x=8,I=16,N=32,W=64,j=128,K=256,V=30,P="...",k=150,G=16,B=200,Y=1,D=2,L="Expected a function",F="__lodash_placeholder__",Q="[object Arguments]",$="[object Array]",H="[object Boolean]",z="[object Date]",q="[object Error]",X="[object Function]",J="[object Number]",Z="[object Object]",rr="[object RegExp]",nr="[object String]",tr="[object ArrayBuffer]",er="[object Float32Array]",or="[object Float64Array]",ur="[object Int8Array]",ir="[object Int16Array]",ar="[object Int32Array]",fr="[object Uint8Array]",cr="[object Uint8ClampedArray]",lr="[object Uint16Array]",sr="[object Uint32Array]",pr=/\b__p \+= '';/g,yr=/\b(__p \+=) '' \+/g,hr=/(__e\(.*?\)|\b__t\)) \+\n'';/g,vr=/&(?:amp|lt|gt|quot|#39|#96);/g,gr=/[&<>"'`]/g,_r=RegExp(vr.source),mr=RegExp(gr.source),Rr=/<%-([\s\S]+?)%>/g,dr=/<%([\s\S]+?)%>/g,Or=/<%=([\s\S]+?)%>/g,Er=/\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\n\\]|\\.)*?\1)\]/,Tr=/^\w*$/,Cr=/[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g,br=/^[:!,]|[\\^$.*+?()[\]{}|\/]|(^[0-9a-fA-Fnrtuvx])|([\n\r\u2028\u2029])/g,wr=RegExp(br.source),Mr=/[\u0300-\u036f\ufe20-\ufe23]/g,Ur=/\\(\\)?/g,Sr=/\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g,Ar=/\w*$/,xr=/^0[xX]/,Ir=/^\[object .+?Constructor\]$/,Nr=/^\d+$/,Wr=/[\xc0-\xd6\xd8-\xde\xdf-\xf6\xf8-\xff]/g,jr=/($^)/,Kr=/['\n\r\u2028\u2029\\]/g,Vr=function(){var r="[A-Z\\xc0-\\xd6\\xd8-\\xde]",n="[a-z\\xdf-\\xf6\\xf8-\\xff]+";return RegExp(r+"+(?="+r+n+")|"+r+"?"+n+"|"+r+"+|[0-9]+","g")}(),Pr=["Array","ArrayBuffer","Date","Error","Float32Array","Float64Array","Function","Int8Array","Int16Array","Int32Array","Math","Number","Object","RegExp","Set","String","_","clearTimeout","isFinite","parseFloat","parseInt","setTimeout","TypeError","Uint8Array","Uint8ClampedArray","Uint16Array","Uint32Array","WeakMap"],kr=-1,Gr={};Gr[er]=Gr[or]=Gr[ur]=Gr[ir]=Gr[ar]=Gr[fr]=Gr[cr]=Gr[lr]=Gr[sr]=!0,Gr[Q]=Gr[$]=Gr[tr]=Gr[H]=Gr[z]=Gr[q]=Gr[X]=Gr["[object Map]"]=Gr[J]=Gr[Z]=Gr[rr]=Gr["[object Set]"]=Gr[nr]=Gr["[object WeakMap]"]=!1;var Br={};Br[Q]=Br[$]=Br[tr]=Br[H]=Br[z]=Br[er]=Br[or]=Br[ur]=Br[ir]=Br[ar]=Br[J]=Br[Z]=Br[rr]=Br[nr]=Br[fr]=Br[cr]=Br[lr]=Br[sr]=!0,Br[q]=Br[X]=Br["[object Map]"]=Br["[object Set]"]=Br["[object WeakMap]"]=!1;var Yr={"À":"A","Á":"A","Â":"A","Ã":"A","Ä":"A","Å":"A","à":"a","á":"a","â":"a","ã":"a","ä":"a","å":"a","Ç":"C","ç":"c","Ð":"D","ð":"d","È":"E","É":"E","Ê":"E","Ë":"E","è":"e","é":"e","ê":"e","ë":"e","Ì":"I","Í":"I","Î":"I","Ï":"I","ì":"i","í":"i","î":"i","ï":"i","Ñ":"N","ñ":"n","Ò":"O","Ó":"O","Ô":"O","Õ":"O","Ö":"O","Ø":"O","ò":"o","ó":"o","ô":"o","õ":"o","ö":"o","ø":"o","Ù":"U","Ú":"U","Û":"U","Ü":"U","ù":"u","ú":"u","û":"u","ü":"u","Ý":"Y","ý":"y","ÿ":"y","Æ":"Ae","æ":"ae","Þ":"Th","þ":"th","ß":"ss"},Dr={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","`":"&#96;"},Lr={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'","&#96;":"`"},Fr={function:!0,object:!0},Qr={0:"x30",1:"x31",2:"x32",3:"x33",4:"x34",5:"x35",6:"x36",7:"x37",8:"x38",9:"x39",A:"x41",B:"x42",C:"x43",D:"x44",E:"x45",F:"x46",a:"x61",b:"x62",c:"x63",d:"x64",e:"x65",f:"x66",n:"x6e",r:"x72",t:"x74",u:"x75",v:"x76",x:"x78"},$r={"\\":"\\","'":"'","\n":"n","\r":"r","\u2028":"u2028","\u2029":"u2029"},Hr=Fr[typeof n]&&n&&!n.nodeType&&n,zr=Fr[typeof r]&&r&&!r.nodeType&&r,qr=Hr&&zr&&"object"==typeof global&&global&&global.Object&&global,Xr=Fr[typeof self]&&self&&self.Object&&self,Jr=Fr[typeof window]&&window&&window.Object&&window,Zr=(zr&&zr.exports,qr||Jr!==(this&&this.window)&&Jr||Xr||this),rn=b();Zr._=rn,(e=function(){return rn}.call(n,t,n,r))!==w&&(r.exports=e)}).call(this)}).call(n,t(10)(r))},function(r,n,t){"use strict";function e(r,n){var t;switch(n.structureType){case STRUCTURE_SPAWN:t=1;break;case STRUCTURE_EXTENSION:t=2;break;case STRUCTURE_CONTAINER:t=3;break;case STRUCTURE_LINK:t=4;break;case STRUCTURE_TOWER:t=5;break;case STRUCTURE_STORAGE:t=6;break;default:t=7}return r.memory.operateInRoom===n.pos.roomName?t:t+20}Object.defineProperty(n,"__esModule",{value:!0});var o=t(0),u=t(2);n.Messages={BUILD:"🚧 build",CONSTRUCT_SYM:"🛠",DISTRIBUTE:"↔ distr",HARVEST:"🔄 harvest",PICKUP:"⬆ pickup",UPGRADE:"⚡ upgrade"},n.utils={clearMemory:function(){o.forOwn(Memory.creeps,function(r,n){Game.creeps.hasOwnProperty(n)||(r.target&&delete Memory.harvestedSources[r.target],delete Memory.creeps[n],console.log("Clearing non-existing creep memory:",n))})},enqueueStructure:function(r){o.isUndefined(r)||o.includes(Memory.repairQueue,r.id)||Memory.repairQueue.push(r.id)},findConstructionSite:function(r){return o.sortBy(Game.constructionSites,[function(n){return e(r,n)}])[0]},getEnergy:function(r,n){var t;return n instanceof Resource?(t=r.pickup(n))===OK&&(r.memory.energyTarget=""):n instanceof Source?t=r.harvest(n):(t=r.withdraw(n,RESOURCE_ENERGY))===OK&&(r.memory.energyTarget=""),t},getEnergyStorageTarget:function(r){var n=Game.getObjectById(r.memory.energyTarget);if(!n){var t=r.room.find(FIND_DROPPED_RESOURCES,{filter:function(r){return r.resourceType===RESOURCE_ENERGY}});t=t.concat(r.room.find(FIND_STRUCTURES,{filter:function(r){return(r.structureType===STRUCTURE_STORAGE||r.structureType===STRUCTURE_CONTAINER)&&0<r.store[RESOURCE_ENERGY]||r.structureType===STRUCTURE_LINK&&0<r.energy}})),n=r.pos.findClosestByPath(t,{maxOps:1e3})}return n||(n=r.pos.findClosestByPath(FIND_SOURCES)),n&&(r.memory.energyTarget=n.id),n},moveTo:function(r,n){ERR_NOT_FOUND===r.moveTo(n,{noPathFinding:!0,visualizePathStyle:{stroke:"#ffffff"}})&&r.moveTo(n,{reusePath:20,visualizePathStyle:{stroke:"#ffffff"}})},navigateToDesignatedRoom:function(r){if(!r.memory.operateInRoom){var n=o.map(o.filter(Game.structures,function(r,n){return r.structureType===STRUCTURE_CONTROLLER}),function(r){return r.pos.roomName}),t=o.reduce(Game.creeps,function(n,t){if(t.memory.role===r.memory.role&&t.memory.operateInRoom){var e=t.memory.operateInRoom;n[e]=(n[e]||(n[e]=0))+1}return n},{}),e=u.limits[r.memory.role];r.memory.operateInRoom=o.filter(n,function(r){return!t.hasOwnProperty(r)||t[r]<e})[0]}return r.memory.operateInRoom!==r.pos.roomName},shiftStructure:function(r,n){if(0<Memory.repairQueue.length)for(var t=Game.getObjectById(Memory.repairQueue[0]);!t;)Memory.repairQueue.shift(),t=Game.getObjectById(Memory.repairQueue[0]);var e=o.find(Memory.repairQueue,function(t){var e=o.isUndefined(t)?null:Game.getObjectById(t);return e&&(!n||e.pos.roomName===r.memory.operateInRoom)});return o.isUndefined(e)?null:(Memory.repairQueue=o.filter(Memory.repairQueue,function(r){return r!==e}),Game.getObjectById(e))},tryBuildRoad:function(r){if(Memory.autoBuildRoads){o.filter(r.room.lookAt(r.pos),function(r){return r&&r.structure&&(r.type===LOOK_STRUCTURES&&r.structure.structureType===STRUCTURE_ROAD||r.type===LOOK_CONSTRUCTION_SITES)}).length||r.room.createConstructionSite(r.pos,STRUCTURE_ROAD)}},updateInfrastructure:function(){o.isUndefined(Memory.repairQueue)&&(Memory.repairQueue=[]),o.isUndefined(Memory.spawnQueue)&&(Memory.spawnQueue=[]),o.isUndefined(Memory.harvestedSources)&&(Memory.harvestedSources={}),o.isUndefined(Memory.autoBuildRoads)&&(Memory.autoBuildRoads=!0),o.isUndefined(Memory.controllerCont)&&(Memory.controllerCont={}),o.isUndefined(Memory.maxWallHits)&&(Memory.maxWallHits=1e5),o.isUndefined(Memory.maxRampartHits)&&(Memory.maxRampartHits=3e4),Memory.controllerCount=o.size(o.filter(Game.structures,function(r,n){return r.structureType===STRUCTURE_CONTROLLER}))}}},function(r,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.limits={builder:2,carrier:3,claimer:2,harvester:2,upgrader:2}},function(r,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var e=t(0),o=t(1),u=t(9);r.exports.loop=function(){o.utils.clearMemory(),o.utils.updateInfrastructure(),e.forOwn(Game.rooms,function(r){r.find(FIND_STRUCTURES,{filter:function(r){return(r.structureType===STRUCTURE_WALL&&r.hits<Memory.maxWallHits||r.structureType===STRUCTURE_RAMPART&&r.hits<Memory.maxRampartHits/2||r.structureType===STRUCTURE_CONTAINER&&r.hits<r.hitsMax-5e4||r.structureType!==STRUCTURE_RAMPART&&r.structureType!==STRUCTURE_WALL&&r.hits<r.hitsMax/2)&&o.utils.enqueueStructure(r),!1}})}),0===Object.getOwnPropertyNames(Game.creeps).length&&(Memory.spawnQueue=[],Memory.spawnQueue.unshift({body:[CARRY,MOVE],role:u.CARRIER}),Memory.spawnQueue.unshift({body:[CARRY,WORK,WORK,MOVE],role:u.HARVESTER})),Memory.creepCount=u.rolesModule.count(),e.forOwn(Game.spawns,function(r){u.rolesModule.processSpawnQueue(r)}),u.rolesModule.spawn(),e.forOwn(Game.spawns,function(r){if(r.spawning){var n=Game.creeps[r.spawning.name];r.room.visual.text(o.Messages.CONSTRUCT_SYM+" "+n.memory.role,r.pos.x+1,r.pos.y,{align:"left",opacity:.8})}}),e.forOwn(Game.structures,function(r){if(r.structureType===STRUCTURE_TOWER){var n=r.pos.findClosestByRange(FIND_HOSTILE_CREEPS,{filter:function(n){return n.pos.inRangeTo(r.pos,6)}});n&&r.attack(n);var t=r.pos.findClosestByRange(FIND_MY_CREEPS,{filter:function(r){return r.hits<r.hitsMax/3}});if(t&&r.heal(t),700<r.energy){var e=r.pos.findClosestByRange(FIND_STRUCTURES,{filter:function(r){return r.structureType===STRUCTURE_RAMPART&&r.hits<Memory.maxRampartHits||r.structureType!==STRUCTURE_WALL&&r.structureType!==STRUCTURE_RAMPART&&r.hits<r.hitsMax/3}});e&&r.repair(e)}}}),e.forOwn(Game.creeps,function(r){u.rolesModule.run(r)})}},function(r,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var e=(t(0),t(1)),o=function(){function r(){}return r.prototype.body=function(r){return r<250?[WORK,CARRY,MOVE]:r<350?[WORK,CARRY,CARRY,MOVE]:r<450?[WORK,CARRY,CARRY,MOVE,MOVE]:r<550?[WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE]:r<600?[WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE]:r<650?[WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]:r<750?[WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]:[WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]},r.prototype.run=function(r){if(e.utils.tryBuildRoad(r),!r.memory.building&&!r.memory.energyTarget&&e.utils.navigateToDesignatedRoom(r)&&r.memory.operateInRoom)return void e.utils.moveTo(r,new RoomPosition(25,25,r.memory.operateInRoom));if(r.memory.building&&0===r.carry.energy&&(r.memory.building=!1,r.memory.energyTarget="",r.say(e.Messages.HARVEST)),r.memory.building||r.carry.energy!==r.carryCapacity||(r.memory.building=!0,r.say(e.Messages.BUILD)),r.memory.building){var n=Game.getObjectById(r.memory.buildTarget);n||(n=e.utils.shiftStructure(r,!0),n||(n=e.utils.findConstructionSite(r)),n||(n=e.utils.shiftStructure(r,!1)),n?r.memory.buildTarget=n.id:(r.say("🚧 nothing"),r.memory.buildTarget="",r.memory.energyTarget="",r.memory.building=!1)),n instanceof Structure?n.structureType!==STRUCTURE_WALL&&n.structureType!==STRUCTURE_RAMPART&&n.hits<n.hitsMax||n.structureType===STRUCTURE_WALL&&n.hits<Memory.maxWallHits||n.structureType===STRUCTURE_RAMPART&&n.hits<Memory.maxRampartHits?r.repair(n)===ERR_NOT_IN_RANGE&&e.utils.moveTo(r,n.pos):(r.memory.buildTarget="",r.memory.building=!1):n instanceof ConstructionSite?r.build(n)===ERR_NOT_IN_RANGE&&e.utils.moveTo(r,n.pos):(r.say("🚧 strange"),r.memory.buildTarget="",r.memory.building=!1)}else if(r.carry.energy<r.carryCapacity){var n=e.utils.getEnergyStorageTarget(r);if(n){var t=r.pos.findInRange([n],1);t.length?e.utils.getEnergy(r,t[0]):e.utils.moveTo(r,n.pos)}else r.say("No energy")}},r}();n.roleBuilder=new o},function(r,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var e=t(0),o=t(1),u=function(){function r(){}return r.prototype.body=function(r){var n;n=r<150?3:750<r?15:Math.floor(r/50);for(var t=new Array(n),e=Math.ceil(n/3),o=0;o<n;++o)t[o]=o<e?MOVE:CARRY;return t},r.prototype.run=function(r){if(o.utils.tryBuildRoad(r),!r.memory.hauling&&!r.memory.energyTarget&&o.utils.navigateToDesignatedRoom(r)&&r.memory.operateInRoom)return void o.utils.moveTo(r,new RoomPosition(25,25,r.memory.operateInRoom));if(r.memory.hauling&&0===r.carry.energy&&(r.memory.hauling=!1,r.memory.energyTarget="",r.say(o.Messages.PICKUP)),r.memory.hauling||r.carry.energy!==r.carryCapacity||(r.memory.hauling=!0,r.memory.energyTarget="",r.say(o.Messages.DISTRIBUTE)),r.memory.hauling){var n=this.getStoreTarget(r);n&&r.transfer(n,RESOURCE_ENERGY)===ERR_NOT_IN_RANGE?o.utils.moveTo(r,n.pos):r.memory.energyTarget=""}else{var n=this.getEnergyTarget(r);n&&o.utils.getEnergy(r,n)===ERR_NOT_IN_RANGE?o.utils.moveTo(r,n.pos):r.memory.energyTarget=""}},r.prototype.getEnergyTarget=function(r){var n=Game.getObjectById(r.memory.energyTarget);if(n instanceof Source&&r.pos.inRangeTo(n.pos,2)&&(n=null),!n){var t=r.room.find(FIND_DROPPED_RESOURCES,{filter:function(r){return r.resourceType===RESOURCE_ENERGY&&0<r.amount}});n=e.sortBy(t,function(r){return-r.amount})[0]}if(!n){var o=r.room.find(FIND_SOURCES),u=[].concat.apply([],e.map(o,function(r){return r.pos.findInRange(FIND_STRUCTURES,3,{filter:function(r){if(r.structureType!==STRUCTURE_CONTAINER)return!1;var n=Memory.controllerCont[r.pos.roomName]===r.id;return!n&&0<r.store[RESOURCE_ENERGY]||n&&r.storeCapacity-e.sum(r.store)<50}})}));n=e.sortBy(u,function(r){return r.storeCapacity-e.sum(r.store)})[0]}if(!n){var i=r.room.find(FIND_STRUCTURES,{filter:function(r){return r.structureType===STRUCTURE_STORAGE&&0<r.energy}});n=i[0]}if(!n&&!(n=r.pos.findClosestByPath(FIND_SOURCES_ACTIVE,{maxOps:100}))){var i=r.room.find(FIND_SOURCES);n=i[0]}return n&&(r.memory.energyTarget=n.id),n},r.prototype.getStoreTarget=function(r){var n=Game.getObjectById(r.memory.energyTarget);if(n||r.room.energyAvailable<r.room.energyCapacityAvailable&&(n=r.pos.findClosestByPath(FIND_STRUCTURES,{filter:function(n){return(n.structureType===STRUCTURE_SPAWN||n.structureType===STRUCTURE_EXTENSION)&&n.energy<n.energyCapacity&&r.memory.operateInRoom===n.pos.roomName}})),!n){var t=Game.getObjectById(Memory.controllerCont[r.pos.roomName]);t&&500<t.storeCapacity-e.sum(t.store)&&(n=t)}if(!n){var o=e.filter(Game.structures,function(r){return r.structureType===STRUCTURE_TOWER&&0<=r.energyCapacity-r.energy-300});n=e.sortBy(o,function(r){return r.energyCapacity+r.energy})[0]}if(!n){n=r.room.find(FIND_STRUCTURES,{filter:function(r){return r.structureType===STRUCTURE_STORAGE&&0<r.storeCapacity-e.sum(r.store)}})[0]}if(!n){n=r.room.find(FIND_STRUCTURES,{filter:function(n){return(n.structureType===STRUCTURE_SPAWN||n.structureType===STRUCTURE_EXTENSION)&&n.energy<n.energyCapacity&&r.memory.operateInRoom===n.pos.roomName}})[0]}return n&&(r.memory.energyTarget=n.id),n},r}();n.roleCarrier=new u},function(r,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var e=t(0),o=t(1),u=function(){function r(){}return r.prototype.body=function(r){return[MOVE,MOVE,CLAIM]},r.prototype.run=function(r){o.utils.tryBuildRoad(r);var n=Game.flags.claim;n||(n=Game.flags.reserve);var t=n&&r.room.name===n.pos.roomName;if(n||delete r.memory.claimTarget,n&&!t&&o.utils.moveTo(r,n.pos),n&&t){var u=r.room.lookForAt(LOOK_STRUCTURES,n.pos);u.length&&e.forEach(u,function(n){n.structureType===STRUCTURE_CONTROLLER&&(r.memory.claimTarget=n.id)})}if(r.memory.claimTarget){var i=Game.getObjectById(r.memory.claimTarget);i&&("claim"===n.name?r.claimController(i)!==OK&&o.utils.moveTo(r,i.pos):r.reserveController(i)!==OK&&o.utils.moveTo(r,i.pos))}},r}();n.roleClaimer=new u},function(r,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var e=t(0),o=t(1),u=function(){function r(){}return r.prototype.body=function(r){return r<350?[WORK,WORK,CARRY,MOVE]:r<400?[WORK,WORK,CARRY,MOVE,MOVE]:r<500?[WORK,WORK,CARRY,MOVE,MOVE,MOVE]:r<600?[WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE]:r<700?[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE]:[WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE]},r.prototype.run=function(r){o.utils.tryBuildRoad(r);var n=Game.getObjectById(r.memory.target);if(!n){var t=[];e.forEach(Game.rooms,function(r,n){e.forEach(r.find(FIND_SOURCES,{filter:function(r){return!Memory.harvestedSources.hasOwnProperty(r.id)}}),function(r){t.push(r)})}),n=t[0],n&&(Memory.harvestedSources[n.id]=n.id,r.memory.target=n.id,r.say(o.Messages.HARVEST))}if(0<r.carry.energy){var u=r.pos.findInRange(FIND_STRUCTURES,1,{filter:function(r){return r.structureType===STRUCTURE_LINK&&r.energy<r.energyCapacity||r.structureType===STRUCTURE_CONTAINER&&e.sum(r.store)<r.storeCapacity}});u.length?r.transfer(u[0],RESOURCE_ENERGY):r.drop(RESOURCE_ENERGY)}r.harvest(n)===ERR_NOT_IN_RANGE&&o.utils.moveTo(r,n.pos)},r}();n.roleHarvester=new u},function(r,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var e=t(1),o=function(){function r(){}return r.prototype.body=function(r){return r<250?[WORK,CARRY,MOVE]:r<350?[WORK,CARRY,MOVE,MOVE]:r<400?[WORK,WORK,CARRY,MOVE,MOVE]:r<500?[WORK,WORK,CARRY,MOVE,MOVE,MOVE]:r<600?[WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE]:r<700?[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE]:[WORK,WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE,MOVE]},r.prototype.run=function(r){if(e.utils.tryBuildRoad(r),e.utils.navigateToDesignatedRoom(r)&&r.memory.operateInRoom)e.utils.moveTo(r,new RoomPosition(25,25,r.memory.operateInRoom));else if(r.memory.upgrading&&0===r.carry.energy&&(r.memory.upgrading=!1,r.say(e.Messages.HARVEST)),r.memory.upgrading||r.carry.energy!==r.carryCapacity||(r.memory.upgrading=!0,r.memory.energyTarget="",r.say(e.Messages.UPGRADE)),r.memory.upgrading&&r.room.controller)r.upgradeController(r.room.controller)===ERR_NOT_IN_RANGE&&e.utils.moveTo(r,r.room.controller.pos);else{var n=e.utils.getEnergyStorageTarget(r);if(n){var t=r.pos.findInRange([n],1);t.length?e.utils.getEnergy(r,t[0]):e.utils.moveTo(r,n.pos)}}},r}();n.roleUpgrader=new o},function(r,n,t){"use strict";function e(r){return"claimer"===r?u.isUndefined(Game.flags.claim)&&u.isUndefined(Game.flags.reserve)?0:i.limits[r]:i.limits[r]*Memory.controllerCount}function o(){var r=[];return u.forOwn(Game.spawns,function(n){r.push(n)}),r.sort(function(r,n){return n.room.energyAvailable-r.room.energyAvailable}),r[0]}Object.defineProperty(n,"__esModule",{value:!0});var u=t(0),i=t(2),a=t(4),f=t(5),c=t(6),l=t(7),s=t(8);n.BUILDER="builder",n.CARRIER="carrier",n.CLAIMER="claimer",n.HARVESTER="harvester",n.UPGRADER="upgrader",n.roles={builder:a.roleBuilder,carrier:f.roleCarrier,claimer:c.roleClaimer,harvester:l.roleHarvester,upgrader:s.roleUpgrader},n.rolesModule={count:function(){var r={};return u.forOwn(n.roles,function(n,t){r[t]=0}),u.forEach(Game.creeps,function(n){r[n.memory.role]+=1}),u.forEach(Memory.spawnQueue,function(n){r[n.role]+=1}),r},processSpawnQueue:function(r){var n=Memory.spawnQueue.shift();if(n)if(console.log("Processing spawn Q "+r.name),r.canCreateCreep(n.body)===OK){var t=r.createCreep(n.body,void 0,{role:n.role});console.log("Spawning new "+n.role+": "+t)}else"claimer"===n.role?Memory.spawnQueue.push(n):Memory.spawnQueue.unshift(n)},run:function(r){n.roles[r.memory.role].run(r)},spawn:function(r){if(r)if("string"==typeof r){var t=o().room.energyAvailable,i=n.roles[r].body(t);Memory.spawnQueue.push({body:i,role:r})}else Memory.spawnQueue.push(r);else u.forOwn(n.roles,function(r,n){if(n&&Memory.creepCount[n]<e(n)){var t=o().room.energyAvailable,u=r.body(t);Memory.spawnQueue.push({body:u,role:n})}})}}},function(r,n){r.exports=function(r){return r.webpackPolyfill||(r.deprecate=function(){},r.paths=[],r.children||(r.children=[]),Object.defineProperty(r,"loaded",{enumerable:!0,get:function(){return r.l}}),Object.defineProperty(r,"id",{enumerable:!0,get:function(){return r.i}}),r.webpackPolyfill=1),r}},function(r,n,t){r.exports=t(3)}]);
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(5));
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(1);
+var limits_1 = __webpack_require__(3);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
+exports.Messages = {
+    BUILD: "\uD83D\uDEA7 build",
+    CONSTRUCT_SYM: "\uD83D\uDEE0",
+    DISTRIBUTE: "\u2194 distr",
+    HARVEST: "\uD83D\uDD04 harvest",
+    PICKUP: "\u2B06 pickup",
+    UPGRADE: "\u26A1 upgrade"
+};
+var Utils = (function () {
+    function Utils() {
+    }
+    Utils_1 = Utils;
+    Utils.buildPriority = function (creep, site) {
+        var priority;
+        switch (site.structureType) {
+            case STRUCTURE_SPAWN:
+                priority = 1;
+                break;
+            case STRUCTURE_EXTENSION:
+                priority = 2;
+                break;
+            case STRUCTURE_CONTAINER:
+                priority = 3;
+                break;
+            case STRUCTURE_LINK:
+                priority = 4;
+                break;
+            case STRUCTURE_TOWER:
+                priority = 5;
+                break;
+            case STRUCTURE_STORAGE:
+                priority = 6;
+                break;
+            default:
+                priority = 7;
+                break;
+        }
+        return creep.memory.operateInRoom === site.pos.roomName ? priority : priority + 20;
+    };
+    Utils.prototype.clearMemory = function () {
+        _.forOwn(Memory.creeps, function (creep, name) {
+            if (!Game.creeps.hasOwnProperty(name)) {
+                if (creep.target) {
+                    delete Memory.harvestedSources[creep.target];
+                }
+                delete Memory.creeps[name];
+                console.log("Clearing non-existing creep memory:", name);
+            }
+        });
+    };
+    Utils.prototype.enqueueStructure = function (object) {
+        if (_.isUndefined(object)) {
+            return;
+        }
+        if (!_.includes(Memory.repairQueue, object.id)) {
+            Memory.repairQueue.push(object.id);
+        }
+    };
+    Utils.prototype.findConstructionSite = function (creep) {
+        return _.sortBy(Game.constructionSites, [function (site) {
+                return Utils_1.buildPriority(creep, site);
+            }])[0];
+    };
+    Utils.prototype.getEnergy = function (creep, target) {
+        var result;
+        if (target instanceof Resource) {
+            result = creep.pickup(target);
+            if (result === OK) {
+                creep.memory.energyTarget = "";
+            }
+        }
+        else if (target instanceof Source) {
+            result = creep.harvest(target);
+        }
+        else {
+            result = creep.withdraw(target, RESOURCE_ENERGY);
+            if (result === OK) {
+                creep.memory.energyTarget = "";
+            }
+        }
+        return result;
+    };
+    Utils.prototype.getEnergyStorageTarget = function (creep) {
+        var target = Game.getObjectById(creep.memory.energyTarget);
+        if (!target) {
+            var targets = creep.room.find(FIND_DROPPED_RESOURCES, {
+                filter: function (res) {
+                    return res.resourceType === RESOURCE_ENERGY;
+                }
+            });
+            targets = targets.concat(creep.room.find(FIND_STRUCTURES, {
+                filter: function (struct) {
+                    return ((struct.structureType === STRUCTURE_STORAGE ||
+                        struct.structureType === STRUCTURE_CONTAINER) &&
+                        0 < struct.store[RESOURCE_ENERGY]) ||
+                        (struct.structureType === STRUCTURE_LINK && 0 < struct.energy);
+                }
+            }));
+            target = creep.pos.findClosestByPath(targets, {
+                maxOps: 1000
+            });
+        }
+        if (!target) {
+            target = creep.pos.findClosestByPath(FIND_SOURCES);
+        }
+        if (target) {
+            creep.memory.energyTarget = target.id;
+        }
+        return target;
+    };
+    Utils.prototype.moveTo = function (creep, target) {
+        if (ERR_NOT_FOUND === creep.moveTo(target, {
+            noPathFinding: true,
+            visualizePathStyle: { stroke: "#ffffff" }
+        })) {
+            creep.moveTo(target, {
+                reusePath: 20,
+                visualizePathStyle: { stroke: "#ffffff" }
+            });
+        }
+    };
+    Utils.prototype.navigateToDesignatedRoom = function (creep) {
+        if (!creep.memory.operateInRoom) {
+            var rooms = _.map(_.filter(Game.structures, function (o, k) { return o.structureType === STRUCTURE_CONTROLLER; }), function (s) { return s.pos.roomName; });
+            var creepCount_1 = _.reduce(Game.creeps, function (result, c) {
+                if (c.memory.role === creep.memory.role && c.memory.operateInRoom) {
+                    var room = c.memory.operateInRoom;
+                    result[room] = (result[room] || (result[room] = 0)) + 1;
+                }
+                return result;
+            }, {});
+            var limit_1 = limits_1.limits[creep.memory.role];
+            creep.memory.operateInRoom = _.filter(rooms, function (room) {
+                return !creepCount_1.hasOwnProperty(room) || creepCount_1[room] < limit_1;
+            })[0];
+        }
+        return creep.memory.operateInRoom !== creep.pos.roomName;
+    };
+    Utils.prototype.shiftStructure = function (creep, own) {
+        if (0 < Memory.repairQueue.length) {
+            var id = Game.getObjectById(Memory.repairQueue[0]);
+            while (!id) {
+                Memory.repairQueue.shift();
+                id = Game.getObjectById(Memory.repairQueue[0]);
+            }
+        }
+        var needsRepair = _.find(Memory.repairQueue, function (id) {
+            var struct = _.isUndefined(id) ? null : Game.getObjectById(id);
+            return struct && (!own || struct.pos.roomName === creep.memory.operateInRoom);
+        });
+        if (_.isUndefined(needsRepair)) {
+            return null;
+        }
+        Memory.repairQueue = _.filter(Memory.repairQueue, function (id) { return id !== needsRepair; });
+        return Game.getObjectById(needsRepair);
+    };
+    Utils.prototype.tryBuildRoad = function (creep) {
+        if (Memory.autoBuildRoads) {
+            var road = _.filter(creep.room.lookAt(creep.pos), function (obj) {
+                return obj && obj.structure &&
+                    ((obj.type === LOOK_STRUCTURES && obj.structure.structureType === STRUCTURE_ROAD) ||
+                        obj.type === LOOK_CONSTRUCTION_SITES);
+            });
+            if (!road.length) {
+                creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+            }
+        }
+    };
+    Utils.prototype.updateInfrastructure = function () {
+        if (_.isUndefined(Memory.repairQueue)) {
+            Memory.repairQueue = [];
+        }
+        if (_.isUndefined(Memory.spawnQueue)) {
+            Memory.spawnQueue = [];
+        }
+        if (_.isUndefined(Memory.harvestedSources)) {
+            Memory.harvestedSources = {};
+        }
+        if (_.isUndefined(Memory.autoBuildRoads)) {
+            Memory.autoBuildRoads = true;
+        }
+        if (_.isUndefined(Memory.controllerCont)) {
+            Memory.controllerCont = {};
+        }
+        if (_.isUndefined(Memory.maxWallHits)) {
+            Memory.maxWallHits = 100000;
+        }
+        if (_.isUndefined(Memory.maxRampartHits)) {
+            Memory.maxRampartHits = 30000;
+        }
+        Memory.controllerCount = _.size(_.filter(Game.structures, function (o, k) { return o.structureType === STRUCTURE_CONTROLLER; }));
+    };
+    Utils = Utils_1 = __decorate([
+        screeps_typescript_profiler_1.profile
+    ], Utils);
+    return Utils;
+    var Utils_1;
+}());
+exports.Utils = Utils;
+exports.utils = new Utils();
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.limits = {
+    builder: 2,
+    carrier: 3,
+    claimer: 2,
+    harvester: 2,
+    upgrader: 3
+};
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(1);
+var Profiler = __webpack_require__(0);
+var roles_1 = __webpack_require__(11);
+var utils_1 = __webpack_require__(2);
+global.Profiler = Profiler.init();
+var LoopFunctions = (function () {
+    function LoopFunctions() {
+    }
+    LoopFunctions.findDamagedStructures = function () {
+        _.forOwn(Game.rooms, function (room) {
+            room.find(FIND_STRUCTURES, {
+                filter: function (struct) {
+                    if ((struct.structureType === STRUCTURE_WALL && struct.hits < Memory.maxWallHits) ||
+                        (struct.structureType === STRUCTURE_RAMPART && struct.hits < Memory.maxRampartHits / 2) ||
+                        (struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
+                        (struct.structureType !== STRUCTURE_RAMPART && struct.structureType !== STRUCTURE_WALL &&
+                            struct.hits < struct.hitsMax / 2)) {
+                        utils_1.utils.enqueueStructure(struct);
+                    }
+                    return false;
+                }
+            });
+        });
+    };
+    LoopFunctions.towerLogic = function () {
+        _.forOwn(Game.structures, function (tower) {
+            if (tower.structureType === STRUCTURE_TOWER) {
+                var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
+                    filter: function (creep) {
+                        return creep.pos.inRangeTo(tower.pos, 15);
+                    }
+                });
+                if (closestHostile) {
+                    tower.attack(closestHostile);
+                }
+                var closestDamagedCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
+                    filter: function (creep) {
+                        return creep.hits < creep.hitsMax / 3;
+                    }
+                });
+                if (closestDamagedCreep) {
+                    tower.heal(closestDamagedCreep);
+                }
+                if (700 < tower.energy) {
+                    var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: function (structure) {
+                            return (structure.structureType === STRUCTURE_RAMPART &&
+                                structure.hits < Memory.maxRampartHits)
+                                || (structure.structureType !== STRUCTURE_WALL &&
+                                    structure.structureType !== STRUCTURE_RAMPART &&
+                                    structure.hits < structure.hitsMax / 3);
+                        }
+                    });
+                    if (closestDamagedStructure) {
+                        tower.repair(closestDamagedStructure);
+                    }
+                }
+                var damagedCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
+                    filter: function (creep) {
+                        return creep.hits < creep.hitsMax;
+                    }
+                });
+                if (damagedCreep) {
+                    tower.heal(damagedCreep);
+                }
+            }
+        });
+    };
+    LoopFunctions.creepActions = function () {
+        _.forOwn(Game.creeps, function (creep) {
+            roles_1.rolesModule.run(creep);
+        });
+    };
+    LoopFunctions = __decorate([
+        Profiler.profile
+    ], LoopFunctions);
+    return LoopFunctions;
+}());
+module.exports.loop = function () {
+    utils_1.utils.clearMemory();
+    utils_1.utils.updateInfrastructure();
+    LoopFunctions.findDamagedStructures();
+    if (Object.getOwnPropertyNames(Game.creeps).length === 0) {
+        Memory.spawnQueue = [];
+        Memory.spawnQueue.unshift({
+            body: [CARRY, MOVE],
+            role: roles_1.CARRIER
+        });
+        Memory.spawnQueue.unshift({
+            body: [CARRY, WORK, WORK, MOVE],
+            role: roles_1.HARVESTER
+        });
+    }
+    Memory.creepCount = roles_1.rolesModule.count();
+    _.forOwn(Game.spawns, function (spawn) {
+        roles_1.rolesModule.processSpawnQueue(spawn);
+        if (spawn.spawning) {
+            var spawningCreep = Game.creeps[spawn.spawning.name];
+            spawn.room.visual.text(utils_1.Messages.CONSTRUCT_SYM + " " + spawningCreep.memory.role, spawn.pos.x + 1, spawn.pos.y, { align: "left", opacity: 0.8 });
+        }
+    });
+    roles_1.rolesModule.spawn();
+    LoopFunctions.towerLogic();
+    LoopFunctions.creepActions();
+};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function init() {
+    var defaults = {
+        data: {},
+        total: 0,
+    };
+    if (!Memory.profiler) {
+        Memory.profiler = defaults;
+    }
+    var cli = {
+        clear: function () {
+            var running = isEnabled();
+            Memory.profiler = defaults;
+            if (running) {
+                Memory.profiler.start = Game.time;
+            }
+            return "Profiler Memory cleared";
+        },
+        output: function () {
+            outputProfilerData();
+            return "Done";
+        },
+        start: function () {
+            Memory.profiler.start = Game.time;
+            return "Profiler started";
+        },
+        status: function () {
+            if (isEnabled()) {
+                return "Profiler is running";
+            }
+            return "Profiler is stopped";
+        },
+        stop: function () {
+            if (!isEnabled()) {
+                return;
+            }
+            var timeRunning = Game.time - Memory.profiler.start;
+            Memory.profiler.total += timeRunning;
+            delete Memory.profiler.start;
+            return "Profiler stopped";
+        },
+        toString: function () {
+            return "Profiler.start() - Starts the profiler\n" +
+                "Profiler.stop() - Stops/Pauses the profiler\n" +
+                "Profiler.status() - Returns whether is profiler is currently running or not\n" +
+                "Profiler.output() - Pretty-prints the collected profiler data to the console\n" +
+                this.status();
+        },
+    };
+    return cli;
+}
+exports.init = init;
+function wrapFunction(obj, key, className) {
+    var descriptor = Reflect.getOwnPropertyDescriptor(obj, key);
+    if (!descriptor || descriptor.get || descriptor.set) {
+        return;
+    }
+    if (key === "constructor") {
+        return;
+    }
+    var originalFunction = descriptor.value;
+    if (!originalFunction || typeof originalFunction !== "function") {
+        return;
+    }
+    if (!className) {
+        className = obj.constructor ? "" + obj.constructor.name : "";
+    }
+    var memKey = className + (":" + key);
+    var savedName = "__" + key + "__";
+    if (Reflect.has(obj, savedName)) {
+        return;
+    }
+    Reflect.set(obj, savedName, originalFunction);
+    Reflect.set(obj, key, function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        if (isEnabled()) {
+            var start = Game.cpu.getUsed();
+            var result = originalFunction.apply(this, args);
+            var end = Game.cpu.getUsed();
+            record(memKey, end - start);
+            return result;
+        }
+        return originalFunction.apply(this, args);
+    });
+}
+function profile(target, key, _descriptor) {
+    if (false) {
+        return;
+    }
+    if (key) {
+        wrapFunction(target, key);
+        return;
+    }
+    var ctor = target;
+    if (!ctor.prototype) {
+        return;
+    }
+    var className = ctor.name;
+    Reflect.ownKeys(ctor.prototype).forEach(function (k) {
+        wrapFunction(ctor.prototype, k, className);
+    });
+}
+exports.profile = profile;
+function isEnabled() {
+    return Memory.profiler.start !== undefined;
+}
+function record(key, time) {
+    if (!Memory.profiler.data[key]) {
+        Memory.profiler.data[key] = {
+            calls: 0,
+            time: 0,
+        };
+    }
+    Memory.profiler.data[key].calls++;
+    Memory.profiler.data[key].time += time;
+}
+function outputProfilerData() {
+    var totalTicks = Memory.profiler.total;
+    if (Memory.profiler.start) {
+        totalTicks += Game.time - Memory.profiler.start;
+    }
+    var totalCpu = 0;
+    var calls;
+    var time;
+    var result;
+    var data = Reflect.ownKeys(Memory.profiler.data).map(function (key) {
+        calls = Memory.profiler.data[key].calls;
+        time = Memory.profiler.data[key].time;
+        result = {};
+        result.name = "" + key;
+        result.calls = calls;
+        result.cpuPerCall = time / calls;
+        result.callsPerTick = calls / totalTicks;
+        result.cpuPerTick = time / totalTicks;
+        totalCpu += result.cpuPerTick;
+        return result;
+    });
+    data.sort(function (lhs, rhs) { return rhs.cpuPerTick - lhs.cpuPerTick; });
+    var output = "";
+    var longestName = (_.max(data, function (d) { return d.name.length; })).name.length + 2;
+    output += _.padRight("Function", longestName);
+    output += _.padLeft("Tot Calls", 12);
+    output += _.padLeft("CPU/Call", 12);
+    output += _.padLeft("Calls/Tick", 12);
+    output += _.padLeft("CPU/Tick", 12);
+    output += _.padLeft("% of Tot\n", 12);
+    data.forEach(function (d) {
+        output += _.padRight("" + d.name, longestName);
+        output += _.padLeft("" + d.calls, 12);
+        output += _.padLeft(d.cpuPerCall.toFixed(2) + "ms", 12);
+        output += _.padLeft("" + d.callsPerTick.toFixed(2), 12);
+        output += _.padLeft(d.cpuPerTick.toFixed(2) + "ms", 12);
+        output += _.padLeft((d.cpuPerTick / totalCpu * 100).toFixed(0) + " %\n", 12);
+    });
+    output += totalTicks + " total ticks measured";
+    output += "\t\t\t" + totalCpu.toFixed(2) + " average CPU profiled per tick";
+    console.log(output);
+}
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(1);
+var utils_1 = __webpack_require__(2);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
+var Builder = (function () {
+    function Builder() {
+    }
+    Builder.prototype.body = function (availEnergy) {
+        if (availEnergy < 350) {
+            return [WORK, CARRY, CARRY, MOVE];
+        }
+        else if (availEnergy < 450) {
+            return [WORK, CARRY, CARRY, MOVE, MOVE];
+        }
+        else if (availEnergy < 550) {
+            return [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE];
+        }
+        else if (availEnergy < 600) {
+            return [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE];
+        }
+        else if (availEnergy < 650) {
+            return [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
+        }
+        else if (availEnergy < 750) {
+            return [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+        }
+        else {
+            return [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+        }
+    };
+    Builder.prototype.run = function (creep) {
+        utils_1.utils.tryBuildRoad(creep);
+        if (!creep.memory.building && !creep.memory.energyTarget && utils_1.utils.navigateToDesignatedRoom(creep)
+            && creep.memory.operateInRoom) {
+            utils_1.utils.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
+            return;
+        }
+        if (creep.memory.building && creep.carry.energy === 0) {
+            creep.memory.building = false;
+            creep.memory.energyTarget = "";
+            creep.say(utils_1.Messages.HARVEST);
+        }
+        if (!creep.memory.building && creep.carry.energy === creep.carryCapacity) {
+            creep.memory.building = true;
+            creep.say(utils_1.Messages.BUILD);
+        }
+        if (creep.memory.building) {
+            var target = Game.getObjectById(creep.memory.buildTarget);
+            if (!target) {
+                target = utils_1.utils.shiftStructure(creep, true);
+                if (!target) {
+                    target = utils_1.utils.findConstructionSite(creep);
+                }
+                if (!target) {
+                    target = utils_1.utils.shiftStructure(creep, false);
+                }
+                if (target) {
+                    creep.memory.buildTarget = target.id;
+                }
+                else {
+                    creep.say("\uD83D\uDEA7 nothing");
+                    creep.memory.buildTarget = "";
+                    creep.memory.energyTarget = "";
+                    creep.memory.building = false;
+                }
+            }
+            if (target instanceof Structure) {
+                if ((target.structureType !== STRUCTURE_WALL &&
+                    target.structureType !== STRUCTURE_RAMPART && target.hits < target.hitsMax) ||
+                    (target.structureType === STRUCTURE_WALL && target.hits < Memory.maxWallHits) ||
+                    (target.structureType === STRUCTURE_RAMPART && target.hits < Memory.maxRampartHits)) {
+                    if (creep.repair(target) === ERR_NOT_IN_RANGE) {
+                        utils_1.utils.moveTo(creep, target.pos);
+                    }
+                }
+                else {
+                    creep.memory.buildTarget = "";
+                    creep.memory.building = false;
+                }
+            }
+            else if (target instanceof ConstructionSite) {
+                if (creep.build(target) === ERR_NOT_IN_RANGE) {
+                    utils_1.utils.moveTo(creep, target.pos);
+                }
+            }
+            else {
+                creep.say("\uD83D\uDEA7 strange");
+                creep.memory.buildTarget = "";
+                creep.memory.building = false;
+            }
+        }
+        else {
+            if (creep.carry.energy < creep.carryCapacity) {
+                var target = utils_1.utils.getEnergyStorageTarget(creep);
+                if (target) {
+                    var src = creep.pos.findInRange([target], 1);
+                    if (src.length) {
+                        utils_1.utils.getEnergy(creep, src[0]);
+                    }
+                    else {
+                        utils_1.utils.moveTo(creep, target.pos);
+                    }
+                }
+                else {
+                    creep.say("No energy");
+                }
+            }
+        }
+    };
+    Builder.prototype.findConstructionSite = function (type, creep) {
+        var target = null;
+        var sites = _.filter(Game.constructionSites, function (site) {
+            return site.structureType === type && site.pos.roomName === creep.memory.operateInRoom;
+        });
+        if (sites.length) {
+            target = creep.pos.findClosestByPath(sites);
+            if (!target) {
+                target = sites[0];
+            }
+        }
+        return target;
+    };
+    Builder = __decorate([
+        screeps_typescript_profiler_1.profile
+    ], Builder);
+    return Builder;
+}());
+exports.roleBuilder = new Builder();
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(1);
+var utils_1 = __webpack_require__(2);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
+var Carrier = (function () {
+    function Carrier() {
+    }
+    Carrier.prototype.body = function (availEnergy) {
+        var parts;
+        if (availEnergy < 300) {
+            parts = 6;
+        }
+        else if (750 < availEnergy) {
+            parts = 15;
+        }
+        else {
+            parts = Math.floor(availEnergy / 50);
+        }
+        var body = new Array(parts);
+        var moveParts = Math.ceil(parts / 3);
+        for (var i = 0; i < parts; ++i) {
+            body[i] = i < moveParts ? MOVE : CARRY;
+        }
+        return body;
+    };
+    Carrier.prototype.run = function (creep) {
+        utils_1.utils.tryBuildRoad(creep);
+        if (!creep.memory.hauling && !creep.memory.energyTarget && utils_1.utils.navigateToDesignatedRoom(creep)
+            && creep.memory.operateInRoom) {
+            utils_1.utils.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
+            return;
+        }
+        if (creep.memory.hauling && creep.carry.energy === 0) {
+            creep.memory.hauling = false;
+            creep.memory.energyTarget = "";
+            creep.say(utils_1.Messages.PICKUP);
+        }
+        if (!creep.memory.hauling && creep.carry.energy === creep.carryCapacity) {
+            creep.memory.hauling = true;
+            creep.memory.energyTarget = "";
+            creep.say(utils_1.Messages.DISTRIBUTE);
+        }
+        if (creep.memory.hauling) {
+            var target = this.getStoreTarget(creep);
+            if (target && creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                utils_1.utils.moveTo(creep, target.pos);
+            }
+            else {
+                creep.memory.energyTarget = "";
+            }
+        }
+        else {
+            var target = this.getEnergyTarget(creep);
+            if (target && utils_1.utils.getEnergy(creep, target) === ERR_NOT_IN_RANGE) {
+                utils_1.utils.moveTo(creep, target.pos);
+            }
+            else {
+                creep.memory.energyTarget = "";
+            }
+        }
+    };
+    Carrier.prototype.getEnergyTarget = function (creep) {
+        var target = Game.getObjectById(creep.memory.energyTarget);
+        if (target instanceof Source && creep.pos.inRangeTo(target.pos, 2)) {
+            target = null;
+        }
+        if (!target) {
+            var drops = creep.room.find(FIND_DROPPED_RESOURCES, {
+                filter: function (drop) {
+                    return drop.resourceType === RESOURCE_ENERGY && 0 < drop.amount;
+                }
+            });
+            target = _.sortBy(drops, function (drop) {
+                return -drop.amount;
+            })[0];
+        }
+        if (!target) {
+            var sources = creep.room.find(FIND_SOURCES);
+            var sourceConts = [].concat.apply([], _.map(sources, function (source) {
+                return source.pos.findInRange(FIND_STRUCTURES, 3, {
+                    filter: function (struct) {
+                        if (struct.structureType !== STRUCTURE_CONTAINER) {
+                            return false;
+                        }
+                        var controllerCont = Memory.controllerCont[struct.pos.roomName] === struct.id;
+                        return (!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
+                            (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 50));
+                    }
+                });
+            }));
+            target = _.sortBy(sourceConts, function (cont) {
+                return cont.storeCapacity - _.sum(cont.store);
+            })[0];
+        }
+        if (!target) {
+            var targets = creep.room.find(FIND_STRUCTURES, {
+                filter: function (store) {
+                    return store.structureType === STRUCTURE_STORAGE && 0 < store.energy;
+                }
+            });
+            target = targets[0];
+        }
+        if (!target) {
+            target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE, {
+                maxOps: 100
+            });
+            if (!target) {
+                var targets = creep.room.find(FIND_SOURCES);
+                target = targets[0];
+            }
+        }
+        if (target) {
+            creep.memory.energyTarget = target.id;
+        }
+        return target;
+    };
+    Carrier.prototype.getStoreTarget = function (creep) {
+        var target = Game.getObjectById(creep.memory.energyTarget);
+        if (!target) {
+            if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
+                target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: function (struct) {
+                        return (struct.structureType === STRUCTURE_SPAWN ||
+                            struct.structureType === STRUCTURE_EXTENSION)
+                            && struct.energy < struct.energyCapacity &&
+                            creep.memory.operateInRoom === struct.pos.roomName;
+                    }
+                });
+            }
+        }
+        if (!target) {
+            var cont = Game.getObjectById(Memory.controllerCont[creep.pos.roomName]);
+            if (cont && 500 < cont.storeCapacity - _.sum(cont.store)) {
+                target = cont;
+            }
+        }
+        if (!target) {
+            var towers = _.filter(Game.structures, function (struct) {
+                return struct.structureType === STRUCTURE_TOWER &&
+                    0 <= struct.energyCapacity - struct.energy - 300;
+            });
+            target = _.sortBy(towers, function (tower) {
+                return tower.energyCapacity + tower.energy;
+            })[0];
+        }
+        if (!target) {
+            var storages = creep.room.find(FIND_STRUCTURES, {
+                filter: function (struct) {
+                    return struct.structureType === STRUCTURE_STORAGE &&
+                        0 < struct.storeCapacity - _.sum(struct.store);
+                }
+            });
+            target = storages[0];
+        }
+        if (!target) {
+            var targets = creep.room.find(FIND_STRUCTURES, {
+                filter: function (spawn) {
+                    return (spawn.structureType === STRUCTURE_SPAWN || spawn.structureType === STRUCTURE_EXTENSION) &&
+                        spawn.energy < spawn.energyCapacity && creep.memory.operateInRoom === spawn.pos.roomName;
+                }
+            });
+            target = targets[0];
+        }
+        if (target) {
+            creep.memory.energyTarget = target.id;
+        }
+        return target;
+    };
+    Carrier = __decorate([
+        screeps_typescript_profiler_1.profile
+    ], Carrier);
+    return Carrier;
+}());
+exports.roleCarrier = new Carrier();
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(1);
+var utils_1 = __webpack_require__(2);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
+var Claimer = (function () {
+    function Claimer() {
+    }
+    Claimer.prototype.body = function (availEnergy) {
+        return [MOVE, MOVE, CLAIM];
+    };
+    Claimer.prototype.run = function (creep) {
+        utils_1.utils.tryBuildRoad(creep);
+        var flag = Game.flags["claim"];
+        if (!flag) {
+            flag = Game.flags["reserve"];
+        }
+        var sameRoom = flag && creep.room.name === flag.pos.roomName;
+        if (!flag) {
+            delete (creep.memory.claimTarget);
+        }
+        if (flag && !sameRoom) {
+            utils_1.utils.moveTo(creep, flag.pos);
+        }
+        if (flag && sameRoom) {
+            var structs = creep.room.lookForAt(LOOK_STRUCTURES, flag.pos);
+            if (structs.length) {
+                _.forEach(structs, function (str) {
+                    if (str.structureType === STRUCTURE_CONTROLLER) {
+                        creep.memory.claimTarget = str.id;
+                    }
+                });
+            }
+        }
+        if (creep.memory.claimTarget) {
+            var controller = Game.getObjectById(creep.memory.claimTarget);
+            if (controller) {
+                if (flag.name === "claim") {
+                    if (creep.claimController(controller) !== OK) {
+                        utils_1.utils.moveTo(creep, controller.pos);
+                    }
+                }
+                else {
+                    if (creep.reserveController(controller) !== OK) {
+                        utils_1.utils.moveTo(creep, controller.pos);
+                    }
+                }
+            }
+        }
+    };
+    Claimer = __decorate([
+        screeps_typescript_profiler_1.profile
+    ], Claimer);
+    return Claimer;
+}());
+exports.roleClaimer = new Claimer();
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(1);
+var utils_1 = __webpack_require__(2);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
+var Harvester = (function () {
+    function Harvester() {
+    }
+    Harvester.prototype.body = function (availEnergy) {
+        if (availEnergy < 350) {
+            return [WORK, WORK, CARRY, MOVE];
+        }
+        else if (availEnergy < 400) {
+            return [WORK, WORK, CARRY, MOVE, MOVE];
+        }
+        else if (availEnergy < 500) {
+            return [WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+        else if (availEnergy < 600) {
+            return [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+        else if (availEnergy < 700) {
+            return [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+        else {
+            return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+    };
+    Harvester.prototype.run = function (creep) {
+        utils_1.utils.tryBuildRoad(creep);
+        var target = Game.getObjectById(creep.memory.target);
+        if (!target) {
+            var sources_1 = [];
+            _.forEach(Game.rooms, function (k, v) {
+                _.forEach(k.find(FIND_SOURCES, {
+                    filter: function (src) {
+                        return !Memory.harvestedSources.hasOwnProperty(src.id);
+                    }
+                }), function (s) { sources_1.push(s); });
+            });
+            target = sources_1[0];
+            if (target) {
+                Memory.harvestedSources[target.id] = target.id;
+                creep.memory.target = target.id;
+                creep.say(utils_1.Messages.HARVEST);
+            }
+        }
+        if (0 < creep.carry.energy) {
+            var dst = creep.pos.findInRange(FIND_STRUCTURES, 1, {
+                filter: function (struct) {
+                    return (struct.structureType === STRUCTURE_LINK && struct.energy < struct.energyCapacity) ||
+                        (struct.structureType === STRUCTURE_CONTAINER && _.sum(struct.store) < struct.storeCapacity);
+                }
+            });
+            if (dst.length) {
+                creep.transfer(dst[0], RESOURCE_ENERGY);
+            }
+            else {
+                creep.drop(RESOURCE_ENERGY);
+            }
+        }
+        var err = creep.harvest(target);
+        if (err === ERR_NOT_IN_RANGE) {
+            utils_1.utils.moveTo(creep, target.pos);
+        }
+    };
+    Harvester = __decorate([
+        screeps_typescript_profiler_1.profile
+    ], Harvester);
+    return Harvester;
+}());
+exports.roleHarvester = new Harvester();
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(2);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
+var Upgrader = (function () {
+    function Upgrader() {
+    }
+    Upgrader.prototype.body = function (availEnergy) {
+        if (availEnergy < 350) {
+            return [WORK, CARRY, MOVE, MOVE];
+        }
+        else if (availEnergy < 400) {
+            return [WORK, WORK, CARRY, MOVE, MOVE];
+        }
+        else if (availEnergy < 500) {
+            return [WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+        else if (availEnergy < 600) {
+            return [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+        else if (availEnergy < 700) {
+            return [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+        else {
+            return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE];
+        }
+    };
+    Upgrader.prototype.run = function (creep) {
+        utils_1.utils.tryBuildRoad(creep);
+        if (utils_1.utils.navigateToDesignatedRoom(creep) && creep.memory.operateInRoom) {
+            utils_1.utils.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
+        }
+        else {
+            if (creep.memory.upgrading && creep.carry.energy === 0) {
+                creep.memory.upgrading = false;
+                creep.say(utils_1.Messages.HARVEST);
+            }
+            if (!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
+                creep.memory.upgrading = true;
+                creep.memory.energyTarget = "";
+                creep.say(utils_1.Messages.UPGRADE);
+            }
+            if (creep.memory.upgrading && creep.room.controller) {
+                if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+                    utils_1.utils.moveTo(creep, creep.room.controller.pos);
+                }
+            }
+            else {
+                var target = utils_1.utils.getEnergyStorageTarget(creep);
+                if (target) {
+                    var src = creep.pos.findInRange([target], 1);
+                    if (src.length) {
+                        utils_1.utils.getEnergy(creep, src[0]);
+                    }
+                    else {
+                        utils_1.utils.moveTo(creep, target.pos);
+                    }
+                }
+            }
+        }
+    };
+    __decorate([
+        screeps_typescript_profiler_1.profile,
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Number]),
+        __metadata("design:returntype", void 0)
+    ], Upgrader.prototype, "body", null);
+    __decorate([
+        screeps_typescript_profiler_1.profile,
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Creep]),
+        __metadata("design:returntype", void 0)
+    ], Upgrader.prototype, "run", null);
+    return Upgrader;
+}());
+exports.roleUpgrader = new Upgrader();
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _ = __webpack_require__(1);
+var screeps_typescript_profiler_1 = __webpack_require__(0);
+var limits_1 = __webpack_require__(3);
+var role_builder_1 = __webpack_require__(6);
+var role_carrier_1 = __webpack_require__(7);
+var role_claimer_1 = __webpack_require__(8);
+var role_harvester_1 = __webpack_require__(9);
+var role_upgrader_1 = __webpack_require__(10);
+exports.BUILDER = "builder";
+exports.CARRIER = "carrier";
+exports.CLAIMER = "claimer";
+exports.HARVESTER = "harvester";
+exports.UPGRADER = "upgrader";
+exports.roles = {
+    builder: role_builder_1.roleBuilder,
+    carrier: role_carrier_1.roleCarrier,
+    claimer: role_claimer_1.roleClaimer,
+    harvester: role_harvester_1.roleHarvester,
+    upgrader: role_upgrader_1.roleUpgrader
+};
+var RolesModule = (function () {
+    function RolesModule() {
+    }
+    RolesModule_1 = RolesModule;
+    RolesModule.countControllers = function () {
+        var controllers = 0;
+        _.forOwn(Game.rooms, function (room) {
+            if (room.controller && room.controller.my) {
+                controllers += 1;
+            }
+        });
+        return controllers;
+    };
+    RolesModule.limit = function (role) {
+        if (role === "claimer") {
+            return _.isUndefined(Game.flags["claim"]) && _.isUndefined(Game.flags["reserve"]) ? 0 : limits_1.limits[role];
+        }
+        else {
+            return limits_1.limits[role] * Memory.controllerCount;
+        }
+    };
+    RolesModule.getMaxEnergySpawn = function () {
+        var spawns = [];
+        _.forOwn(Game.spawns, function (spawn) { spawns.push(spawn); });
+        spawns.sort(function (a, b) { return b.room.energyAvailable - a.room.energyAvailable; });
+        return spawns[0];
+    };
+    RolesModule.prototype.count = function () {
+        var count = {};
+        _.forOwn(exports.roles, function (role, name) { count[name] = 0; });
+        _.forEach(Game.creeps, function (creep) { count[creep.memory.role] += 1; });
+        _.forEach(Memory.spawnQueue, function (spec) { count[spec.role] += 1; });
+        return count;
+    };
+    RolesModule.prototype.processSpawnQueue = function (spawn) {
+        var spec = Memory.spawnQueue.shift();
+        if (spec) {
+            console.log("Processing spawn Q " + spawn.name);
+            if (spawn.canCreateCreep(spec.body) === OK) {
+                var newName = spawn.createCreep(spec.body, undefined, { role: spec.role });
+                console.log("Spawning new " + spec.role + ": " + newName);
+            }
+            else if ("claimer" === spec.role) {
+                Memory.spawnQueue.push(spec);
+            }
+            else {
+                Memory.spawnQueue.unshift(spec);
+            }
+        }
+    };
+    RolesModule.prototype.run = function (creep) {
+        exports.roles[creep.memory.role].run(creep);
+    };
+    RolesModule.prototype.spawn = function (role) {
+        if (!role) {
+            _.forOwn(exports.roles, function (r, name) {
+                if (name && Memory.creepCount[name] < RolesModule_1.limit(name)) {
+                    var spawn = RolesModule_1.getMaxEnergySpawn();
+                    if (!spawn) {
+                        return;
+                    }
+                    var energy = spawn.room.energyAvailable;
+                    var body = r.body(energy);
+                    Memory.spawnQueue.push({ body: body, role: name });
+                }
+            });
+        }
+        else if (typeof role === "string") {
+            var spawn = RolesModule_1.getMaxEnergySpawn();
+            if (!spawn) {
+                return;
+            }
+            var energy = spawn.room.energyAvailable;
+            var body = exports.roles[role].body(energy);
+            Memory.spawnQueue.push({ body: body, role: role });
+        }
+        else {
+            Memory.spawnQueue.push(role);
+        }
+    };
+    RolesModule = RolesModule_1 = __decorate([
+        screeps_typescript_profiler_1.profile
+    ], RolesModule);
+    return RolesModule;
+    var RolesModule_1;
+}());
+exports.RolesModule = RolesModule;
+exports.rolesModule = new RolesModule();
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(4);
+
+
+/***/ })
+/******/ ]);
+//# sourceMappingURL=main.js.map.js

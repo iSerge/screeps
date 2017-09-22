@@ -4,11 +4,14 @@ import {utils} from "./utils";
 
 import {Role} from "./Role";
 
+import { profile } from "../screeps-typescript-profiler";
+
 /**
  *
  * @class
  * @extends {Role}
  */
+@profile
 class Claimer implements Role {
     /**
      * @override

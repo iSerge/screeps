@@ -24,9 +24,8 @@
   },
   "compileOnSave": false,
   "include": [
-    "webpack.config.ts",
-    "libs/*.ts",
     "typings/**/*.d.ts",
+    "screeps-typescript-profiler/Profiler/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.d.ts"
   ],
