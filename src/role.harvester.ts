@@ -36,19 +36,15 @@ class Harvester implements Role {
         let target: Source | null = Game.getObjectById(creep.memory.target);
 
         if (!target) {
-            const sources: Source[] = [];
 
-            _.forEach(Game.rooms, (k, v) => {
-                _.forEach(k.find(FIND_SOURCES, {
-                    filter: (src: Source) => {
-                        return !Memory.harvestedSources.hasOwnProperty(src.id);
-                    }
-                }), (s: Source) => { sources.push(s); });
-            });
-
-            target = sources[0];
+            target = this.findSource();
 
             if (target) {
+
+                if (target.room.name !== creep.room.name) {
+                    console.log("Harvester found target in other room: " + target.room);
+                }
+
                 Memory.harvestedSources[target.id] = target.id;
                 creep.memory.target = target.id;
                 creep.say(Messages.HARVEST);
@@ -72,11 +68,27 @@ class Harvester implements Role {
         }
         // console.log('Harvester ' + creep.name + ' harvesting target: ' + target.id);
         // JSON.stringify(target, null, 4));
-        const err = creep.harvest(target);
-        if (err === ERR_NOT_IN_RANGE) {
-            utils.moveTo(creep, target.pos);
+        if (target) {
+            const err = creep.harvest(target);
+            if (err === ERR_NOT_IN_RANGE) {
+                utils.moveTo(creep, target.pos);
+            }
         }
 
+    }
+
+    private findSource(): Source | null {
+        const sources: Source[] = [];
+
+        _.forEach(Game.rooms, (room) => {
+            _.forEach(room.find(FIND_SOURCES, {
+                filter: (src: Source) => {
+                    return src.room.name !== room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
+                }
+            }), (s: Source) => { sources.push(s); });
+        });
+
+        return sources[0];
     }
 }
 

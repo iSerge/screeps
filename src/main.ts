@@ -9,7 +9,7 @@ global.Profiler = Profiler.init();
 
 @Profiler.profile
 class LoopFunctions {
-    public static findDamagedStructures() {
+    public findDamagedStructures() {
         _.forOwn(Game.rooms, (room) => {
             room.find(FIND_STRUCTURES, {
                 filter: (struct: Structure) => {
@@ -17,12 +17,12 @@ class LoopFunctions {
                         (struct.structureType === STRUCTURE_RAMPART && struct.hits < Memory.maxRampartHits / 2) ||
                         (struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
                         (struct.structureType !== STRUCTURE_RAMPART && struct.structureType !== STRUCTURE_WALL &&
-                            struct.hits < struct.hitsMax / 2)) { utils.enqueueStructure(struct); }
+                            struct.hits < struct.hitsMax / 2)) { utils.enqueueStructure(room, struct); }
                     return false;
                 }}); });
     }
 
-    public static towerLogic() {
+    public towerLogic() {
         _.forOwn(Game.structures, (tower: Tower) => {
             if (tower.structureType === STRUCTURE_TOWER) {
                 const closestHostile: Creep | null = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
@@ -71,33 +71,42 @@ class LoopFunctions {
         });
     }
 
-    public static creepActions() {
+    public creepActions() {
         _.forOwn(Game.creeps, (creep) => {
             roles.run(creep);
         });
     }
 }
 
-module.exports.loop = () => {
-    utils.clearMemory();
+const main = new LoopFunctions();
 
+module.exports.loop = () => {
     utils.updateInfrastructure();
 
-    LoopFunctions.findDamagedStructures();
+    utils.clearMemory();
 
-    if (Object.getOwnPropertyNames(Game.creeps).length === 0) {
-        Memory.spawnQueue = [];
-        Memory.spawnQueue.unshift({
-            body: [CARRY, MOVE],
-            role: CARRIER
-        });
-        Memory.spawnQueue.unshift({
-            body: [CARRY, WORK, WORK, MOVE],
-            role: HARVESTER
-        });
-    }
+    main.findDamagedStructures();
 
-    Memory.creepCount = roles.count();
+    roles.countCreeps();
+
+    _.forOwn(Game.rooms, (room) => {
+        if (room.controller) {
+
+            if (Object.getOwnPropertyNames(Game.creeps).length === 0) {
+                room.memory.spawnQueue = [];
+                room.memory.spawnQueue.unshift({
+                    body: [CARRY, MOVE],
+                    role: CARRIER
+                });
+                room.memory.spawnQueue.unshift({
+                    body: [CARRY, WORK, WORK, MOVE],
+                    role: HARVESTER
+                });
+            }
+
+            roles.spawn(room);
+        }
+    });
 
     _.forOwn(Game.spawns, (spawn) => {
         roles.processSpawnQueue(spawn);
@@ -112,9 +121,7 @@ module.exports.loop = () => {
         }
     });
 
-    roles.spawn();
+    main.towerLogic();
 
-    LoopFunctions.towerLogic();
-
-    LoopFunctions.creepActions();
+    main.creepActions();
 };

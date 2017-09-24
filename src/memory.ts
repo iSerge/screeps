@@ -3,8 +3,10 @@ import {BodySpec, CreepRole} from "./roles";
 declare global {
 
     export interface Memory {
-        spawnQueue: BodySpec[];
+        autoBuildRoads: boolean;
+        harvestedSources: _.Dictionary<string>;
         maxRampartHits: number;
+        maxWallHits: number;
     }
 
     interface CreepMemory {
@@ -13,7 +15,7 @@ declare global {
         claimTarget?: string;
         energyTarget?: string;
         hauling?: boolean;
-        operateInRoom?: string;
+        operateInRoom: string;
         role: CreepRole;
         target?: string;
         upgrading?: boolean;
@@ -26,5 +28,9 @@ declare global {
     }
 
     interface RoomMemory {
+        controllerCont?: string;
+        creepCount: _.Dictionary<number>;
+        repairQueue: string[];
+        spawnQueue: BodySpec[];
     }
 }

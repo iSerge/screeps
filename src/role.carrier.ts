@@ -111,7 +111,7 @@ class Carrier implements Role {
                             return false;
                         }
 
-                        const controllerCont = Memory.controllerCont[struct.pos.roomName] === struct.id;
+                        const controllerCont = creep.room.memory.controllerCont === struct.id;
                         return (!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
                              (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 50));
                     }
@@ -177,7 +177,10 @@ class Carrier implements Role {
             // containers near controllers
             // console.log('Carrier ' + creep.name + ' looking for controller container');
 
-            const cont: Container | null = Game.getObjectById(Memory.controllerCont[creep.pos.roomName]);
+            const designatedRoom = Game.rooms[creep.memory.operateInRoom];
+
+            const cont: Container | null =
+                designatedRoom ? Game.getObjectById(designatedRoom.memory.controllerCont) : null;
             if (cont && 500 < cont.storeCapacity - _.sum(cont.store)) {
                 target = cont;
             }
@@ -186,7 +189,7 @@ class Carrier implements Role {
         if (!target) {
             // console.log('Carrier ' + creep.name + ' looking for towers');
             const towers = _.filter(Game.structures, (struct: Tower) => {
-                return struct.structureType === STRUCTURE_TOWER &&
+                return struct.structureType === STRUCTURE_TOWER && struct.room.name === creep.memory.operateInRoom &&
                     0 <= struct.energyCapacity - struct.energy - 300;
             });
 
