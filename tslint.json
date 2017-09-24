@@ -5,6 +5,7 @@
     "no-console": false,
     "no-namespace": false,
     "no-string-literal": false,
+    "no-trailing-whitespace": false,
     "quotemark": [true, "double", "avoid-escape"],
     "trailing-comma": [
       true,
