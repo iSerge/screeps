@@ -83,7 +83,7 @@ class Harvester implements Role {
         _.forEach(Game.rooms, (room) => {
             _.forEach(room.find(FIND_SOURCES, {
                 filter: (src: Source) => {
-                    return src.room.name !== room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
+                    return src.room.name === room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
                 }
             }), (s: Source) => { sources.push(s); });
         });

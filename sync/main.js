@@ -1084,7 +1084,7 @@ var Harvester = (function () {
         _.forEach(Game.rooms, function (room) {
             _.forEach(room.find(FIND_SOURCES, {
                 filter: function (src) {
-                    return src.room.name !== room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
+                    return src.room.name === room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
                 }
             }), function (s) { sources.push(s); });
         });
