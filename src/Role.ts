@@ -1,20 +1,18 @@
 /**
  *
- * @class
+ * @interface
  */
 
-class Role {
+export interface Role {
     /**
      * @abstract
      * @method
      *
      * @param {number} availEnergy Energy available for spawning. Will calculate maximum affordable body for role.
      *
-     * @return {Array<string>}
+     * @return {Array<BodyPartConstant>}
      */
-    body(availEnergy) {
-        return [];
-    }
+    body(availEnergy: number): BodyPartConstant[];
 
     /**
      * @abstract
@@ -22,7 +20,5 @@ class Role {
      *
      * @param {Creep} creep Creep to run.
      */
-    run(creep) {}
+    run(creep: Creep): void;
 }
-
-module.exports = Role;
