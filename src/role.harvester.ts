@@ -37,7 +37,7 @@ class Harvester implements Role {
 
         if (!target) {
 
-            target = this.findSource();
+            target = this.findSource(creep);
 
             if (target) {
 
@@ -77,15 +77,11 @@ class Harvester implements Role {
 
     }
 
-    private findSource(): Source | null {
-        const sources: Source[] = [];
-
-        _.forEach(Game.rooms, (room) => {
-            _.forEach(room.find(FIND_SOURCES, {
-                filter: (src: Source) => {
-                    return src.room.name === room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
-                }
-            }), (s: Source) => { sources.push(s); });
+    private findSource(creep: Creep): Source | null {
+        const sources: Source[] = creep.room.find(FIND_SOURCES, {
+            filter: (src: Source) => {
+                return !Memory.harvestedSources.hasOwnProperty(src.id);
+            }
         });
 
         return sources[0];
