@@ -77,7 +77,7 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(5));
+__export(__webpack_require__(4));
 
 
 /***/ }),
@@ -100,7 +100,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = __webpack_require__(1);
-var limits_1 = __webpack_require__(3);
 var screeps_typescript_profiler_1 = __webpack_require__(0);
 exports.Messages = {
     BUILD: "\uD83D\uDEA7 build",
@@ -148,16 +147,20 @@ var Utils = (function () {
                     delete Memory.harvestedSources[creep.target];
                 }
                 delete Memory.creeps[name];
-                console.log("Clearing non-existing creep memory:", name);
+            }
+        });
+        _.forOwn(Memory.rooms, function (room, name) {
+            if (!Game.rooms.hasOwnProperty(name)) {
+                delete Memory.rooms[name];
             }
         });
     };
-    Utils.prototype.enqueueStructure = function (object) {
+    Utils.prototype.enqueueStructure = function (room, object) {
         if (_.isUndefined(object)) {
             return;
         }
-        if (!_.includes(Memory.repairQueue, object.id)) {
-            Memory.repairQueue.push(object.id);
+        if (!_.includes(room.memory.repairQueue, object.id)) {
+            room.memory.repairQueue.push(object.id);
         }
     };
     Utils.prototype.findConstructionSite = function (creep) {
@@ -224,38 +227,25 @@ var Utils = (function () {
         }
     };
     Utils.prototype.navigateToDesignatedRoom = function (creep) {
-        if (!creep.memory.operateInRoom) {
-            var rooms = _.map(_.filter(Game.structures, function (o, k) { return o.structureType === STRUCTURE_CONTROLLER; }), function (s) { return s.pos.roomName; });
-            var creepCount_1 = _.reduce(Game.creeps, function (result, c) {
-                if (c.memory.role === creep.memory.role && c.memory.operateInRoom) {
-                    var room = c.memory.operateInRoom;
-                    result[room] = (result[room] || (result[room] = 0)) + 1;
-                }
-                return result;
-            }, {});
-            var limit_1 = limits_1.limits[creep.memory.role];
-            creep.memory.operateInRoom = _.filter(rooms, function (room) {
-                return !creepCount_1.hasOwnProperty(room) || creepCount_1[room] < limit_1;
-            })[0];
-        }
         return creep.memory.operateInRoom !== creep.pos.roomName;
     };
     Utils.prototype.shiftStructure = function (creep, own) {
-        if (0 < Memory.repairQueue.length) {
-            var id = Game.getObjectById(Memory.repairQueue[0]);
+        var roomName = creep.memory.operateInRoom;
+        if (0 < Memory.rooms[roomName].repairQueue.length) {
+            var id = Game.getObjectById(Memory.rooms[roomName].repairQueue[0]);
             while (!id) {
-                Memory.repairQueue.shift();
-                id = Game.getObjectById(Memory.repairQueue[0]);
+                Memory.rooms[roomName].repairQueue.shift();
+                id = Game.getObjectById(Memory.rooms[roomName].repairQueue[0]);
             }
         }
-        var needsRepair = _.find(Memory.repairQueue, function (id) {
+        var needsRepair = _.find(Memory.rooms[roomName].repairQueue, function (id) {
             var struct = _.isUndefined(id) ? null : Game.getObjectById(id);
             return struct && (!own || struct.pos.roomName === creep.memory.operateInRoom);
         });
         if (_.isUndefined(needsRepair)) {
             return null;
         }
-        Memory.repairQueue = _.filter(Memory.repairQueue, function (id) { return id !== needsRepair; });
+        Memory.rooms[roomName].repairQueue = _.filter(Memory.rooms[roomName].repairQueue, function (id) { return id !== needsRepair; });
         return Game.getObjectById(needsRepair);
     };
     Utils.prototype.tryBuildRoad = function (creep) {
@@ -271,20 +261,22 @@ var Utils = (function () {
         }
     };
     Utils.prototype.updateInfrastructure = function () {
-        if (_.isUndefined(Memory.repairQueue)) {
-            Memory.repairQueue = [];
-        }
-        if (_.isUndefined(Memory.spawnQueue)) {
-            Memory.spawnQueue = [];
-        }
+        _.forOwn(Game.rooms, function (room) {
+            if (_.isUndefined(room.memory.repairQueue)) {
+                room.memory.repairQueue = [];
+            }
+            if (_.isUndefined(room.memory.spawnQueue)) {
+                room.memory.spawnQueue = [];
+            }
+            if (_.isUndefined(room.memory.creepCount)) {
+                room.memory.creepCount = {};
+            }
+        });
         if (_.isUndefined(Memory.harvestedSources)) {
             Memory.harvestedSources = {};
         }
         if (_.isUndefined(Memory.autoBuildRoads)) {
             Memory.autoBuildRoads = true;
-        }
-        if (_.isUndefined(Memory.controllerCont)) {
-            Memory.controllerCont = {};
         }
         if (_.isUndefined(Memory.maxWallHits)) {
             Memory.maxWallHits = 100000;
@@ -292,7 +284,6 @@ var Utils = (function () {
         if (_.isUndefined(Memory.maxRampartHits)) {
             Memory.maxRampartHits = 30000;
         }
-        Memory.controllerCount = _.size(_.filter(Game.structures, function (o, k) { return o.structureType === STRUCTURE_CONTROLLER; }));
     };
     Utils = Utils_1 = __decorate([
         screeps_typescript_profiler_1.profile
@@ -306,22 +297,6 @@ exports.utils = new Utils();
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.limits = {
-    builder: 2,
-    carrier: 3,
-    claimer: 2,
-    harvester: 2,
-    upgrader: 3
-};
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -341,7 +316,7 @@ global.Profiler = Profiler.init();
 var LoopFunctions = (function () {
     function LoopFunctions() {
     }
-    LoopFunctions.findDamagedStructures = function () {
+    LoopFunctions.prototype.findDamagedStructures = function () {
         _.forOwn(Game.rooms, function (room) {
             room.find(FIND_STRUCTURES, {
                 filter: function (struct) {
@@ -350,14 +325,14 @@ var LoopFunctions = (function () {
                         (struct.structureType === STRUCTURE_CONTAINER && struct.hits < struct.hitsMax - 50000) ||
                         (struct.structureType !== STRUCTURE_RAMPART && struct.structureType !== STRUCTURE_WALL &&
                             struct.hits < struct.hitsMax / 2)) {
-                        utils_1.utils.enqueueStructure(struct);
+                        utils_1.utils.enqueueStructure(room, struct);
                     }
                     return false;
                 }
             });
         });
     };
-    LoopFunctions.towerLogic = function () {
+    LoopFunctions.prototype.towerLogic = function () {
         _.forOwn(Game.structures, function (tower) {
             if (tower.structureType === STRUCTURE_TOWER) {
                 var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
@@ -401,7 +376,7 @@ var LoopFunctions = (function () {
             }
         });
     };
-    LoopFunctions.creepActions = function () {
+    LoopFunctions.prototype.creepActions = function () {
         _.forOwn(Game.creeps, function (creep) {
             roles_1.rolesModule.run(creep);
         });
@@ -411,22 +386,28 @@ var LoopFunctions = (function () {
     ], LoopFunctions);
     return LoopFunctions;
 }());
+var main = new LoopFunctions();
 module.exports.loop = function () {
-    utils_1.utils.clearMemory();
     utils_1.utils.updateInfrastructure();
-    LoopFunctions.findDamagedStructures();
-    if (Object.getOwnPropertyNames(Game.creeps).length === 0) {
-        Memory.spawnQueue = [];
-        Memory.spawnQueue.unshift({
-            body: [CARRY, MOVE],
-            role: roles_1.CARRIER
-        });
-        Memory.spawnQueue.unshift({
-            body: [CARRY, WORK, WORK, MOVE],
-            role: roles_1.HARVESTER
-        });
-    }
-    Memory.creepCount = roles_1.rolesModule.count();
+    utils_1.utils.clearMemory();
+    main.findDamagedStructures();
+    roles_1.rolesModule.countCreeps();
+    _.forOwn(Game.rooms, function (room) {
+        if (room.controller) {
+            if (Object.getOwnPropertyNames(Game.creeps).length === 0) {
+                room.memory.spawnQueue = [];
+                room.memory.spawnQueue.unshift({
+                    body: [CARRY, MOVE],
+                    role: roles_1.CARRIER
+                });
+                room.memory.spawnQueue.unshift({
+                    body: [CARRY, WORK, WORK, MOVE],
+                    role: roles_1.HARVESTER
+                });
+            }
+            roles_1.rolesModule.spawn(room);
+        }
+    });
     _.forOwn(Game.spawns, function (spawn) {
         roles_1.rolesModule.processSpawnQueue(spawn);
         if (spawn.spawning) {
@@ -434,14 +415,13 @@ module.exports.loop = function () {
             spawn.room.visual.text(utils_1.Messages.CONSTRUCT_SYM + " " + spawningCreep.memory.role, spawn.pos.x + 1, spawn.pos.y, { align: "left", opacity: 0.8 });
         }
     });
-    roles_1.rolesModule.spawn();
-    LoopFunctions.towerLogic();
-    LoopFunctions.creepActions();
+    main.towerLogic();
+    main.creepActions();
 };
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -607,6 +587,22 @@ function outputProfilerData() {
     output += "\t\t\t" + totalCpu.toFixed(2) + " average CPU profiled per tick";
     console.log(output);
 }
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.limits = {
+    builder: 2,
+    carrier: 3,
+    claimer: 2,
+    harvester: 2,
+    upgrader: 3
+};
 
 
 /***/ }),
@@ -847,7 +843,7 @@ var Carrier = (function () {
                         if (struct.structureType !== STRUCTURE_CONTAINER) {
                             return false;
                         }
-                        var controllerCont = Memory.controllerCont[struct.pos.roomName] === struct.id;
+                        var controllerCont = creep.room.memory.controllerCont === struct.id;
                         return (!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
                             (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 50));
                     }
@@ -894,14 +890,15 @@ var Carrier = (function () {
             }
         }
         if (!target) {
-            var cont = Game.getObjectById(Memory.controllerCont[creep.pos.roomName]);
+            var designatedRoom = Game.rooms[creep.memory.operateInRoom];
+            var cont = designatedRoom ? Game.getObjectById(designatedRoom.memory.controllerCont) : null;
             if (cont && 500 < cont.storeCapacity - _.sum(cont.store)) {
                 target = cont;
             }
         }
         if (!target) {
             var towers = _.filter(Game.structures, function (struct) {
-                return struct.structureType === STRUCTURE_TOWER &&
+                return struct.structureType === STRUCTURE_TOWER && struct.room.name === creep.memory.operateInRoom &&
                     0 <= struct.energyCapacity - struct.energy - 300;
             });
             target = _.sortBy(towers, function (tower) {
@@ -1051,16 +1048,11 @@ var Harvester = (function () {
         utils_1.utils.tryBuildRoad(creep);
         var target = Game.getObjectById(creep.memory.target);
         if (!target) {
-            var sources_1 = [];
-            _.forEach(Game.rooms, function (k, v) {
-                _.forEach(k.find(FIND_SOURCES, {
-                    filter: function (src) {
-                        return !Memory.harvestedSources.hasOwnProperty(src.id);
-                    }
-                }), function (s) { sources_1.push(s); });
-            });
-            target = sources_1[0];
+            target = this.findSource();
             if (target) {
+                if (target.room.name !== creep.room.name) {
+                    console.log("Harvester found target in other room: " + target.room);
+                }
                 Memory.harvestedSources[target.id] = target.id;
                 creep.memory.target = target.id;
                 creep.say(utils_1.Messages.HARVEST);
@@ -1080,10 +1072,23 @@ var Harvester = (function () {
                 creep.drop(RESOURCE_ENERGY);
             }
         }
-        var err = creep.harvest(target);
-        if (err === ERR_NOT_IN_RANGE) {
-            utils_1.utils.moveTo(creep, target.pos);
+        if (target) {
+            var err = creep.harvest(target);
+            if (err === ERR_NOT_IN_RANGE) {
+                utils_1.utils.moveTo(creep, target.pos);
+            }
         }
+    };
+    Harvester.prototype.findSource = function () {
+        var sources = [];
+        _.forEach(Game.rooms, function (room) {
+            _.forEach(room.find(FIND_SOURCES, {
+                filter: function (src) {
+                    return src.room.name !== room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
+                }
+            }), function (s) { sources.push(s); });
+        });
+        return sources[0];
     };
     Harvester = __decorate([
         screeps_typescript_profiler_1.profile
@@ -1200,7 +1205,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = __webpack_require__(1);
 var screeps_typescript_profiler_1 = __webpack_require__(0);
-var limits_1 = __webpack_require__(3);
+var limits_1 = __webpack_require__(5);
 var role_builder_1 = __webpack_require__(6);
 var role_carrier_1 = __webpack_require__(7);
 var role_claimer_1 = __webpack_require__(8);
@@ -1221,88 +1226,82 @@ exports.roles = {
 var RolesModule = (function () {
     function RolesModule() {
     }
-    RolesModule_1 = RolesModule;
-    RolesModule.countControllers = function () {
-        var controllers = 0;
-        _.forOwn(Game.rooms, function (room) {
-            if (room.controller && room.controller.my) {
-                controllers += 1;
+    RolesModule.prototype.countCreeps = function () {
+        _.forOwn(exports.roles, function (role, roleName) {
+            _.forOwn(Memory.rooms, function (roomMem) {
+                roomMem.creepCount[roleName] = 0;
+            });
+        });
+        _.forOwn(Game.creeps, function (creep) {
+            if (!creep.memory.operateInRoom) {
+                Memory.rooms[creep.room.name].creepCount[creep.memory.role] += 1;
+            }
+            else {
+                Memory.rooms[creep.memory.operateInRoom].creepCount[creep.memory.role] += 1;
             }
         });
-        return controllers;
-    };
-    RolesModule.limit = function (role) {
-        if (role === "claimer") {
-            return _.isUndefined(Game.flags["claim"]) && _.isUndefined(Game.flags["reserve"]) ? 0 : limits_1.limits[role];
-        }
-        else {
-            return limits_1.limits[role] * Memory.controllerCount;
-        }
-    };
-    RolesModule.getMaxEnergySpawn = function () {
-        var spawns = [];
-        _.forOwn(Game.spawns, function (spawn) { spawns.push(spawn); });
-        spawns.sort(function (a, b) { return b.room.energyAvailable - a.room.energyAvailable; });
-        return spawns[0];
-    };
-    RolesModule.prototype.count = function () {
-        var count = {};
-        _.forOwn(exports.roles, function (role, name) { count[name] = 0; });
-        _.forEach(Game.creeps, function (creep) { count[creep.memory.role] += 1; });
-        _.forEach(Memory.spawnQueue, function (spec) { count[spec.role] += 1; });
-        return count;
+        _.forOwn(Memory.rooms, function (roomMem) {
+            _.forEach(roomMem.spawnQueue, function (spec) {
+                roomMem.creepCount[spec.role] += 1;
+            });
+        });
     };
     RolesModule.prototype.processSpawnQueue = function (spawn) {
-        var spec = Memory.spawnQueue.shift();
+        if (spawn.spawning) {
+            return;
+        }
+        var room = spawn.room;
+        var spec = room.memory.spawnQueue.shift();
         if (spec) {
-            console.log("Processing spawn Q " + spawn.name);
+            console.log("Processing spawn Q " + spawn.name + " "
+                + JSON.stringify({ room: room.name, role: spec.role }));
             if (spawn.canCreateCreep(spec.body) === OK) {
-                var newName = spawn.createCreep(spec.body, undefined, { role: spec.role });
+                var newName = spawn.createCreep(spec.body, undefined, { operateInRoom: room.name, role: spec.role });
                 console.log("Spawning new " + spec.role + ": " + newName);
             }
             else if ("claimer" === spec.role) {
-                Memory.spawnQueue.push(spec);
+                room.memory.spawnQueue.push(spec);
             }
             else {
-                Memory.spawnQueue.unshift(spec);
+                room.memory.spawnQueue.unshift(spec);
             }
         }
     };
     RolesModule.prototype.run = function (creep) {
         exports.roles[creep.memory.role].run(creep);
     };
-    RolesModule.prototype.spawn = function (role) {
+    RolesModule.prototype.spawn = function (room, role) {
+        var _this = this;
         if (!role) {
             _.forOwn(exports.roles, function (r, name) {
-                if (name && Memory.creepCount[name] < RolesModule_1.limit(name)) {
-                    var spawn = RolesModule_1.getMaxEnergySpawn();
-                    if (!spawn) {
-                        return;
-                    }
-                    var energy = spawn.room.energyAvailable;
+                if (name && room.memory.creepCount[name] < _this.limit(name)) {
+                    var energy = room.energyAvailable;
                     var body = r.body(energy);
-                    Memory.spawnQueue.push({ body: body, role: name });
+                    room.memory.spawnQueue.push({ body: body, role: name });
                 }
             });
         }
         else if (typeof role === "string") {
-            var spawn = RolesModule_1.getMaxEnergySpawn();
-            if (!spawn) {
-                return;
-            }
-            var energy = spawn.room.energyAvailable;
+            var energy = room.energyAvailable;
             var body = exports.roles[role].body(energy);
-            Memory.spawnQueue.push({ body: body, role: role });
+            room.memory.spawnQueue.push({ body: body, role: role });
         }
         else {
-            Memory.spawnQueue.push(role);
+            room.memory.spawnQueue.push(role);
         }
     };
-    RolesModule = RolesModule_1 = __decorate([
+    RolesModule.prototype.limit = function (role) {
+        if (role === "claimer") {
+            return _.isUndefined(Game.flags["claim"]) && _.isUndefined(Game.flags["reserve"]) ? 0 : limits_1.limits[role];
+        }
+        else {
+            return limits_1.limits[role];
+        }
+    };
+    RolesModule = __decorate([
         screeps_typescript_profiler_1.profile
     ], RolesModule);
     return RolesModule;
-    var RolesModule_1;
 }());
 exports.RolesModule = RolesModule;
 exports.rolesModule = new RolesModule();
@@ -1312,7 +1311,7 @@ exports.rolesModule = new RolesModule();
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(3);
 
 
 /***/ })

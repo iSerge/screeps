@@ -67,23 +67,29 @@ export class Utils {
                 }
 
                 delete Memory.creeps[name];
-                console.log("Clearing non-existing creep memory:", name);
+            }
+        });
+
+        _.forOwn(Memory.rooms, (room, name: string) => {
+            if (!Game.rooms.hasOwnProperty(name)) {
+                delete Memory.rooms[name];
             }
         });
     }
 
     /**
-     * @function
+     * @method
+     * @param {Room} room
      * @param {object} object
      * @param {string} object.id
      */
-    public enqueueStructure(object: Structure) {
+    public enqueueStructure(room: Room, object: Structure) {
         if (_.isUndefined(object)) {
             return;
         }
 
-        if (!_.includes(Memory.repairQueue, object.id)) {
-            Memory.repairQueue.push(object.id);
+        if (!_.includes(room.memory.repairQueue, object.id)) {
+            room.memory.repairQueue.push(object.id);
         }
     }
 
@@ -182,21 +188,6 @@ export class Utils {
      * @param {Creep} creep
      */
     public navigateToDesignatedRoom(creep: Creep) {
-        if (!creep.memory.operateInRoom) {
-            const rooms = _.map(_.filter(Game.structures, (o, k) => o.structureType === STRUCTURE_CONTROLLER),
-                (s) => s.pos.roomName);
-            const creepCount = _.reduce(Game.creeps, (result, c) => {
-                if (c.memory.role === creep.memory.role && c.memory.operateInRoom) {
-                    const room = c.memory.operateInRoom;
-                    result[room] = (result[room] || (result[room] = 0)) + 1;
-                }
-                return result;
-            }, {} as _.Dictionary<number>);
-            const limit = limits[creep.memory.role];
-            creep.memory.operateInRoom = _.filter(rooms, (room) => {
-                return !creepCount.hasOwnProperty(room) || creepCount[room] < limit;
-            })[0];
-        }
         return creep.memory.operateInRoom !== creep.pos.roomName;
     }
 
@@ -207,15 +198,16 @@ export class Utils {
      * @return {null|RoomObject}
      */
     public shiftStructure(creep: Creep, own: boolean): Structure | null {
-        if (0 < Memory.repairQueue.length) {
-            let id = Game.getObjectById(Memory.repairQueue[0]);
+        const roomName = creep.memory.operateInRoom;
+        if (0 < Memory.rooms[roomName].repairQueue.length) {
+            let id = Game.getObjectById(Memory.rooms[roomName].repairQueue[0]);
             while (!id) {
-                Memory.repairQueue.shift();
-                id = Game.getObjectById(Memory.repairQueue[0]);
+                Memory.rooms[roomName].repairQueue.shift();
+                id = Game.getObjectById(Memory.rooms[roomName].repairQueue[0]);
             }
         }
 
-        const needsRepair: string | undefined = _.find(Memory.repairQueue, (id: string) => {
+        const needsRepair: string | undefined = _.find(Memory.rooms[roomName].repairQueue, (id: string) => {
             const struct: RoomObject | null = _.isUndefined(id) ? null : Game.getObjectById(id);
             return struct && (!own || struct.pos.roomName === creep.memory.operateInRoom);
         });
@@ -224,7 +216,7 @@ export class Utils {
             return null;
         }
 
-        Memory.repairQueue = _.filter(Memory.repairQueue, (id) => id !== needsRepair);
+        Memory.rooms[roomName].repairQueue = _.filter(Memory.rooms[roomName].repairQueue, (id) => id !== needsRepair);
 
         return Game.getObjectById(needsRepair);
     }
@@ -251,20 +243,23 @@ export class Utils {
     }
 
     public updateInfrastructure() {
-        if (_.isUndefined(Memory.repairQueue)) {
-            Memory.repairQueue = [];
-        }
-        if (_.isUndefined(Memory.spawnQueue)) {
-            Memory.spawnQueue = [];
-        }
+        _.forOwn(Game.rooms, (room) => {
+            if (_.isUndefined(room.memory.repairQueue)) {
+                room.memory.repairQueue = [];
+            }
+            if (_.isUndefined(room.memory.spawnQueue)) {
+                room.memory.spawnQueue = [];
+            }
+            if (_.isUndefined(room.memory.creepCount)) {
+                room.memory.creepCount = {};
+            }
+        });
+
         if (_.isUndefined(Memory.harvestedSources)) {
             Memory.harvestedSources = {};
         }
         if (_.isUndefined(Memory.autoBuildRoads)) {
             Memory.autoBuildRoads = true;
-        }
-        if (_.isUndefined(Memory.controllerCont)) {
-            Memory.controllerCont = {};
         }
         if (_.isUndefined(Memory.maxWallHits)) {
             Memory.maxWallHits = 100000;
@@ -272,8 +267,6 @@ export class Utils {
         if (_.isUndefined(Memory.maxRampartHits)) {
             Memory.maxRampartHits = 30000;
         }
-
-        Memory.controllerCount = _.size(_.filter(Game.structures, (o, k) => o.structureType === STRUCTURE_CONTROLLER));
     }
 }
 
