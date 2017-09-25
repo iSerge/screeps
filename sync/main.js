@@ -337,11 +337,15 @@ var LoopFunctions = (function () {
             if (tower.structureType === STRUCTURE_TOWER) {
                 var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
                     filter: function (creep) {
-                        return creep.pos.inRangeTo(tower.pos, 15);
+                        return creep.pos.inRangeTo(tower.pos, tower.room.memory.towerActive ? 15 : 7);
                     }
                 });
                 if (closestHostile) {
+                    tower.room.memory.towerActive = true;
                     tower.attack(closestHostile);
+                }
+                else {
+                    tower.room.memory.towerActive = false;
                 }
                 var closestDamagedCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
                     filter: function (creep) {
@@ -601,7 +605,7 @@ exports.limits = {
     carrier: 3,
     claimer: 2,
     harvester: 2,
-    upgrader: 3
+    upgrader: 1
 };
 
 
@@ -836,27 +840,20 @@ var Carrier = (function () {
             })[0];
         }
         if (!target) {
-            var sources = creep.room.find(FIND_SOURCES);
-            var sourceConts = [].concat.apply([], _.map(sources, function (source) {
-                return source.pos.findInRange(FIND_STRUCTURES, 3, {
-                    filter: function (struct) {
-                        if (struct.structureType !== STRUCTURE_CONTAINER) {
-                            return false;
-                        }
-                        var controllerCont = creep.room.memory.controllerCont === struct.id;
-                        return (!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
-                            (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 50));
-                    }
-                });
-            }));
-            target = _.sortBy(sourceConts, function (cont) {
+            var conts = creep.room.find(FIND_STRUCTURES, {
+                filter: function (struct) {
+                    return struct.structureType === STRUCTURE_CONTAINER &&
+                        struct.id !== creep.room.memory.controllerCont && 0 < struct.store.energy;
+                }
+            });
+            target = _.sortBy(conts, function (cont) {
                 return cont.storeCapacity - _.sum(cont.store);
             })[0];
         }
         if (!target) {
             var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: function (store) {
-                    return store.structureType === STRUCTURE_STORAGE && 0 < store.energy;
+                    return store.structureType === STRUCTURE_STORAGE && 0 < store.store.energy;
                 }
             });
             target = targets[0];
@@ -1048,7 +1045,7 @@ var Harvester = (function () {
         utils_1.utils.tryBuildRoad(creep);
         var target = Game.getObjectById(creep.memory.target);
         if (!target) {
-            target = this.findSource();
+            target = this.findSource(creep);
             if (target) {
                 if (target.room.name !== creep.room.name) {
                     console.log("Harvester found target in other room: " + target.room);
@@ -1079,14 +1076,11 @@ var Harvester = (function () {
             }
         }
     };
-    Harvester.prototype.findSource = function () {
-        var sources = [];
-        _.forEach(Game.rooms, function (room) {
-            _.forEach(room.find(FIND_SOURCES, {
-                filter: function (src) {
-                    return src.room.name === room.name && !Memory.harvestedSources.hasOwnProperty(src.id);
-                }
-            }), function (s) { sources.push(s); });
+    Harvester.prototype.findSource = function (creep) {
+        var sources = creep.room.find(FIND_SOURCES, {
+            filter: function (src) {
+                return !Memory.harvestedSources.hasOwnProperty(src.id);
+            }
         });
         return sources[0];
     };

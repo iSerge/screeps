@@ -103,23 +103,15 @@ class Carrier implements Role {
 
         if (!target) {
             // containers near sources
-            const sources: Source[] = creep.room.find(FIND_SOURCES);
-            const sourceConts = [].concat.apply([], _.map(sources, (source: Source) => {
-                return source.pos.findInRange(FIND_STRUCTURES, 3, {
-                    filter: (struct: Container) => {
-                        if (struct.structureType !== STRUCTURE_CONTAINER) {
-                            return false;
-                        }
-
-                        const controllerCont = creep.room.memory.controllerCont === struct.id;
-                        return (!controllerCont && 0 < struct.store[RESOURCE_ENERGY]) ||
-                             (controllerCont && (struct.storeCapacity - _.sum(struct.store) < 50));
-                    }
-                });
-            }));
+            const conts: Container[] = creep.room.find(FIND_STRUCTURES, {
+                filter: (struct: Container) => {
+                    return struct.structureType === STRUCTURE_CONTAINER &&
+                        struct.id !== creep.room.memory.controllerCont && 0 < struct.store.energy;
+                }
+            });
 
             // most full container
-            target = _.sortBy(sourceConts, (cont: Container) => {
+            target = _.sortBy(conts, (cont) => {
                 return cont.storeCapacity - _.sum(cont.store);
             })[0];
         }
@@ -127,7 +119,7 @@ class Carrier implements Role {
         if (!target) {
             const targets: Storage[] = creep.room.find(FIND_STRUCTURES, {
                 filter: (store: Storage) => {
-                    return store.structureType === STRUCTURE_STORAGE && 0 < store.energy;
+                    return store.structureType === STRUCTURE_STORAGE && 0 < store.store.energy;
                 }
             });
             target = targets[0];
