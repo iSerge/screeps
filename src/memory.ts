@@ -32,5 +32,6 @@ declare global {
         creepCount: _.Dictionary<number>;
         repairQueue: string[];
         spawnQueue: BodySpec[];
+        towerActive: boolean;
     }
 }

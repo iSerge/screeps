@@ -27,11 +27,14 @@ class LoopFunctions {
             if (tower.structureType === STRUCTURE_TOWER) {
                 const closestHostile: Creep | null = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
                     filter: (creep: Creep) => {
-                        return creep.pos.inRangeTo(tower.pos, 15);
+                        return creep.pos.inRangeTo(tower.pos, tower.room.memory.towerActive ? 15 : 7);
                     }
                 });
                 if (closestHostile) {
+                    tower.room.memory.towerActive = true;
                     tower.attack(closestHostile);
+                } else {
+                    tower.room.memory.towerActive = false;
                 }
 
                 const closestDamagedCreep: Creep | null = tower.pos.findClosestByRange(FIND_MY_CREEPS, {

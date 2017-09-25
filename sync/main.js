@@ -337,11 +337,15 @@ var LoopFunctions = (function () {
             if (tower.structureType === STRUCTURE_TOWER) {
                 var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
                     filter: function (creep) {
-                        return creep.pos.inRangeTo(tower.pos, 15);
+                        return creep.pos.inRangeTo(tower.pos, tower.room.memory.towerActive ? 15 : 7);
                     }
                 });
                 if (closestHostile) {
+                    tower.room.memory.towerActive = true;
                     tower.attack(closestHostile);
+                }
+                else {
+                    tower.room.memory.towerActive = false;
                 }
                 var closestDamagedCreep = tower.pos.findClosestByRange(FIND_MY_CREEPS, {
                     filter: function (creep) {
@@ -601,7 +605,7 @@ exports.limits = {
     carrier: 3,
     claimer: 2,
     harvester: 2,
-    upgrader: 3
+    upgrader: 1
 };
 
 

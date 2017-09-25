@@ -5,5 +5,5 @@ export const limits: Dictionary<number> = {
     carrier:   3,
     claimer:   2,
     harvester: 2,
-    upgrader:  3
+    upgrader:  1
 };
