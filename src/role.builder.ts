@@ -92,7 +92,6 @@ class Builder implements Role {
                     utils.moveTo(creep, target.pos);
                 }
             } else {
-                creep.say("\uD83D\uDEA7 strange");
                 creep.memory.buildTarget = "";
                 creep.memory.building = false;
             }
