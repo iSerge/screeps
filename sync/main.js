@@ -707,7 +707,6 @@ var Builder = (function () {
                 }
             }
             else {
-                creep.say("\uD83D\uDEA7 strange");
                 creep.memory.buildTarget = "";
                 creep.memory.building = false;
             }
@@ -832,7 +831,7 @@ var Carrier = (function () {
         if (!target) {
             var drops = creep.room.find(FIND_DROPPED_RESOURCES, {
                 filter: function (drop) {
-                    return drop.resourceType === RESOURCE_ENERGY && 0 < drop.amount;
+                    return drop.resourceType === RESOURCE_ENERGY && 50 < drop.amount;
                 }
             });
             target = _.sortBy(drops, function (drop) {
@@ -843,7 +842,7 @@ var Carrier = (function () {
             var conts = creep.room.find(FIND_STRUCTURES, {
                 filter: function (struct) {
                     return struct.structureType === STRUCTURE_CONTAINER &&
-                        struct.id !== creep.room.memory.controllerCont && 0 < struct.store.energy;
+                        struct.id !== creep.room.memory.controllerCont && 20 < struct.store.energy;
                 }
             });
             target = _.sortBy(conts, function (cont) {

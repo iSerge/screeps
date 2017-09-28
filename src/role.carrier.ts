@@ -92,7 +92,7 @@ class Carrier implements Role {
             // dropped energy
             const drops: Resource[] = creep.room.find(FIND_DROPPED_RESOURCES, {
                 filter: (drop: Resource) => {
-                    return drop.resourceType === RESOURCE_ENERGY && 0 < drop.amount;
+                    return drop.resourceType === RESOURCE_ENERGY && 50 < drop.amount;
                 }
             });
 
@@ -106,7 +106,7 @@ class Carrier implements Role {
             const conts: Container[] = creep.room.find(FIND_STRUCTURES, {
                 filter: (struct: Container) => {
                     return struct.structureType === STRUCTURE_CONTAINER &&
-                        struct.id !== creep.room.memory.controllerCont && 0 < struct.store.energy;
+                        struct.id !== creep.room.memory.controllerCont && 20 < struct.store.energy;
                 }
             });
 
