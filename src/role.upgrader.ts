@@ -2,13 +2,10 @@ import {Messages, utils} from "./utils";
 
 import {Role} from "./Role";
 
-import { profile } from "../screeps-typescript-profiler";
-
 class Upgrader implements Role {
     /**
      * @override
      */
-    @profile
     public body(availEnergy: number) {
         if (availEnergy < 350) {
             return [WORK, CARRY, MOVE, MOVE]; // 250
@@ -28,7 +25,6 @@ class Upgrader implements Role {
     /**
      * @override
      */
-    @profile
     public run(creep: Creep) {
         utils.tryBuildRoad(creep);
 

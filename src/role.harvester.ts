@@ -4,9 +4,6 @@ import {Messages, utils} from "./utils";
 
 import {Role} from "./Role";
 
-import { profile } from "../screeps-typescript-profiler";
-
-@profile
 class Harvester implements Role {
     /**
      * @override
@@ -54,9 +51,9 @@ class Harvester implements Role {
         if (0 < creep.carry.energy) {
             // console.log('Harvester ' + creep.name + ' unloading');// JSON.stringify(target, null, 4));
             const dst: Structure[] = creep.pos.findInRange(FIND_STRUCTURES, 1, {
-                filter: (struct: Link | Container) => {
+                filter: (struct: StructureLink | StructureContainer) => {
                     return (struct.structureType === STRUCTURE_LINK && struct.energy < struct.energyCapacity) ||
-                        (struct.structureType === STRUCTURE_CONTAINER && _.sum(struct.store) < struct.storeCapacity);
+                        (struct.structureType === STRUCTURE_CONTAINER && struct.store.energy < struct.storeCapacity);
                 }
             });
 

@@ -22,9 +22,11 @@ declare global {
     }
 
     interface FlagMemory {
+        [name: string]: any;
     }
 
     interface SpawnMemory {
+        [name: string]: any;
     }
 
     interface RoomMemory {

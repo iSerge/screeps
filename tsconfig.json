@@ -24,8 +24,6 @@
   },
   "compileOnSave": false,
   "include": [
-    "typings/**/*.d.ts",
-    "screeps-typescript-profiler/Profiler/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.d.ts"
   ],

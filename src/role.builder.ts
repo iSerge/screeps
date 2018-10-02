@@ -4,9 +4,6 @@ import {Messages, utils} from "./utils";
 
 import {Role} from "./Role";
 
-import { profile } from "../screeps-typescript-profiler";
-
-@profile
 class Builder implements Role {
     /**
      * @override
@@ -121,7 +118,7 @@ class Builder implements Role {
     private findConstructionSite(type: StructureConstant, creep: Creep) {
         let target = null;
 
-        const sites = _.filter(Game.constructionSites, (site: Structure) => {
+        const sites = _.filter(Game.constructionSites, (site: ConstructionSite) => {
             return  site.structureType === type && site.pos.roomName === creep.memory.operateInRoom;
         });
 
