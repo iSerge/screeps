@@ -11,8 +11,6 @@ import * as _ from "lodash";
 
 import {limits} from "./limits";
 
-import { profile } from "../screeps-typescript-profiler";
-
 export const Messages = {
     BUILD: "\uD83D\uDEA7 build",
     CONSTRUCT_SYM: "\uD83D\uDEE0",
@@ -22,7 +20,6 @@ export const Messages = {
     UPGRADE: "\u26A1 upgrade"
 };
 
-@profile
 export class Utils {
     /**
      * @function
@@ -133,21 +130,30 @@ export class Utils {
      * @return {RoomObject}
      */
     public getEnergyStorageTarget(creep: Creep) {
-        let target: Structure | null = Game.getObjectById(creep.memory.energyTarget);
+        let target: Structure | Resource | Source | null = Game.getObjectById(creep.memory.energyTarget);
 
         if (!target) {
-            let targets = creep.room.find(FIND_DROPPED_RESOURCES, {
+            let targets: RoomObject[] = creep.room.find(FIND_DROPPED_RESOURCES, {
                 filter: (res: Resource) => {
                     return res.resourceType === RESOURCE_ENERGY;
                 }
             });
 
-            targets = targets.concat(creep.room.find(FIND_STRUCTURES, {
-                filter: (struct: StructureStorage | StructureLink | StructureContainer) => {
-                    return ((struct.structureType === STRUCTURE_STORAGE ||
-                        struct.structureType === STRUCTURE_CONTAINER) &&
-                        0 < struct.store[RESOURCE_ENERGY]) ||
-                        (struct.structureType === STRUCTURE_LINK && 0 < struct.energy);
+            targets = targets.concat(creep.room.find(FIND_MY_STRUCTURES, {
+                filter: (struct: Structure) => {
+                    switch (struct.structureType) {
+                        case STRUCTURE_STORAGE:
+                            const storage = struct as StructureStorage;
+                            return 0 < storage.store[RESOURCE_ENERGY];
+                        case STRUCTURE_CONTAINER:
+                            const container = struct as StructureContainer;
+                            return 0 < container.store[RESOURCE_ENERGY];
+                        case STRUCTURE_LINK:
+                            const link = struct as StructureLink;
+                            return 0 < link.energy;
+                        default:
+                            return false;
+                    }
                 }
             }));
 
@@ -207,9 +213,9 @@ export class Utils {
             }
         }
 
-        const needsRepair: string | undefined = _.find(Memory.rooms[roomName].repairQueue, (id: string) => {
+        const needsRepair = _.find(Memory.rooms[roomName].repairQueue, (id: string) => {
             const struct: RoomObject | null = _.isUndefined(id) ? null : Game.getObjectById(id);
-            return struct && (!own || struct.pos.roomName === creep.memory.operateInRoom);
+            return !_.isNull(struct) && (!own || struct.pos.roomName === creep.memory.operateInRoom);
         });
 
         if (_.isUndefined(needsRepair)) {

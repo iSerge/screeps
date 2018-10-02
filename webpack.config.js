@@ -23,18 +23,18 @@ function webpackConfig(options) {
 module.exports = webpackConfig;
 
 // config.dev
-const ScreepsWebpackPlugin = require("screeps-webpack-plugin");
+// const ScreepsWebpackPlugin = require("screeps-webpack-plugin");
 
 function webpackConfigDev(options = {}) {
     // get the common configuration to start with
     const config = init(options);
 
-    // make "dev" specific changes here
-    const credentials = require("./credentials.json");
-    credentials.branch = "dev";
-
-    config.plugin("screeps")
-        .use(ScreepsWebpackPlugin, [credentials]);
+    // // make "dev" specific changes here
+    // const credentials = require("./credentials.json");
+    // credentials.branch = "dev";
+    //
+    // config.plugin("screeps")
+    //     .use(ScreepsWebpackPlugin, [credentials]);
 
     // modify the args of "define" plugin
     config.plugin("define").tap((args) => {

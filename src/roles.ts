@@ -1,7 +1,5 @@
 import * as _ from "lodash";
 
-import { profile } from "../screeps-typescript-profiler";
-
 import {limits} from "./limits";
 import {Role} from "./Role";
 
@@ -40,7 +38,6 @@ export interface BodySpec {
     role: CreepRole;
 }
 
-@profile
 export class RolesModule {
     public countCreeps() {
         _.forOwn(roles, (role, roleName: string) => {
@@ -69,7 +66,7 @@ export class RolesModule {
      *
      *  @param {StructureSpawn} spawn Spawn on which start spawning
      */
-    public processSpawnQueue(spawn: Spawn) {
+    public processSpawnQueue(spawn: StructureSpawn) {
         if (spawn.spawning) {
             return;
         }
@@ -122,7 +119,7 @@ export class RolesModule {
             const body = roles[role].body(energy);
             room.memory.spawnQueue.push({ body, role });
         } else {
-            room.memory.spawnQueue.push(role);
+            room.memory.spawnQueue.push(role as BodySpec);
         }
     }
 

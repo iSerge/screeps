@@ -4,14 +4,11 @@ import {utils} from "./utils";
 
 import {Role} from "./Role";
 
-import { profile } from "../screeps-typescript-profiler";
-
 /**
  *
  * @class
  * @extends {Role}
  */
-@profile
 class Claimer implements Role {
     /**
      * @override
@@ -58,7 +55,7 @@ class Claimer implements Role {
 
         if (creep.memory.claimTarget) {
             // Move to target & claim
-            const controller: Controller | null = Game.getObjectById(creep.memory.claimTarget);
+            const controller: StructureController | null = Game.getObjectById(creep.memory.claimTarget);
             if (controller) {
                 if (flag.name === "claim") {
                     if (creep.room.controller && !creep.room.controller.my) {

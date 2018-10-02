@@ -1,13 +1,8 @@
 import * as _ from "lodash";
 
-import * as Profiler from "../screeps-typescript-profiler";
-
 import {CARRIER, HARVESTER, rolesModule as roles} from "./roles";
 import {Messages, utils} from "./utils";
 
-global.Profiler = Profiler.init();
-
-@Profiler.profile
 class LoopFunctions {
     public findDamagedStructures() {
         _.forOwn(Game.rooms, (room) => {
@@ -23,8 +18,9 @@ class LoopFunctions {
     }
 
     public towerLogic() {
-        _.forOwn(Game.structures, (tower: Tower) => {
-            if (tower.structureType === STRUCTURE_TOWER) {
+        _.forOwn(Game.structures, (struct: Structure) => {
+            if (struct.structureType === STRUCTURE_TOWER) {
+                const tower = struct as StructureTower;
                 const closestHostile: Creep | null = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS, {
                     filter: (creep: Creep) => {
                         return creep.pos.inRangeTo(tower.pos, tower.room.memory.towerActive ? 15 : 7);

@@ -4,14 +4,11 @@ import {Messages, utils} from "./utils";
 
 import {Role} from "./Role";
 
-import { profile } from "../screeps-typescript-profiler";
-
 /**
  *
  * @class
  * @extends {Role}
  */
-@profile
 class Carrier implements Role {
     /**
      * @override
@@ -103,23 +100,38 @@ class Carrier implements Role {
 
         if (!target) {
             // containers near sources
-            const conts: Container[] = creep.room.find(FIND_STRUCTURES, {
-                filter: (struct: Container) => {
-                    return struct.structureType === STRUCTURE_CONTAINER &&
-                        struct.id !== creep.room.memory.controllerCont && 20 < struct.store.energy;
+            const conts: Structure[] = creep.room.find(FIND_STRUCTURES, {
+                filter: (struct: Structure) => {
+                    if (struct.structureType === STRUCTURE_CONTAINER) {
+                        const cont = struct as StructureContainer;
+                        return cont.id !== creep.room.memory.controllerCont && 20 < cont.store.energy;
+                    } else {
+                        return false;
+                    }
                 }
             });
 
             // most full container
             target = _.sortBy(conts, (cont) => {
-                return cont.storeCapacity - _.sum(cont.store);
+                if (cont.structureType === STRUCTURE_CONTAINER) {
+                    const c = cont as StructureContainer;
+                    return c.storeCapacity - c.store.energy;
+                } else {
+                    return 0;
+                }
             })[0];
         }
 
         if (!target) {
-            const targets: Storage[] = creep.room.find(FIND_STRUCTURES, {
-                filter: (store: Storage) => {
-                    return store.structureType === STRUCTURE_STORAGE && 0 < store.store.energy;
+            const targets: Structure[] = creep.room.find(FIND_MY_STRUCTURES, {
+                filter: (struct: Structure) => {
+                    if (struct.structureType === STRUCTURE_STORAGE) {
+                        const store = struct as StructureStorage;
+                        return store.structureType === STRUCTURE_STORAGE && 0 < store.store.energy;
+                    } else {
+                        return false;
+                    }
+
                 }
             });
             target = targets[0];
@@ -154,11 +166,19 @@ class Carrier implements Role {
             // console.log('Carrier ' + creep.name + ' looking for spawns and extensions');
             if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                    filter: (struct: Spawn | Extension) => {
-                        return (struct.structureType === STRUCTURE_SPAWN ||
-                                 struct.structureType === STRUCTURE_EXTENSION)
-                            && struct.energy < struct.energyCapacity &&
-                            creep.memory.operateInRoom === struct.pos.roomName;
+                    filter: (s: Structure) => {
+                        switch (s.structureType) {
+                            case STRUCTURE_SPAWN:
+                                const spawn = s as StructureExtension;
+                                return spawn.energy < spawn.energyCapacity
+                                    && creep.memory.operateInRoom === spawn.pos.roomName;
+                            case STRUCTURE_EXTENSION:
+                                const ext = s as StructureExtension;
+                                return ext.energy < ext.energyCapacity
+                                    && creep.memory.operateInRoom === ext.pos.roomName;
+                                default:
+                                return false;
+                        }
                     }
                 });
             }
@@ -171,33 +191,47 @@ class Carrier implements Role {
 
             const designatedRoom = Game.rooms[creep.memory.operateInRoom];
 
-            const cont: Container | null =
-                designatedRoom ? Game.getObjectById(designatedRoom.memory.controllerCont) : null;
-            if (cont && 500 < cont.storeCapacity - _.sum(cont.store)) {
+            const cont: StructureContainer | null =
+                !_.isNull(designatedRoom) ? Game.getObjectById(designatedRoom.memory.controllerCont) : null;
+            if (cont && 500 < cont.storeCapacity - cont.store.energy) {
                 target = cont;
             }
         }
 
         if (!target) {
             // console.log('Carrier ' + creep.name + ' looking for towers');
-            const towers = _.filter(Game.structures, (struct: Tower) => {
-                return struct.structureType === STRUCTURE_TOWER && struct.room.name === creep.memory.operateInRoom &&
-                    0 <= struct.energyCapacity - struct.energy - 300;
+            const towers: Structure[] = _.filter(Game.structures, (struct: Structure) => {
+                if (STRUCTURE_TOWER === struct.structureType) {
+                    const tower = struct as StructureTower;
+                    return tower.room.name === creep.memory.operateInRoom &&
+                    0 <= tower.energyCapacity - tower.energy - 300;
+                } else {
+                    return false;
+                }
             });
 
             // emptiest tower
-            target = _.sortBy(towers, (tower: Tower) => {
-                return tower.energyCapacity + tower.energy;
+            target = _.sortBy(towers, (struct) => {
+                if (struct.structureType === STRUCTURE_CONTAINER) {
+                    const tower = struct as StructureTower;
+                    return tower.energyCapacity + tower.energy;
+                } else {
+                    return 0;
+                }
             })[0];
         }
 
         if (!target) {
             // looking for storage
             // console.log('Carrier ' + creep.name + ' looking for storage');
-            const storages: Storage[] = creep.room.find(FIND_STRUCTURES, {
-                filter: (struct: Storage) => {
-                    return struct.structureType === STRUCTURE_STORAGE &&
-                        0 < struct.storeCapacity - _.sum(struct.store);
+            const storages: Structure[] = creep.room.find(FIND_STRUCTURES, {
+                filter: (struct: Structure) => {
+                    if (struct.structureType === STRUCTURE_STORAGE) {
+                        const store = struct as StructureStorage;
+                        return 0 < store.storeCapacity - store.store.energy;
+                    } else {
+                        return false;
+                    }
                 }
             });
             target = storages[0];
@@ -205,10 +239,20 @@ class Carrier implements Role {
         if (!target) {
             // console.log('Carrier ' + creep.name + ' looking for sources');
 
-            const targets: Array<Spawn | Extension> = creep.room.find(FIND_STRUCTURES, {
-                filter: (spawn: Spawn) => {
-                    return (spawn.structureType === STRUCTURE_SPAWN || spawn.structureType === STRUCTURE_EXTENSION) &&
-                        spawn.energy < spawn.energyCapacity && creep.memory.operateInRoom === spawn.pos.roomName;
+            const targets: Structure[] = creep.room.find(FIND_STRUCTURES, {
+                filter: (struct: Structure) => {
+                    switch (struct.structureType) {
+                        case STRUCTURE_EXTENSION:
+                            const ext = struct as StructureExtension;
+                            return ext.energy < ext.energyCapacity && creep.memory.operateInRoom === ext.pos.roomName;
+                        case STRUCTURE_SPAWN:
+                            const spawn = struct as StructureSpawn;
+                            return spawn.energy < spawn.energyCapacity
+                                && creep.memory.operateInRoom === spawn.pos.roomName;
+                        default:
+                            return false;
+                    }
+
                 }
             });
             target = targets[0];
