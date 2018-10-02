@@ -17,7 +17,11 @@ class Claimer implements Role {
      * @override
      */
     public body(availEnergy: number) {
-        return [MOVE, MOVE, CLAIM];
+        if (availEnergy < 1400) {
+            return [MOVE, MOVE, CLAIM];
+        } else {
+            return [MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM];
+        }
     }
 
     /**
@@ -57,8 +61,14 @@ class Claimer implements Role {
             const controller: Controller | null = Game.getObjectById(creep.memory.claimTarget);
             if (controller) {
                 if (flag.name === "claim") {
-                    if (creep.claimController(controller) !== OK) {
-                        utils.moveTo(creep, controller.pos);
+                    if (creep.room.controller && !creep.room.controller.my) {
+                        if (creep.attackController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+                            creep.moveTo(creep.room.controller);
+                        }
+                    } else {
+                        if (creep.claimController(controller) !== OK) {
+                            utils.moveTo(creep, controller.pos);
+                        }
                     }
                 } else {
                     if (creep.reserveController(controller) !== OK) {
