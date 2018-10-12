@@ -29,8 +29,6 @@ function webpackConfigDev(options = {}) {
     // get the common configuration to start with
     const config = init(options);
 
-    config.mode = "production";
-
     // // make "dev" specific changes here
     // const credentials = require("./credentials.json");
     // credentials.branch = "dev";
@@ -51,8 +49,6 @@ function webpackConfigDev(options = {}) {
 function webpackConfigLocal(options = {}) {
     // get the common configuration to start with
     const config = init(options);
-
-    config.mode = 'development';
 
     // TIP: if you symlink the below path into your project as `local`,
     // it makes for much easier debugging:
@@ -80,26 +76,6 @@ const fs = require("fs");
 
 // disable tslint rule, because we don't have types for these files
 /* tslint:disable:no-var-requires no-require-imports */
-// const ConcatSource = require("webpack-sources").ConcatSource;
-//
-// // Tiny tiny helper plugin that prepends "module.exports = " to all `.map` assets
-// const ScreepsSourceMapToJson = {
-//     // constructor(_options: any) {
-//     //   // we don't use options
-//     // }
-//
-//     apply(compiler): {
-//         compiler.plugin("emit", (compilation, cb) => {
-//             for (const filename in compilation.assets) {
-//                 // matches any files ending in ".map" or ".map.js"
-//                 if (path.basename(filename, ".js").match(/\.map/)) {
-//                     compilation.assets[filename] = new ConcatSource("module.exports = ", compilation.assets[filename]);
-//                 }
-//             }
-//             cb();
-//         });
-//     }
-// };
 
 var ConcatSource = require("webpack-sources").ConcatSource;
 // Tiny tiny helper plugin that prepends "module.exports = " to all `.map` assets
@@ -232,7 +208,7 @@ function init(options) {
         parallel: true,
         sourceMap: true,
         uglifyOptions: {
-            output: { ascii_only: true, beautify: true, semicolons: false }
+            output: { ascii_only: true, beautify: false, semicolons: false }
         }
     }]);
 
