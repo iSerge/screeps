@@ -208,7 +208,7 @@ function init(options) {
         parallel: true,
         sourceMap: true,
         uglifyOptions: {
-            output: { ascii_only: true, beautify: true, semicolons: false }
+            output: { ascii_only: true, beautify: false, semicolons: false }
         }
     }]);
 
