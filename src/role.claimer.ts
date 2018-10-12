@@ -16,8 +16,12 @@ class Claimer implements Role {
     public body(availEnergy: number) {
         if (availEnergy < 1400) {
             return [MOVE, MOVE, CLAIM];
-        } else {
+        } else if (availEnergy < 2100) {
             return [MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM];
+        } else if (availEnergy < 2800) {
+            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM, CLAIM];
+        } else {
+            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM, CLAIM, CLAIM];
         }
     }
 

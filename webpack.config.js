@@ -29,6 +29,8 @@ function webpackConfigDev(options = {}) {
     // get the common configuration to start with
     const config = init(options);
 
+    config.mode = "production";
+
     // // make "dev" specific changes here
     // const credentials = require("./credentials.json");
     // credentials.branch = "dev";
@@ -50,11 +52,13 @@ function webpackConfigLocal(options = {}) {
     // get the common configuration to start with
     const config = init(options);
 
+    config.mode = 'development';
+
     // TIP: if you symlink the below path into your project as `local`,
     // it makes for much easier debugging:
     // (make sure you symlink the dir, not the files)
     // `# ln -s /path/to/local/deploy/dir ./dist/local`
-    const localPath = path.resolve(__dirname, "./sync");
+    const localPath = path.resolve(__dirname, `dist/${options.ENV}`);
     config.output.path(localPath);
 
     // modify the args of "define" plugin
@@ -222,15 +226,15 @@ function init(options) {
     config.plugin("no-emit-on-errors")
         .use((webpack.NoEmitOnErrorsPlugin));
 
-    // const webpackUglifyJsPlugin = require('uglifyjs-webpack-plugin');
-    //
-    // config.plugin("uglify-js").use(webpackUglifyJsPlugin, [{
-    //     parallel: true,
-    //     sourceMap: true,
-    //     uglifyOptions: {
-    //         output: { ascii_only: true, beautify: true, semicolons: false }
-    //     }
-    // }]);
+    const webpackUglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+    config.plugin("uglify-js").use(webpackUglifyJsPlugin, [{
+        parallel: true,
+        sourceMap: true,
+        uglifyOptions: {
+            output: { ascii_only: true, beautify: true, semicolons: false }
+        }
+    }]);
 
     /////////
     /// Modules
