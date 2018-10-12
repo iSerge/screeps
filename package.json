@@ -5,13 +5,13 @@
   "private": true,
   "repository": "private",
   "scripts": {
-    "deploy": "webpack --colors --env.ENV=dev",
+    "deploy": "webpack --mode production --colors --env.ENV=dev",
     "lint": "tslint \"src/**/*.ts\" -e \"**/src/lib/**/*.ts\"",
-    "local": "webpack --colors --env.ENV=local",
+    "local": "webpack --mode development --colors --env.ENV=local",
     "postinstall": "typings install",
-    "start": "webpack --colors --watch",
+    "start": "webpack --mode development --colors --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch-local": "webpack --colors --watch --env.ENV=local"
+    "watch-local": "webpack --mode development --colors --watch --env.ENV=local"
   },
   "author": "Serge Ivanov <lutvuk@gmail.com>",
   "license": "MIT",
