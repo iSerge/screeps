@@ -44,15 +44,15 @@ class Carrier implements Role {
             return;
         }
 
-        if (creep.memory.hauling && creep.carry.energy === 0) {
+        if (creep.memory.hauling && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.hauling = false;
-            creep.memory.energyTarget = "";
+            creep.memory.energyTarget = undefined;
             creep.say(Messages.PICKUP);
         }
 
-        if (!creep.memory.hauling && creep.carry.energy === creep.carryCapacity) {
+        if (!creep.memory.hauling && creep.store[RESOURCE_ENERGY] === creep.store.getCapacity()) {
             creep.memory.hauling = true;
-            creep.memory.energyTarget = "";
+            creep.memory.energyTarget = undefined;
             creep.say(Messages.DISTRIBUTE);
         }
 
@@ -61,14 +61,14 @@ class Carrier implements Role {
             if (target && creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 utils.moveTo(creep, target.pos);
             } else {
-                creep.memory.energyTarget = "";
+                creep.memory.energyTarget = undefined;
             }
         } else {
             const target = this.getEnergyTarget(creep);
             if (target && utils.getEnergy(creep, target) === ERR_NOT_IN_RANGE) {
                 utils.moveTo(creep, target.pos);
             } else {
-                creep.memory.energyTarget = "";
+                creep.memory.energyTarget = undefined;
             }
         }
     }
@@ -76,10 +76,10 @@ class Carrier implements Role {
     /**
      *
      * @param {Creep} creep
-     * @return {Resource|Source|Structure}
+     * @return {Creep|Resource|Source|Structure}
      */
-    private getEnergyTarget(creep: Creep): Resource | Source | Structure | null {
-        let target: Structure | Resource | Source | null = Game.getObjectById(creep.memory.energyTarget);
+    private getEnergyTarget(creep: Creep): Creep | Resource | Source | Structure | null {
+        let target = utils.getObjectById(creep.memory.energyTarget);
 
         if (target instanceof Source && creep.pos.inRangeTo(target.pos, 2)) {
             target = null;
@@ -114,7 +114,7 @@ class Carrier implements Role {
             target = _.sortBy(conts, (cont) => {
                 if (cont.structureType === STRUCTURE_CONTAINER) {
                     const c = cont as StructureContainer;
-                    return c.storeCapacity - c.store.energy;
+                    return c.store.getCapacity() - c.store.energy;
                 }
                 return 0;
             })[0];
@@ -154,10 +154,10 @@ class Carrier implements Role {
     /**
      *
      * @param {Creep} creep
-     * @return {Spawn|Structure}
+     * @return {Creep|Structure|null}
      */
     private getStoreTarget(creep: Creep): Creep | Structure | null {
-        let target: Creep | Structure | null = Game.getObjectById(creep.memory.energyTarget);
+        let target = utils.getObjectById(creep.memory.energyTarget);
 
         if (!target) {
             // console.log('Carrier ' + creep.name + ' looking for spawns and extensions');
@@ -167,12 +167,12 @@ class Carrier implements Role {
                         switch (s.structureType) {
                             case STRUCTURE_SPAWN: {
                                 const spawn = s as StructureExtension;
-                                return spawn.energy < spawn.energyCapacity
+                                return spawn.store[RESOURCE_ENERGY] < spawn.store.getCapacity(RESOURCE_ENERGY)
                                     && creep.memory.operateInRoom === spawn.pos.roomName;
                             }
                             case STRUCTURE_EXTENSION: {
                                 const ext = s as StructureExtension;
-                                return ext.energy < ext.energyCapacity
+                                return ext.store[RESOURCE_ENERGY] < ext.store.getCapacity(RESOURCE_ENERGY)
                                     && creep.memory.operateInRoom === ext.pos.roomName;
                             }
                                 default:
@@ -190,9 +190,8 @@ class Carrier implements Role {
 
             const designatedRoom = Game.rooms[creep.memory.operateInRoom];
 
-            const cont: StructureContainer | null =
-                !_.isNull(designatedRoom) ? Game.getObjectById(designatedRoom.memory.controllerCont) : null;
-            if (cont && 500 < cont.storeCapacity - cont.store.energy) {
+            const cont = !_.isNull(designatedRoom) ? utils.getObjectById(designatedRoom.memory.controllerCont) : null;
+            if (cont && 500 < cont.store.getCapacity() - cont.store.energy) {
                 target = cont;
             }
         }
@@ -203,7 +202,7 @@ class Carrier implements Role {
                 if (STRUCTURE_TOWER === struct.structureType) {
                     const tower = struct as StructureTower;
                     return tower.room.name === creep.memory.operateInRoom &&
-                    0 <= tower.energyCapacity - tower.energy - 300;
+                    0 <= tower.store.getCapacity(RESOURCE_ENERGY) - tower.store[RESOURCE_ENERGY] - 300;
                 }
                 return false;
             });
@@ -212,7 +211,7 @@ class Carrier implements Role {
             target = _.sortBy(towers, (struct) => {
                 if (struct.structureType === STRUCTURE_CONTAINER) {
                     const tower = struct as StructureTower;
-                    return tower.energyCapacity + tower.energy;
+                    return tower.store.getCapacity(RESOURCE_ENERGY) + tower.store[RESOURCE_ENERGY];
                 }
                 return 0;
             })[0];
@@ -225,7 +224,7 @@ class Carrier implements Role {
                 filter: (struct: Structure) => {
                     if (struct.structureType === STRUCTURE_STORAGE) {
                         const store = struct as StructureStorage;
-                        return 0 < store.storeCapacity - store.store.energy;
+                        return 0 < store.store.getCapacity() - store.store.energy;
                     }
                     return false;
                 }
@@ -240,11 +239,12 @@ class Carrier implements Role {
                     switch (struct.structureType) {
                         case STRUCTURE_EXTENSION: {
                             const ext = struct as StructureExtension;
-                            return ext.energy < ext.energyCapacity && creep.memory.operateInRoom === ext.pos.roomName;
+                            return ext.store[RESOURCE_ENERGY] < ext.store.getCapacity(RESOURCE_ENERGY)
+                               && creep.memory.operateInRoom === ext.pos.roomName;
                         }
                         case STRUCTURE_SPAWN: {
                             const spawn = struct as StructureSpawn;
-                            return spawn.energy < spawn.energyCapacity
+                            return spawn.store[RESOURCE_ENERGY] < spawn.store.getCapacity(RESOURCE_ENERGY)
                                 && creep.memory.operateInRoom === spawn.pos.roomName;
                         }
                         default:
@@ -254,6 +254,10 @@ class Carrier implements Role {
                 }
             });
             target = targets[0];
+        }
+
+        if (target instanceof Source || target instanceof Resource) {
+            return null;
         }
 
         if (target) {

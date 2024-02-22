@@ -38,7 +38,7 @@ class Harvester implements Role {
     public run(creep: Creep) {
         utils.tryBuildRoad(creep);
 
-        let target: Source | null = Game.getObjectById(creep.memory.target);
+        let target = utils.getObjectById(creep.memory.target);
 
         if (!target) {
 
@@ -56,12 +56,14 @@ class Harvester implements Role {
             }
         }
 
-        if (0 < creep.carry.energy) {
+        if (0 < creep.store.energy) {
             // console.log('Harvester ' + creep.name + ' unloading');// JSON.stringify(target, null, 4));
             const dst: Structure[] = creep.pos.findInRange(FIND_STRUCTURES, 1, {
                 filter: (struct: StructureLink | StructureContainer) => {
-                    return (struct.structureType === STRUCTURE_LINK && struct.energy < struct.energyCapacity) ||
-                        (struct.structureType === STRUCTURE_CONTAINER && struct.store.energy < struct.storeCapacity);
+                    return (struct.structureType === STRUCTURE_LINK
+                              && struct.store[RESOURCE_ENERGY] < struct.store.getCapacity(RESOURCE_ENERGY))
+                        || (struct.structureType === STRUCTURE_CONTAINER
+                              && struct.store.energy < struct.store.getCapacity());
                 }
             });
 
@@ -85,7 +87,7 @@ class Harvester implements Role {
     private findSource(creep: Creep): Source | null {
         const sources: Source[] = creep.room.find(FIND_SOURCES, {
             filter: (src: Source) => {
-                return !Memory.harvestedSources.hasOwnProperty(src.id);
+                return !Object.prototype.hasOwnProperty.call(Memory.harvestedSources, src.id);
             }
         });
 

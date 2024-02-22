@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { isUndefined } from "util";
 
 export const Messages = {
     BUILD: "\uD83D\uDEA7 build",
@@ -47,7 +48,8 @@ export class Utils {
 
     public clearMemory() {
         _.forOwn(Memory.creeps, (creep, name: string) => {
-            if (!Game.creeps.hasOwnProperty(name)) {
+            // if (!Game.creeps.hasOwnProperty(name)) {
+            if (!Object.prototype.hasOwnProperty.call(Game.creeps, name)) {
                 if (creep.target) {
                     delete Memory.harvestedSources[creep.target];
                 }
@@ -57,7 +59,7 @@ export class Utils {
         });
 
         _.forOwn(Memory.rooms, (room, name: string) => {
-            if (!Game.rooms.hasOwnProperty(name)) {
+            if (!Object.prototype.hasOwnProperty.call(Game.creeps, name)) {
                 delete Memory.rooms[name];
             }
         });
@@ -82,9 +84,9 @@ export class Utils {
     /**
      * @function
      * @param {Creep} creep
-     * @return {undefined|ConstructionSite}
+     * @return {ConstructionSite}
      */
-    public findConstructionSite(creep: Creep) {
+    public findConstructionSite(creep: Creep): ConstructionSite {
         return _.sortBy(Game.constructionSites, [(site: ConstructionSite) => {
             return Utils.buildPriority(creep, site);
         }])[0];
@@ -95,21 +97,22 @@ export class Utils {
      * @param {Creep} creep
      * @param {Resource|Source|Structure} target
      */
-    public getEnergy(creep: Creep, target: Resource | Source | Structure) {
+    public getEnergy(creep: Creep, target: Creep | Resource | Source | Structure) {
         let result: CreepActionReturnCode | ScreepsReturnCode;
         if (target instanceof Resource) {
             result = creep.pickup(target);
-            if (result === OK) {
-                creep.memory.energyTarget = "";
-            }
         } else if (target instanceof Source) {
             result = creep.harvest(target);
+        } else if (target instanceof Creep) {
+            result = creep.transfer(target, RESOURCE_ENERGY);
         } else {
             result = creep.withdraw(target, RESOURCE_ENERGY);
-            if (result === OK) {
-                creep.memory.energyTarget = "";
-            }
         }
+
+        if (!(target instanceof Source) && result === OK) {
+            creep.memory.energyTarget = undefined;
+        }
+
         return result;
     }
 
@@ -119,7 +122,7 @@ export class Utils {
      * @return {RoomObject}
      */
     public getEnergyStorageTarget(creep: Creep) {
-        let target: Structure | Resource | Source | null = Game.getObjectById(creep.memory.energyTarget);
+        let target = utils.getObjectById(creep.memory.energyTarget);
 
         if (!target) {
             let targets: RoomObject[] = creep.room.find(FIND_DROPPED_RESOURCES, {
@@ -141,7 +144,7 @@ export class Utils {
                         }
                         case STRUCTURE_LINK: {
                             const link = struct as StructureLink;
-                            return 0 < link.energy;
+                            return 0 < link.store[RESOURCE_ENERGY];
                         }
                         default:
                             return false;
@@ -205,7 +208,7 @@ export class Utils {
             }
         }
 
-        const needsRepair = _.find(Memory.rooms[roomName].repairQueue, (id: string) => {
+        const needsRepair = _.find(Memory.rooms[roomName].repairQueue, (id: Id<Structure>) => {
             const struct: RoomObject | null = _.isUndefined(id) ? null : Game.getObjectById(id);
             return !_.isNull(struct) && (!own || struct.pos.roomName === creep.memory.operateInRoom);
         });
@@ -265,6 +268,14 @@ export class Utils {
         if (_.isUndefined(Memory.maxRampartHits)) {
             Memory.maxRampartHits = 30000;
         }
+    }
+
+    public getObjectById<T extends _HasId>(id: Id<T> | undefined): T | null {
+        if (!isUndefined(id)) {
+            return Game.getObjectById(id);
+        }
+
+        return null;
     }
 }
 

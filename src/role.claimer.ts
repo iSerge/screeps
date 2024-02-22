@@ -43,7 +43,7 @@ class Claimer implements Role {
         const sameRoom = flag && creep.room.name === flag.pos.roomName;
 
         if (!flag) {
-            delete(creep.memory.claimTarget);
+            creep.memory.claimTarget = undefined;
         }
 
         if (flag && !sameRoom) {
@@ -55,7 +55,8 @@ class Claimer implements Role {
             if (structs.length) {
                 _.forEach(structs, (str: Structure) => {
                     if (str.structureType === STRUCTURE_CONTROLLER) {
-                        creep.memory.claimTarget = str.id;
+                        const cont = str as StructureController;
+                        creep.memory.claimTarget = cont.id;
                     }
                 });
             }

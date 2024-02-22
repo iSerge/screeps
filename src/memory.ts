@@ -11,13 +11,13 @@ declare global {
 
     interface CreepMemory {
         building?: boolean;
-        buildTarget?: string;
-        claimTarget?: string;
-        energyTarget?: string;
+        buildTarget?: Id<Structure | ConstructionSite>;
+        claimTarget?: Id<StructureController>;
+        energyTarget?: Id<Creep | Structure | Resource | Source>;
         hauling?: boolean;
         operateInRoom: string;
         role: CreepRole;
-        target?: string;
+        target?: Id<Source>;
         upgrading?: boolean;
     }
 
@@ -30,9 +30,9 @@ declare global {
     }
 
     interface RoomMemory {
-        controllerCont?: string;
+        controllerCont?: Id<StructureContainer>;
         creepCount: _.Dictionary<number>;
-        repairQueue: string[];
+        repairQueue: Array<Id<Structure>>;
         spawnQueue: BodySpec[];
         towerActive: boolean;
     }

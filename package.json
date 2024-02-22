@@ -21,7 +21,7 @@
     "@types/lodash": "^4.14.116",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.10.32",
-    "@types/screeps": "^2.4.1",
+    "@types/screeps": "^3.3.7",
     "@types/webpack": "^2.2.0",
     "@types/webpack-chain": "^4.8.1",
     "@types/webpack-sources": "^0.1.5",

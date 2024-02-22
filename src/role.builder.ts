@@ -48,19 +48,19 @@ class Builder implements Role {
             return;
         }
 
-        if (creep.memory.building && creep.carry.energy === 0) {
+        if (creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.building = false;
-            creep.memory.energyTarget = "";
+            creep.memory.energyTarget = undefined;
             creep.say(Messages.HARVEST);
         }
 
-        if (!creep.memory.building && creep.carry.energy === creep.carryCapacity) {
+        if (!creep.memory.building && creep.store[RESOURCE_ENERGY] === creep.store.getCapacity()) {
             creep.memory.building = true;
             creep.say(Messages.BUILD);
         }
 
         if (creep.memory.building) {
-            let target = Game.getObjectById(creep.memory.buildTarget) as Structure | ConstructionSite | null;
+            let target = utils.getObjectById(creep.memory.buildTarget);
             if (!target) {
                 target = utils.shiftStructure(creep, true);
 
@@ -76,8 +76,8 @@ class Builder implements Role {
                     creep.memory.buildTarget = target.id;
                 } else {
                     creep.say("\uD83D\uDEA7 nothing");
-                    creep.memory.buildTarget = "";
-                    creep.memory.energyTarget = "";
+                    creep.memory.buildTarget = undefined;
+                    creep.memory.energyTarget = undefined;
                     creep.memory.building = false;
                 }
             }
@@ -91,7 +91,7 @@ class Builder implements Role {
                         utils.moveTo(creep, target.pos);
                     }
                 } else {
-                    creep.memory.buildTarget = "";
+                    creep.memory.buildTarget = undefined;
                     creep.memory.building = false;
                 }
             } else if (target instanceof ConstructionSite) {
@@ -99,11 +99,11 @@ class Builder implements Role {
                     utils.moveTo(creep, target.pos);
                 }
             } else {
-                creep.memory.buildTarget = "";
+                creep.memory.buildTarget = undefined;
                 creep.memory.building = false;
             }
         } else {
-            if (creep.carry.energy < creep.carryCapacity) {
+            if (creep.store.energy < creep.store.getCapacity()) {
                 const target = utils.getEnergyStorageTarget(creep);
                 if (target) {
                     const src = creep.pos.findInRange([target], 1);

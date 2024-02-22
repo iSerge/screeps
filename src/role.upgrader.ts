@@ -39,13 +39,13 @@ class Upgrader implements Role {
         if (utils.navigateToDesignatedRoom(creep) && creep.memory.operateInRoom) {
             utils.moveTo(creep, new RoomPosition(25, 25, creep.memory.operateInRoom));
         } else {
-            if (creep.memory.upgrading && creep.carry.energy === 0) {
+            if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] === 0) {
                 creep.memory.upgrading = false;
                 creep.say(Messages.HARVEST);
             }
-            if (!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
+            if (!creep.memory.upgrading && creep.store[RESOURCE_ENERGY] === creep.store.getCapacity()) {
                 creep.memory.upgrading = true;
-                creep.memory.energyTarget = "";
+                creep.memory.energyTarget = undefined;
                 creep.say(Messages.UPGRADE);
             }
 
