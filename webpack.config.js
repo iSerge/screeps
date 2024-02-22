@@ -77,17 +77,17 @@ const fs = require("fs");
 // disable tslint rule, because we don't have types for these files
 /* tslint:disable:no-var-requires no-require-imports */
 
-var ConcatSource = require("webpack-sources").ConcatSource;
+const ConcatSource = require("webpack-sources").ConcatSource;
 // Tiny tiny helper plugin that prepends "module.exports = " to all `.map` assets
-var ScreepsSourceMapToJson = /** @class */ (function () {
+const ScreepsSourceMapToJson = /** @class */ ((() => {
     function ScreepsSourceMapToJson() {
     }
     // constructor(_options: any) {
     //   // we don't use options
     // }
-    ScreepsSourceMapToJson.prototype.apply = function (compiler) {
-        compiler.plugin("emit", function (compilation, cb) {
-            for (var filename in compilation.assets) {
+    ScreepsSourceMapToJson.prototype.apply = (compiler) => {
+        compiler.plugin("emit", (compilation, cb) => {
+            for (const filename in compilation.assets) {
                 // matches any files ending in ".map" or ".map.js"
                 if (path.basename(filename, ".js").match(/\.map/)) {
                     compilation.assets[filename] = new ConcatSource("module.exports = ", compilation.assets[filename]);
@@ -97,7 +97,7 @@ var ScreepsSourceMapToJson = /** @class */ (function () {
         });
     };
     return ScreepsSourceMapToJson;
-}());
+})());
 
 
 // Webpack + plugins:
