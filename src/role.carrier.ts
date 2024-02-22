@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 
 import {Messages, utils} from "./utils";
 
@@ -14,7 +14,7 @@ class Carrier implements Role {
      * @override
      */
     public body(availEnergy: number) {
-        let parts;
+        let parts: number;
         if (availEnergy < 300) {
             parts = 6;
         } else if (750 < availEnergy) {
@@ -105,9 +105,8 @@ class Carrier implements Role {
                     if (struct.structureType === STRUCTURE_CONTAINER) {
                         const cont = struct as StructureContainer;
                         return cont.id !== creep.room.memory.controllerCont && 20 < cont.store.energy;
-                    } else {
-                        return false;
                     }
+                    return false;
                 }
             });
 
@@ -116,9 +115,8 @@ class Carrier implements Role {
                 if (cont.structureType === STRUCTURE_CONTAINER) {
                     const c = cont as StructureContainer;
                     return c.storeCapacity - c.store.energy;
-                } else {
-                    return 0;
                 }
+                return 0;
             })[0];
         }
 
@@ -128,9 +126,8 @@ class Carrier implements Role {
                     if (struct.structureType === STRUCTURE_STORAGE) {
                         const store = struct as StructureStorage;
                         return store.structureType === STRUCTURE_STORAGE && 0 < store.store.energy;
-                    } else {
-                        return false;
                     }
+                    return false;
 
                 }
             });
@@ -168,14 +165,16 @@ class Carrier implements Role {
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: (s: Structure) => {
                         switch (s.structureType) {
-                            case STRUCTURE_SPAWN:
+                            case STRUCTURE_SPAWN: {
                                 const spawn = s as StructureExtension;
                                 return spawn.energy < spawn.energyCapacity
                                     && creep.memory.operateInRoom === spawn.pos.roomName;
-                            case STRUCTURE_EXTENSION:
+                            }
+                            case STRUCTURE_EXTENSION: {
                                 const ext = s as StructureExtension;
                                 return ext.energy < ext.energyCapacity
                                     && creep.memory.operateInRoom === ext.pos.roomName;
+                            }
                                 default:
                                 return false;
                         }
@@ -205,9 +204,8 @@ class Carrier implements Role {
                     const tower = struct as StructureTower;
                     return tower.room.name === creep.memory.operateInRoom &&
                     0 <= tower.energyCapacity - tower.energy - 300;
-                } else {
-                    return false;
                 }
+                return false;
             });
 
             // emptiest tower
@@ -215,9 +213,8 @@ class Carrier implements Role {
                 if (struct.structureType === STRUCTURE_CONTAINER) {
                     const tower = struct as StructureTower;
                     return tower.energyCapacity + tower.energy;
-                } else {
-                    return 0;
                 }
+                return 0;
             })[0];
         }
 
@@ -229,9 +226,8 @@ class Carrier implements Role {
                     if (struct.structureType === STRUCTURE_STORAGE) {
                         const store = struct as StructureStorage;
                         return 0 < store.storeCapacity - store.store.energy;
-                    } else {
-                        return false;
                     }
+                    return false;
                 }
             });
             target = storages[0];
@@ -242,13 +238,15 @@ class Carrier implements Role {
             const targets: Structure[] = creep.room.find(FIND_STRUCTURES, {
                 filter: (struct: Structure) => {
                     switch (struct.structureType) {
-                        case STRUCTURE_EXTENSION:
+                        case STRUCTURE_EXTENSION: {
                             const ext = struct as StructureExtension;
                             return ext.energy < ext.energyCapacity && creep.memory.operateInRoom === ext.pos.roomName;
-                        case STRUCTURE_SPAWN:
+                        }
+                        case STRUCTURE_SPAWN: {
                             const spawn = struct as StructureSpawn;
                             return spawn.energy < spawn.energyCapacity
                                 && creep.memory.operateInRoom === spawn.pos.roomName;
+                        }
                         default:
                             return false;
                     }

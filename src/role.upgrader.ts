@@ -9,17 +9,25 @@ class Upgrader implements Role {
     public body(availEnergy: number) {
         if (availEnergy < 350) {
             return [WORK, CARRY, MOVE, MOVE]; // 250
-        } else if (availEnergy < 400) {
-            return [WORK, WORK, CARRY, MOVE, MOVE]; // 350
-        } else if (availEnergy < 500) {
-            return [WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 400
-        } else if (availEnergy < 600) {
-            return [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 500
-        } else if (availEnergy < 700) {
-            return [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 600
-        } else {
-            return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 700
         }
+        
+        if (availEnergy < 400) {
+            return [WORK, WORK, CARRY, MOVE, MOVE]; // 350
+        }
+        
+        if (availEnergy < 500) {
+            return [WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 400
+        }
+        
+        if (availEnergy < 600) {
+            return [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 500
+        }
+        
+        if (availEnergy < 700) {
+            return [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 600
+        }
+
+        return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 700
     }
 
     /**

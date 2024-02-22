@@ -11,19 +11,29 @@ class Builder implements Role {
     public body(availEnergy: number) {
         if (availEnergy < 350) {
             return [WORK, CARRY, CARRY, MOVE]; // 250
-        } else if (availEnergy < 450) {
-            return [WORK, CARRY, CARRY, MOVE, MOVE]; // 350
-        } else if (availEnergy < 550) {
-            return [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE]; // 450
-        } else if (availEnergy < 600) {
-            return [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE]; // 550
-        } else if (availEnergy < 650) {
-            return [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE]; // 600
-        } else if (availEnergy < 750) {
-            return [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]; // 650
-        } else {
-            return [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]; // 750
         }
+        
+        if (availEnergy < 450) {
+            return [WORK, CARRY, CARRY, MOVE, MOVE]; // 350
+        }
+        
+        if (availEnergy < 550) {
+            return [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE]; // 450
+        }
+        
+        if (availEnergy < 600) {
+            return [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE]; // 550
+        } 
+        
+        if (availEnergy < 650) {
+            return [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE]; // 600
+        } 
+        
+        if (availEnergy < 750) {
+            return [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]; // 650
+        }
+
+        return [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]; // 750
     }
 
     /**

@@ -74,12 +74,11 @@ export class RolesModule {
         const room = spawn.room;
         const spec = room.memory.spawnQueue.shift();
         if (spec) {
-            console.log("Processing spawn Q " + spawn.name + " "
-                + JSON.stringify({room: room.name, role: spec.role}));
+            console.log(`Processing spawn Q ${spawn.name} ${JSON.stringify({room: room.name, role: spec.role})}`);
 
             if (spawn.canCreateCreep(spec.body) === OK) {
                 const newName = spawn.createCreep(spec.body, undefined, {operateInRoom: room.name, role: spec.role});
-                console.log("Spawning new " + spec.role + ": " + newName);
+                console.log(`Spawning new ${spec.role}: ${newName}`);
             } else if ("claimer" === spec.role) {
                 room.memory.spawnQueue.push(spec);
             } else {
@@ -130,10 +129,10 @@ export class RolesModule {
      */
     private limit(role: CreepRole): number {
         if (role === "claimer") {
-            return _.isUndefined(Game.flags["claim"]) && _.isUndefined(Game.flags["reserve"])  ? 0 : limits[role];
-        } else {
-            return limits[role];
+            return _.isUndefined(Game.flags.claim) && _.isUndefined(Game.flags.reserve)  ? 0 : limits[role];
         }
+
+        return limits[role];
     }
 }
 

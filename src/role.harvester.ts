@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 
 import {Messages, utils} from "./utils";
 
@@ -11,17 +11,25 @@ class Harvester implements Role {
     public body(availEnergy: number) {
         if (availEnergy < 350) {
             return [WORK, WORK, CARRY, MOVE]; // 300
-        } else if (availEnergy < 400) {
-            return [WORK, WORK, CARRY, MOVE, MOVE]; // 350
-        } else if (availEnergy < 500) {
-            return [WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 400
-        } else if (availEnergy < 600) {
-            return [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 500
-        } else if (availEnergy < 700) {
-            return [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 600
-        } else {
-            return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 700
         }
+        
+        if (availEnergy < 400) {
+            return [WORK, WORK, CARRY, MOVE, MOVE]; // 350
+        }
+        
+        if (availEnergy < 500) {
+            return [WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 400
+        }
+        
+        if (availEnergy < 600) {
+            return [WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 500
+        } 
+        
+        if (availEnergy < 700) {
+            return [WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 600
+        }
+
+        return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]; // 700
     }
 
     /**
@@ -39,7 +47,7 @@ class Harvester implements Role {
             if (target) {
 
                 if (target.room.name !== creep.room.name) {
-                    console.log("Harvester found target in other room: " + target.room);
+                    console.log(`Harvester found target in other room: ${target.room}`);
                 }
 
                 Memory.harvestedSources[target.id] = target.id;

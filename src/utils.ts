@@ -1,15 +1,4 @@
-/*
- * Module code goes here. Use 'module.exports' to export things:
- * module.exports.thing = 'a thing';
- *
- * You can import it from another modules like this:
- * var mod = require('utils');
- * mod.thing == 'a thing'; // true
- */
-
-import * as _ from "lodash";
-
-import {limits} from "./limits";
+import _ from "lodash";
 
 export const Messages = {
     BUILD: "\uD83D\uDEA7 build",
@@ -28,7 +17,7 @@ export class Utils {
      * @return {number}
      */
     private static buildPriority(creep: Creep, site: ConstructionSite) {
-        let priority;
+        let priority: number;
         switch (site.structureType) {
             case STRUCTURE_SPAWN:
                 priority = 1;
@@ -107,7 +96,7 @@ export class Utils {
      * @param {Resource|Source|Structure} target
      */
     public getEnergy(creep: Creep, target: Resource | Source | Structure) {
-        let result;
+        let result: CreepActionReturnCode | ScreepsReturnCode;
         if (target instanceof Resource) {
             result = creep.pickup(target);
             if (result === OK) {
@@ -142,15 +131,18 @@ export class Utils {
             targets = targets.concat(creep.room.find(FIND_MY_STRUCTURES, {
                 filter: (struct: Structure) => {
                     switch (struct.structureType) {
-                        case STRUCTURE_STORAGE:
+                        case STRUCTURE_STORAGE: {
                             const storage = struct as StructureStorage;
                             return 0 < storage.store[RESOURCE_ENERGY];
-                        case STRUCTURE_CONTAINER:
+                        }
+                        case STRUCTURE_CONTAINER: {
                             const container = struct as StructureContainer;
                             return 0 < container.store[RESOURCE_ENERGY];
-                        case STRUCTURE_LINK:
+                        }
+                        case STRUCTURE_LINK: {
                             const link = struct as StructureLink;
                             return 0 < link.energy;
+                        }
                         default:
                             return false;
                     }
@@ -237,7 +229,7 @@ export class Utils {
         if (Memory.autoBuildRoads) {
             const road = _.filter(creep.room.lookAt(creep.pos), (obj: LookAtResult) => {
 
-                return obj && obj.structure &&
+                return obj?.structure &&
                     ((obj.type === LOOK_STRUCTURES && obj.structure.structureType === STRUCTURE_ROAD) ||
                         obj.type === LOOK_CONSTRUCTION_SITES);
             });

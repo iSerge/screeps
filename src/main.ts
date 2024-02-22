@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 
 import {CARRIER, HARVESTER, rolesModule as roles} from "./roles";
 import {Messages, utils} from "./utils";
@@ -113,7 +113,7 @@ module.exports.loop = () => {
         if (spawn.spawning) {
             const spawningCreep = Game.creeps[spawn.spawning.name];
             spawn.room.visual.text(
-                Messages.CONSTRUCT_SYM + " " + spawningCreep.memory.role,
+                `${Messages.CONSTRUCT_SYM} ${spawningCreep.memory.role}`,
                 spawn.pos.x + 1,
                 spawn.pos.y,
                 {align: "left", opacity: 0.8});

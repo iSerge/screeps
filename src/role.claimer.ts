@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 
 import {utils} from "./utils";
 
@@ -16,13 +16,17 @@ class Claimer implements Role {
     public body(availEnergy: number) {
         if (availEnergy < 1400) {
             return [MOVE, MOVE, CLAIM];
-        } else if (availEnergy < 2100) {
+        } 
+        
+        if (availEnergy < 2100) {
             return [MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM];
-        } else if (availEnergy < 2800) {
+        } 
+        
+        if (availEnergy < 2800) {
             return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM, CLAIM];
-        } else {
-            return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM, CLAIM, CLAIM];
         }
+
+        return [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM, CLAIM, CLAIM, CLAIM];
     }
 
     /**
@@ -31,9 +35,9 @@ class Claimer implements Role {
     public run(creep: Creep) {
         utils.tryBuildRoad(creep);
 
-        let flag = Game.flags["claim"];
+        let flag = Game.flags.claim;
         if (!flag) {
-            flag = Game.flags["reserve"];
+            flag = Game.flags.reserve;
         }
 
         const sameRoom = flag && creep.room.name === flag.pos.roomName;
