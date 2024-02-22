@@ -16,6 +16,7 @@
   "author": "Serge Ivanov <lutvuk@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@biomejs/biome": "^1.5.3",
     "@types/chai": "^4.1.6",
     "@types/lodash": "^4.14.116",
     "@types/mocha": "^5.2.5",
