@@ -6,12 +6,17 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from 'rollup-plugin-typescript2';
 import screeps from 'rollup-plugin-screeps';
 
+import cfgspec from './screeps.json' assert { type: 'json' };
 let cfg;
+
 const dest = process.env.DEST;
 if (!dest) {
   console.log("No destination specified - code will be compiled but not uploaded");
-} else if ((cfg = require("./screeps.json")[dest]) == null) {
-  throw new Error("Invalid upload destination");
+} else {
+   if (cfgspec[dest] == null) {
+    throw new Error("Invalid upload destination");
+   }
+   cfg = cfgspec[dest];
 }
 
 export default {
