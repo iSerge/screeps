@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { isUndefined } from "util";
 
 export const Messages = {
     BUILD: "\uD83D\uDEA7 build",
@@ -47,9 +46,9 @@ export class Utils {
     }
 
     public clearMemory() {
-        _.forOwn(Memory.creeps, (creep, name: string) => {
+        _.forOwn(Memory.creeps, (creep, name) => {
             // if (!Game.creeps.hasOwnProperty(name)) {
-            if (!Object.prototype.hasOwnProperty.call(Game.creeps, name)) {
+            if (name && !Object.prototype.hasOwnProperty.call(Game.creeps, name)) {
                 if (creep.target) {
                     delete Memory.harvestedSources[creep.target];
                 }
@@ -58,8 +57,8 @@ export class Utils {
             }
         });
 
-        _.forOwn(Memory.rooms, (room, name: string) => {
-            if (!Object.prototype.hasOwnProperty.call(Game.creeps, name)) {
+        _.forOwn(Memory.rooms, (room, name) => {
+            if (name && !Object.prototype.hasOwnProperty.call(Game.creeps, name)) {
                 delete Memory.rooms[name];
             }
         });
@@ -210,7 +209,7 @@ export class Utils {
 
         const needsRepair = _.find(Memory.rooms[roomName].repairQueue, (id: Id<Structure>) => {
             const struct: RoomObject | null = _.isUndefined(id) ? null : Game.getObjectById(id);
-            return !_.isNull(struct) && (!own || struct.pos.roomName === creep.memory.operateInRoom);
+            return !(null == struct) && (!own || struct.pos.roomName === creep.memory.operateInRoom);
         });
 
         if (_.isUndefined(needsRepair)) {
@@ -219,7 +218,7 @@ export class Utils {
 
         Memory.rooms[roomName].repairQueue = _.filter(Memory.rooms[roomName].repairQueue, (id) => id !== needsRepair);
 
-        return Game.getObjectById(needsRepair);
+        return utils.getObjectById(needsRepair);
     }
 
     /**
@@ -271,7 +270,7 @@ export class Utils {
     }
 
     public getObjectById<T extends _HasId>(id: Id<T> | undefined): T | null {
-        if (!isUndefined(id)) {
+        if (undefined !== id) {
             return Game.getObjectById(id);
         }
 

@@ -1,7 +1,8 @@
 import _ from "lodash";
 
-import {CARRIER, HARVESTER, rolesModule as roles} from "./roles";
-import {Messages, utils} from "./utils";
+import { CARRIER, HARVESTER, rolesModule as roles } from "./roles";
+import { Messages, utils } from "./utils";
+import { ErrorMapper } from "utils/ErrorMapper";
 
 class LoopFunctions {
     public findDamagedStructures() {
@@ -42,7 +43,7 @@ class LoopFunctions {
                     tower.heal(closestDamagedCreep);
                 }
 
-                if (700 < tower.energy) {
+                if (700 < tower.store[RESOURCE_ENERGY]) {
                     const closestDamagedStructure: Structure | null = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure: Structure) => {
                             return (structure.structureType === STRUCTURE_RAMPART &&
@@ -79,7 +80,7 @@ class LoopFunctions {
 
 const main = new LoopFunctions();
 
-module.exports.loop = () => {
+export const loop = ErrorMapper.wrapLoop(() => {
     utils.updateInfrastructure();
 
     utils.clearMemory();
@@ -123,4 +124,4 @@ module.exports.loop = () => {
     main.towerLogic();
 
     main.creepActions();
-};
+});

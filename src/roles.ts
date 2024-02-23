@@ -40,9 +40,11 @@ export interface BodySpec {
 
 export class RolesModule {
     public countCreeps() {
-        _.forOwn(roles, (role, roleName: string) => {
+        _.forOwn(roles, (_role, roleName) => {
             _.forOwn(Memory.rooms, (roomMem) => {
-                roomMem.creepCount[roleName] = 0;
+                if (undefined !== roleName) {
+                    roomMem.creepCount[roleName] = 0;
+                }
             });
         });
 
@@ -76,7 +78,7 @@ export class RolesModule {
         if (spec) {
             console.log(`Processing spawn Q ${spawn.name} ${JSON.stringify({room: room.name, role: spec.role})}`);
 
-            if (spawn.canCreateCreep(spec.body) === OK) {
+            if (spawn.spawnCreep(spec.body, 'test_spawn', {dryRun:true}) === OK) {
                 const newName = spawn.createCreep(spec.body, undefined, {operateInRoom: room.name, role: spec.role});
                 console.log(`Spawning new ${spec.role}: ${newName}`);
             } else if ("claimer" === spec.role) {
@@ -104,7 +106,7 @@ export class RolesModule {
      */
     public spawn(room: Room, role?: CreepRole | BodySpec) {
         if (!role) {
-            _.forOwn(roles, (r, name: CreepRole) => {
+            _.forOwn(roles, (r, name) => {
                 if (name && room.memory.creepCount[name] < this.limit(name)) {
                     const energy = room.energyAvailable;
 
