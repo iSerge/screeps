@@ -1,6 +1,0 @@
-[submodule "tutorial"]
-	path = tutorial
-	url = https://github.com/screeps/tutorial-scripts.git
-[submodule "screeps-typescript-profiler"]
-	path = screeps-typescript-profiler
-	url = https://github.com/screepers/screeps-typescript-profiler.git
