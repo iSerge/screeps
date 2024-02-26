@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "//": "If you add or change the names of destinations in screeps.json, make sure you update these scripts to reflect the changes",
   "scripts": {
     "lint": "eslint \"src/**/*.ts\"",
@@ -19,7 +19,8 @@
     "watch-main": "rollup -cw --environment DEST:main",
     "watch-pserver": "rollup -cw --environment DEST:pserver",
     "watch-season": "rollup -cw --environment DEST:season",
-    "watch-sim": "rollup -cw --environment DEST:sim"
+    "watch-sim": "rollup -cw --environment DEST:sim",
+    "copy-local": "cp dist/* /home/serge/.config/Screeps/scripts/127_0_0_1___21025/main"
   },
   "repository": "private",
   "author": "Serge Ivanov <lutvuk@gmail.com>",
